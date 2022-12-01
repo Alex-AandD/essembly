@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libbackendlib.a CMakeFiles/backendlib.dir/src/instruction.cc.o CMakeFiles/backendlib.dir/src/value.cc.o CMakeFiles/backendlib.dir/src/vm.cc.o CMakeFiles/backendlib.dir/src/bytecodeVisitor.cc.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libbackendlib.a

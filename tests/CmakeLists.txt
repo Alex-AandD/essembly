@@ -1,0 +1,27 @@
+enable_testing()
+
+add_executable(
+    lexer_test
+    frontend/lexer_test.cc
+)
+
+add_executable(
+    parser_test
+    frontend/parser_test.cc
+)
+
+target_link_libraries(
+    lexer_test
+    GTest::gtest_main
+)
+
+target_link_libraries(
+    parser_test
+    GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(
+    lexer_test
+    parser_test
+)

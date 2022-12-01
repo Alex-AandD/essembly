@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libfrontendlib.a CMakeFiles/frontendlib.dir/src/expr.cc.o CMakeFiles/frontendlib.dir/src/lexer.cc.o CMakeFiles/frontendlib.dir/src/printVisitor.cc.o CMakeFiles/frontendlib.dir/src/token.cc.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libfrontendlib.a

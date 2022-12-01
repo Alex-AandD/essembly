@@ -1,1 +1,4 @@
+*.Po
+*.o
+*.dSYM/*
 todo.txt
