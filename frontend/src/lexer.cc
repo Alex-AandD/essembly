@@ -37,7 +37,7 @@ void Lexer::pushNumber() noexcept {
     pushToken(TT::INT_LITERAL);
     pushLexeme(input.substr(start, current - start + 1));
 }
-
+//TODO: add unary operators @author
 void Lexer::pushFloat() noexcept {
     while(!atEnd() && std::isdigit(peekNext())) { 
         advance();
