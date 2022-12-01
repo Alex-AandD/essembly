@@ -20,18 +20,19 @@ public:
 public:
     void scan();
 private:
-    [[nodiscard]] inline bool atEnd() noexcept {
-        return current >= input_len;
-    }
-    [[nodiscard]] Token createToken(TT type) noexcept;
-    [[nodiscard]] inline char peekNext() const {
-        return input[current + 1];
-    }
+    /* some helper methods */
+    [[nodiscard]] inline bool atEnd() noexcept { return current >= input_len; }
+    [[nodiscard]] inline char peekNext() const { return input[current + 1]; }
+    [[nodiscard]] inline char peek(size_t offset) const { return input[current + offset]; }
     [[nodiscard]] inline bool isValidVar(char c) { return std::isalpha(c) || c == '_'; }
+    [[nodiscard]] inline bool atEnd(size_t offset) noexcept { return current + offset >= input_len; }
+    [[nodiscard]] Token createToken(TT type) noexcept;
+    [[nodiscard]] bool match(size_t offset, char c) noexcept;
+    [[nodiscard]] bool matchNext(char c) noexcept;
     inline void advance() noexcept { current++; }
-    /* creating new tokens and lexemes and adding them to the array */
+
+    inline void pushLexeme(const std::string& lexeme) noexcept { lexemes.push_back(lexeme); }
     void pushToken(TT) noexcept; /* push the token inside the array of tokens */
-    void pushLexeme(const std::string& lexeme) noexcept { lexemes.push_back(lexeme); }
     void pushString();
     void pushNumber() noexcept;
     void pushFloat() noexcept;

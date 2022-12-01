@@ -46,6 +46,7 @@ void Lexer::pushFloat() noexcept {
     pushLexeme(input.substr(start, current - start + 1));
 }
 
+//TODO: #3 add support for unary operations @Alex-AandD
 void Lexer::scan() {
     while (!atEnd()){
         start = current;
@@ -61,6 +62,7 @@ void Lexer::scan() {
         case '-':  pushToken(TT::MINUS); break;
         case ';':  pushToken(TT::SEMICOLON); break;
         case '"':  pushString(); break;
+        case '!':  matchNext('=') ? pushToken(TT::NEQ) : pushToken(TT::NOT); break;
         case '0':  pushNumber(); break; 
         case '1':  pushNumber(); break;
         case '2':  pushNumber(); break;
@@ -77,3 +79,11 @@ void Lexer::scan() {
         advance();
     }
 }
+[[nodiscard]] bool Lexer::match(size_t offset, char c) { 
+    if (!atEnd(offset) && peek(offset) == c) {
+        advance();
+        return true;
+    }
+    return false;
+}
+[[nodiscard]] bool matchNext(char c) noexcept { return match(1, c); }

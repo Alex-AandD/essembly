@@ -12,6 +12,8 @@ std::string TokenToString(const Token& token) {
     case TT::MINUS: return "-";
     case TT::TIMES: return "*";
     case TT::SLASH: return "/";
+    case TT::NOT: return "!";
+    case TT::NEQ: return "!=";
     case TT::INT_TYPE: return "INT_TYPE";
     case TT::SEMICOLON: return ";";
     case TT::INT_LITERAL: return "INT LITERAL";
