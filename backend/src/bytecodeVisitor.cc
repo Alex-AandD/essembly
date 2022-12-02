@@ -2,7 +2,7 @@
 #include "backend/include/instruction.hh"
 #include "frontend/include/expr.hh"
 
-BytecodeVisitor::BytecodeVisitor() { }
+BytecodeVisitor::BytecodeVisitor(std::vector<Instruction*>& instr): instructions(instr) { }
 BytecodeVisitor::~BytecodeVisitor() {
     for(size_t i = 0; i < instructions.size(); i++) {
         delete instructions[i];
@@ -64,6 +64,14 @@ static inline Instruction* chooseFinalBinaryInstruction(TT type) {
     }
 }
 
+// TODO: #5 add support for unary expression @Alex-AandD
+static inline Instruction* chooseFinalUnaryExpr(TT type) {
+}
+
 void BytecodeVisitor::visitIntExpr(IntExpr* expr) {
+    /* here we push an integer onto the stack */
+    /* the value of the expression is going to be the operand */
+    /* so the instruction at the end is going to look like this */
+    /* IPUSH operand */
     instructions.push_back(new IPUSH_i(expr->value));
 }

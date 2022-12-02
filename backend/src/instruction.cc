@@ -1,4 +1,5 @@
 #include "backend/include/instruction.hh"
+#include "backend/include/code.hh"
 
 Instruction::Instruction(CODE t): code(t) { }
 Instruction::~Instruction() { }

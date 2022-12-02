@@ -11,19 +11,20 @@ class IntExpr;
 
 class Parser { 
 private:
+    size_t current;
+    Expr* AST;
+    FactoryExpr* factory;
     std::vector<Token> tokens;
     std::vector<std::string> lexemes;
-    Expr* AST;
-    FactoryExpr factory;
-    size_t current;
 public:
+    Parser();
     Parser(std::vector<Token> tokens, std::vector<std::string> lexemes);
     ~Parser();
 private: /* some helpers */
     [[nodiscard]] inline Token currentToken() { return getToken(current); }
     [[nodiscard]] inline Token previousToken() { return getToken(current - 1); }
     [[nodiscard]] inline Token getToken(size_t position) { return tokens[position]; }
-    [[nodiscard]] inline std::string getLexeme(size_t position) { return lexemes[position]}
+    [[nodiscard]] inline std::string getLexeme(size_t position) { return lexemes[position]; }
     [[nodiscard]] inline std::string currentLexeme() { return getLexeme(current); }
 
     /* some helper functions */

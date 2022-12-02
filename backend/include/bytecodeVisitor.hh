@@ -5,16 +5,23 @@ class BinaryExpr;
 class IntExpr;
 class UnaryExpr;
 class Instruction;
+class IAddExpr;
+class ISubExpr;
+class IDivExpr;
+class IMulExpr;
+
 
 /* this visitor is going to generate raw and unoptimized bytecode */
 class BytecodeVisitor {
+    /* this is going to be the instruction vector placed inside of the generator */
     std::vector<Instruction*> instructions;
 public:
-    BytecodeVisitor();
+    BytecodeVisitor(std::vector<Instruction*>& instr);
     ~BytecodeVisitor();
 private:
     /* these are going to be some helpers to create bytecode */
     void binaryExprHelper(BinaryExpr* expr);
+    void unaryExprHelper(UnaryExpr* expr);
 public:
     /* all the binary expressions */
     void visitBinaryExpr(BinaryExpr* expr);
@@ -26,4 +33,4 @@ public:
     /* unary expressions*/
     void visitUnaryExpr(UnaryExpr* expr);
     void visitIntExpr(IntExpr* expr);
-};
+}; 
