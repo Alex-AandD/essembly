@@ -5,7 +5,7 @@
 #include <string>
 
 class Lexer {
-private:
+public:
     size_t current;
     size_t start;
     size_t line;
@@ -15,6 +15,7 @@ public:
     std::vector<std::string> lexemes;
     std::vector<Token> tokens;
 public:
+    Lexer();
     Lexer(std::string _inp);
     ~Lexer();
 public:

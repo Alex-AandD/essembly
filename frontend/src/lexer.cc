@@ -1,6 +1,7 @@
 #include "frontend/include/lexer.hh"
 #include "frontend/include/token.hh"
 
+Lexer::Lexer(): input(""), current(0), start(0), line(1), input_len(0) { }
 Lexer::Lexer(std::string _inp): input(std::move(_inp)), current(0), start(0), line(1), input_len(input.size()) { }
 Lexer::~Lexer() { }
 
@@ -79,11 +80,11 @@ void Lexer::scan() {
         advance();
     }
 }
-[[nodiscard]] bool Lexer::match(size_t offset, char c) { 
+[[nodiscard]] bool Lexer::match(size_t offset, char c) noexcept { 
     if (!atEnd(offset) && peek(offset) == c) {
         advance();
         return true;
     }
     return false;
 }
-[[nodiscard]] bool matchNext(char c) noexcept { return match(1, c); }
+[[nodiscard]] bool Lexer::matchNext(char c) noexcept { return match(1, c); }

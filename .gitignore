@@ -3,4 +3,4 @@
 *.dSYM/*
 build/
 /build
-todo.txt
+build.sh
