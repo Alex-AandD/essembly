@@ -4,9 +4,11 @@
 #include "frontend/include/printVisitor.hh"
 #include <iostream>
 
-Parser::Parser(): factory(new FactoryExpr()), printVisitor(new PrintVisitor()), current(0) { }
+Parser::Parser(): 
+    factory(new FactoryExpr()), printVisitor(new PrintVisitor()), t_current(0), l_current(0) { }
 Parser::Parser(std::vector<Token> toks, std::vector<std::string> lexemes): 
-    tokens(toks), lexemes(lexemes), current(0), factory(new FactoryExpr()), printVisitor(new PrintVisitor()), AST(nullptr) { }
+    tokens(toks), lexemes(lexemes), t_current(0), l_current(0), 
+    factory(new FactoryExpr()), printVisitor(new PrintVisitor()), AST(nullptr) { }
 Parser::~Parser() {
     if (AST) {
         delete AST;
@@ -81,10 +83,12 @@ void Parser::printAST() const {
 }
 
 [[nodiscard]] Expr* Parser::makeIntExpr() noexcept {
-    return factory->makeInt(currentLexeme());
+    Expr* expr = factory->makeInt(currentLexeme());
+    advanceLexeme();
+    return expr;
 }
 
 [[nodiscard]] Expr* Parser::primary() {
     if (matchCurrent(TT::INT_LITERAL)) return makeIntExpr();
-    throw "unknown expression type";
+    else { throw "unknown expression type"; }
 }

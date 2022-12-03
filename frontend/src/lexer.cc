@@ -2,7 +2,7 @@
 #include "frontend/include/token.hh"
 
 Lexer::Lexer(): input(""), current(0), start(0), line(1), input_len(0) { }
-Lexer::Lexer(std::string _inp): input(std::move(_inp)), current(0), start(0), line(1), input_len(input.size()) { }
+Lexer::Lexer(std::string _inp): input(_inp), current(0), start(0), line(1), input_len(_inp.length()) { }
 Lexer::~Lexer() { }
 
 [[nodiscard]] Token Lexer::createToken(TT type) noexcept {
@@ -33,7 +33,7 @@ void Lexer::pushNumber() noexcept {
     }
     if (peekNext() == '.') {
         advance();
-        pushFloat();
+        return pushFloat();
     }
     pushToken(TT::INT_LITERAL);
     pushLexeme(input.substr(start, current - start + 1));

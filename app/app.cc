@@ -8,6 +8,9 @@ int main(int argc, char const *argv[])
     lexer.scan();
     auto tokens = lexer.tokens;
     auto lexemes = lexer.lexemes;
+    for (auto lex: lexemes) {
+        std::cout << lex << '\n';
+    }
     Parser parser = Parser(tokens, lexemes);
     parser.parse();
     parser.printAST();

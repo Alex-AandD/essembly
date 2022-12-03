@@ -47,6 +47,5 @@ public:
             advanceIp();
         }
     }
-
     [[nodiscard]] inline const bool atEnd() { return ip >= numInstructions; }
 };

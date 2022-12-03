@@ -17,17 +17,19 @@ private:
     Expr* AST;
     FactoryExpr* factory;
     PrintVisitor* printVisitor;
-    size_t current;
+    size_t t_current; /* index to the current token */
+    size_t l_current; /* index to the current lexeme */
 public:
     Parser();
     Parser(std::vector<Token> tokens, std::vector<std::string> lexemes);
     ~Parser();
 private: /* some helpers */
-    [[nodiscard]] inline Token currentToken() { return getToken(current); }
-    [[nodiscard]] inline Token previousToken() { return getToken(current - 1); }
+    [[nodiscard]] inline Token currentToken() { return getToken(t_current); }
+    [[nodiscard]] inline Token previousToken() { return getToken(t_current - 1); }
     [[nodiscard]] inline Token getToken(size_t position) { return tokens[position]; }
     [[nodiscard]] inline std::string getLexeme(size_t position) { return lexemes[position]; }
-    [[nodiscard]] inline std::string currentLexeme() { return getLexeme(current); }
+    [[nodiscard]] inline std::string currentLexeme() { return getLexeme(l_current); }
+    inline void advanceLexeme () noexcept { l_current++; }
 
     /* some helper functions */
     template <class T, class ...Args>
@@ -59,8 +61,8 @@ template <class T>
 [[nodiscard]] bool Parser::match(size_t offset, T type) {
     /* sometimes the offset could lead to bad access */
     /* for now I do not care as I need only offset=0 but in the future this might be necessary */
-    if (tokens[current + offset].type == type) {
-        current++;
+    if (tokens[t_current + offset].type == type) {
+        t_current++;
         return true;
     }
     return false;

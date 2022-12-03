@@ -15,6 +15,7 @@ DisassembleVisitor::~DisassembleVisitor() { }
     return codeString;
 }
 
+/* binary expressions */
 [[nodiscard]] std::string DisassembleVisitor::disassembleIADD(IADD_i* instruction) const noexcept {
     return zeroOpInstructionHelper(instruction);
 }
@@ -31,6 +32,16 @@ DisassembleVisitor::~DisassembleVisitor() { }
     return zeroOpInstructionHelper(instruction);
 }
 
+/* unary expressions */
+[[nodiscard]] std::string DisassembleVisitor::disassembleNEG_LOGIC(NEG_LOGIC_i* instruction) const noexcept {
+    return zeroOpInstructionHelper(instruction);
+}
+
+[[nodiscard]] std::string DisassembleVisitor::disassembleNEG_ARIT(NEG_ARIT_i* instruction) const noexcept {
+    return zeroOpInstructionHelper(instruction);
+}
+
+/* primary expressions */
 [[nodiscard]] std::string DisassembleVisitor::disassembleIPUSH(IPUSH_i* instruction) const noexcept {
     std::string codeString = CodetoString(instruction->code);
     std::string operand = std::to_string(instruction->operand);

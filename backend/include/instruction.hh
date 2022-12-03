@@ -61,6 +61,22 @@ public:
     [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };
 
+class NEG_LOGIC_i: public Instruction {
+public:
+    NEG_LOGIC_i();
+    ~NEG_LOGIC_i() override;
+public:
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
+};
+
+class NEG_ARIT_i: public Instruction {
+public:
+    NEG_ARIT_i();
+    ~NEG_ARIT_i() override;
+public:
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
+};
+
 class IPUSH_i: public Instruction {
 public:
     int operand;
