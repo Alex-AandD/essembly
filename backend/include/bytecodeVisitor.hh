@@ -5,10 +5,16 @@ class BinaryExpr;
 class IntExpr;
 class UnaryExpr;
 class Instruction;
+class AddExpr;
+class SubExpr;
+class DivExpr;
+class MulExpr;
 class IAddExpr;
 class ISubExpr;
 class IDivExpr;
 class IMulExpr;
+class UnaryNotExpr;
+class UnaryMinusExpr;
 
 
 /* this visitor is going to generate raw and unoptimized bytecode */
@@ -25,6 +31,10 @@ private:
 public:
     /* all the binary expressions */
     void visitBinaryExpr(BinaryExpr* expr);
+    void visitAddExpr(AddExpr* expr);
+    void visitSubExpr(SubExpr* expr);
+    void visitMulExpr(MulExpr* expr);
+    void visitDivExpr(DivExpr* expr);
     void visitIAddExpr(IAddExpr* expr);
     void visitISubExpr(ISubExpr* expr);
     void visitIMulExpr(IMulExpr* expr);
@@ -32,5 +42,9 @@ public:
 
     /* unary expressions*/
     void visitUnaryExpr(UnaryExpr* expr);
+    void visitUnaryNotExpr(UnaryNotExpr* expr);
+    void visitUnaryMinusExpr(UnaryMinusExpr* expr);
+
+    /* primary expresssions */
     void visitIntExpr(IntExpr* expr);
 }; 

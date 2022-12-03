@@ -4,7 +4,7 @@
 Token::Token(TT t, size_t off, size_t l, std::string m): type(t), offset(off), line(l), mod(std::move(m)) { }
 Token::~Token() { }
 
-std::string TokenToString(const Token& token) {
+std::string TokentoString(const Token& token) {
     TT type = token.type;
     switch (type)
     {

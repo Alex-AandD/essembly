@@ -7,20 +7,24 @@ class PrintVisitor {
 public:
     PrintVisitor();
     ~PrintVisitor();
-private: /* these are some helpers to avoid repeating code */
-    std::string binaryExprHelper(BinaryExpr* expr, std::string op);
-    std::string unaryExprHelper(UnaryExpr* expr, std::string op);
-
+private:
+    [[nodiscard]] std::string binaryExprHelper(BinaryExpr*, std::string op);
+    [[nodiscard]] std::string unaryExprHelper(UnaryExpr*, std::string op);
 public:
     /* all the binary operations */
-    std::string visitBinaryExpr(BinaryExpr* expr);
-    std::string visitIAddExpr(IAddExpr* expr);
-    std::string visitISubExpr(ISubExpr* expr);
-    std::string visitIMulExpr(IMulExpr* expr);
-    std::string visitIDivExpr(IDivExpr* expr);
+    [[nodiscard]] std::string visitBinaryExpr(BinaryExpr* expr);
+    [[nodiscard]] std::string visitAddExpr(AddExpr* expr);
+    [[nodiscard]] std::string visitSubExpr(SubExpr* expr);
+    [[nodiscard]] std::string visitMulExpr(MulExpr* expr);
+    [[nodiscard]] std::string visitDivExpr(DivExpr* expr);
 
-    std::string visitUnaryExpr(UnaryExpr* expr);
-    std::string visitUnaryNotExpr(UnaryNotExpr* expr);
-    std::string visitUnaryMinusExpr(UnaryMinusExpr* expr);
-    std::string visitIntExpr(IntExpr* expr);
+    // TODO: #11 add const to printVisitor methods and check if something can throw @Alex-AandD
+    [[nodiscard]] std::string visitIAddExpr(IAddExpr* expr);
+    [[nodiscard]] std::string visitISubExpr(ISubExpr* expr);
+    [[nodiscard]] std::string visitIMulExpr(IMulExpr* expr);
+    [[nodiscard]] std::string visitIDivExpr(IDivExpr* expr);
+    [[nodiscard]] std::string visitUnaryExpr(UnaryExpr* expr);
+    [[nodiscard]] std::string visitUnaryNotExpr(UnaryNotExpr* expr);
+    [[nodiscard]] std::string visitUnaryMinusExpr(UnaryMinusExpr* expr);
+    [[nodiscard]] std::string visitIntExpr(IntExpr* expr);
 };

@@ -1,10 +1,12 @@
 #include "frontend/include/parser.hh"
 #include "frontend/include/token.hh"
 #include "frontend/include/FactoryExpr.hh"
+#include "frontend/include/printVisitor.hh"
+#include <iostream>
 
-Parser::Parser(): factory(new FactoryExpr()), current(0) { }
-Parser::Parser(std::vector<Token>, std::vector<std::string> lexemes): 
-    tokens(tokens), lexemes(lexemes), current(0), factory(new FactoryExpr()) { }
+Parser::Parser(): factory(new FactoryExpr()), printVisitor(new PrintVisitor()), current(0) { }
+Parser::Parser(std::vector<Token> toks, std::vector<std::string> lexemes): 
+    tokens(toks), lexemes(lexemes), current(0), factory(new FactoryExpr()), printVisitor(new PrintVisitor()), AST(nullptr) { }
 Parser::~Parser() {
     if (AST) {
         delete AST;
@@ -13,6 +15,17 @@ Parser::~Parser() {
 
     if (factory) {
         delete factory;
+    }
+
+    if (printVisitor) {
+        delete printVisitor;
+        printVisitor = nullptr;
+    }
+}
+
+void Parser::printAST() const {
+    if (AST) {
+        std::cout << AST -> acceptPrintVisitor(printVisitor) << '\n';
     }
 }
 

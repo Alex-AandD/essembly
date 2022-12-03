@@ -17,6 +17,23 @@ void BytecodeVisitor::binaryExprHelper(BinaryExpr* expr) {
 }
 
 void BytecodeVisitor::visitBinaryExpr(BinaryExpr* expr) {
+    return binaryExprHelper(expr);
+}
+
+void BytecodeVisitor::visitAddExpr(AddExpr* expr) {
+    return visitBinaryExpr(expr); 
+}
+
+void BytecodeVisitor::visitSubExpr(SubExpr* expr) {
+    return visitBinaryExpr(expr); 
+}
+
+void BytecodeVisitor::visitMulExpr(MulExpr* expr) {
+    return visitBinaryExpr(expr); 
+}
+
+void BytecodeVisitor::visitDivExpr(DivExpr* expr) {
+    return visitBinaryExpr(expr); 
 }
 
 void BytecodeVisitor::visitIAddExpr(IAddExpr* expr) {
@@ -42,6 +59,18 @@ void BytecodeVisitor::visitIDivExpr(IDivExpr* expr) {
     /* add the sub instruction at the end */
     instructions.push_back(new IDIV_i());
 }
+
+void BytecodeVisitor::visitUnaryExpr(UnaryExpr* expr) {
+}
+
+void BytecodeVisitor::visitUnaryNotExpr(UnaryNotExpr* expr) {
+
+}
+
+void BytecodeVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) {
+
+}
+
 
 /* TODO: implement bytecode generator for unary expressions */
 static inline Instruction* chooseFinalBinaryInstruction(TT type) {

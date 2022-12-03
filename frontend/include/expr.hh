@@ -11,7 +11,7 @@ public:
     Expr();
     virtual ~Expr();
 public:
-    virtual std::string acceptPrintVisitor(PrintVisitor* visitor) = 0;
+    [[nodiscard]] virtual std::string acceptPrintVisitor(PrintVisitor* visitor) = 0;
     virtual void acceptBytecodeVisitor(BytecodeVisitor* visitor) = 0;
 };
 
@@ -24,7 +24,7 @@ public:
     BinaryExpr(Token op, Expr* lhs, Expr* rhs);
     virtual ~BinaryExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -33,7 +33,7 @@ public:
     AddExpr(Token _op, Expr* lhs, Expr* rhs);
     virtual ~AddExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -42,7 +42,7 @@ public:
     IAddExpr(Token _op, Expr* lhs, Expr* rhs);
     ~IAddExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -51,7 +51,7 @@ public:
     SubExpr(Token _op, Expr* lhs, Expr* rhs);
     virtual ~SubExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -60,7 +60,7 @@ public:
     ISubExpr(Token _op, Expr* lhs, Expr* rhs);
     ~ISubExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -69,7 +69,7 @@ public:
     MulExpr(Token _op, Expr* lhs, Expr* rhs);
     virtual ~MulExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -78,7 +78,7 @@ public:
     IMulExpr(Token _op, Expr* lhs, Expr* rhs);
     ~IMulExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -87,7 +87,7 @@ public:
     DivExpr(Token _op, Expr* lhs, Expr* rhs);
     virtual ~DivExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -96,7 +96,7 @@ public:
     IDivExpr(Token _op, Expr* lhs, Expr* rhs);
     ~IDivExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -108,7 +108,7 @@ public:
     UnaryExpr(Token, Expr*);
     virtual ~UnaryExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -117,7 +117,7 @@ public:
     UnaryNotExpr(Token, Expr*);
     ~UnaryNotExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -126,7 +126,7 @@ public:
     UnaryMinusExpr(Token, Expr*);
     ~UnaryMinusExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };
 
@@ -137,6 +137,6 @@ public:
     IntExpr(int);
     ~IntExpr() override;
 public:
-    std::string acceptPrintVisitor(PrintVisitor* visitor) override;
+    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor* visitor) override;
     void acceptBytecodeVisitor(BytecodeVisitor* visitor) override;
 };

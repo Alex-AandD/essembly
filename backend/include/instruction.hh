@@ -26,8 +26,7 @@ public:
     Instruction(CODE);
     virtual ~Instruction();
     /* in the instruction object there will be a disassemble method for testing and debugging purposes */
-    [[nodiscard]] virtual std::string disassemble() const noexcept;
-    [[nodiscard]] virtual std::string acceptDisassembler(DisassembleVisitor* visitor) const noexcept;
+    [[nodiscard]] virtual std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept = 0;
 };
 
 class IADD_i: public Instruction {
@@ -35,7 +34,7 @@ public:
     IADD_i();
     ~IADD_i() override;
 public:
-    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) const noexcept override;
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };
 
 class ISUB_i: public Instruction {
@@ -43,7 +42,7 @@ public:
     ISUB_i();
     ~ISUB_i() override;
 public:
-    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) const noexcept override;
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };
 
 class IMUL_i: public Instruction {
@@ -51,7 +50,7 @@ public:
     IMUL_i();
     ~IMUL_i() override;
 public:
-    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) const noexcept override;
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };
 
 class IDIV_i: public Instruction {
@@ -59,7 +58,7 @@ public:
     IDIV_i();
     ~IDIV_i() override;
 public:
-    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) const noexcept override;
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };
 
 class IPUSH_i: public Instruction {
@@ -69,5 +68,5 @@ public:
     IPUSH_i(int);
     ~IPUSH_i() override;
 public:
-    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) const noexcept override;
+    [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };

@@ -15,11 +15,11 @@ public:
     FactoryExpr();
     ~FactoryExpr();
 public:
-    [[nodiscard]] AddExpr* makeAdd(TEXPR, Token _op, Expr* l, Expr* r) noexcept;
-    [[nodiscard]] SubExpr* makeSub(TEXPR, Token _op, Expr* l, Expr* r) noexcept;
-    [[nodiscard]] MulExpr* makeMul(TEXPR, Token _op, Expr* l, Expr* r) noexcept;
-    [[nodiscard]] DivExpr* makeDiv(TEXPR, Token _op, Expr* l, Expr* r) noexcept;
+    [[nodiscard]] Expr* makeAdd(TEXPR, Token _op, Expr* l, Expr* r);
+    [[nodiscard]] Expr* makeSub(TEXPR, Token _op, Expr* l, Expr* r);
+    [[nodiscard]] Expr* makeMul(TEXPR, Token _op, Expr* l, Expr* r);
+    [[nodiscard]] Expr* makeDiv(TEXPR, Token _op, Expr* l, Expr* r);
 
-    [[nodiscard]] UnaryExpr* makeUnary(Token _op, Expr* r) noexcept;
-    [[nodiscard]] IntExpr* makeInt(std::string lex) noexcept;
+    [[nodiscard]] Expr* makeUnary(Token _op, Expr* r) noexcept;
+    [[nodiscard]] Expr* makeInt(std::string lex) noexcept;
 };

@@ -3,19 +3,21 @@
 #include "expr_types.hh"
 #include <vector>
 #include <string>
+#include <ctype.h>
 
 class Expr;
-class BinaryExpr;
-class UnaryExpr;
-class IntExpr;
+class FactoryExpr;
+class PrintVisitor;
 
 class Parser { 
 private:
-    size_t current;
-    Expr* AST;
-    FactoryExpr* factory;
+
     std::vector<Token> tokens;
     std::vector<std::string> lexemes;
+    Expr* AST;
+    FactoryExpr* factory;
+    PrintVisitor* printVisitor;
+    size_t current;
 public:
     Parser();
     Parser(std::vector<Token> tokens, std::vector<std::string> lexemes);
@@ -30,6 +32,7 @@ private: /* some helpers */
     /* some helper functions */
     template <class T, class ...Args>
     [[nodiscard]] bool match(size_t offset, T first, Args... args);
+
     template <class T>
     [[nodiscard]] bool match(size_t offset, T first);
 
@@ -39,6 +42,7 @@ private: /* some helpers */
     }
 public:
     [[nodiscard]] Expr* parse();
+    void printAST() const;
 private:
     [[nodiscard]] Expr* makeBinaryExpr(TEXPR exprType, Token, Expr*, Expr*) noexcept;
     [[nodiscard]] Expr* makeUnaryExpr(Token, Expr*) noexcept;  
@@ -57,7 +61,7 @@ template <class T>
     /* for now I do not care as I need only offset=0 but in the future this might be necessary */
     if (tokens[current + offset].type == type) {
         current++;
-        return true
+        return true;
     }
     return false;
 }
@@ -69,5 +73,5 @@ template <class T, class ...Args>
 
 template <class T, class ...Args>
 [[nodiscard]] bool matchCurrent(T first, Args...args) {
-    return match(0, first, args);
+    return match(0, first, args...);
 }

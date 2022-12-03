@@ -9,6 +9,9 @@ class Instruction;
 
 class DisassembleVisitor {
 public:
+    DisassembleVisitor();
+    ~DisassembleVisitor();
+public:
     [[nodiscard]] std::string disassembleIADD(IADD_i*) const noexcept;
     [[nodiscard]] std::string disassembleISUB(ISUB_i*) const noexcept;
     [[nodiscard]] std::string disassembleIMUL(IMUL_i*) const noexcept;

@@ -1,5 +1,6 @@
 #include "backend/include/disassembleVisitor.hh"
 #include "backend/include/instruction.hh"
+#include "backend/include/code.hh"
 #include <string>
 /* when we disassemble an instruction we need to provide: */
 /* CODE    [OPERANDS]   line_number */
@@ -9,7 +10,7 @@
 DisassembleVisitor::DisassembleVisitor() { }
 DisassembleVisitor::~DisassembleVisitor() { }
 
-[[nodiscard]] static std::string zeroOpIntructionHelper(Instruction* instruction) noexcept {
+[[nodiscard]] static std::string zeroOpInstructionHelper(Instruction* instruction) noexcept {
     std::string codeString = CodetoString(instruction->code);
     return codeString;
 }
@@ -26,7 +27,7 @@ DisassembleVisitor::~DisassembleVisitor() { }
     return zeroOpInstructionHelper(instruction);
 }
 
-[[nodiscard]] std::string DisassembleVisitor::disassembleISUB(ISUB_i* instruction) const noexcept {
+[[nodiscard]] std::string DisassembleVisitor::disassembleIDIV(IDIV_i* instruction) const noexcept {
     return zeroOpInstructionHelper(instruction);
 }
 
