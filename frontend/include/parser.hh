@@ -4,29 +4,37 @@
 #include <vector>
 #include <string>
 #include <ctype.h>
+#include <memory>
+#include "printVisitor.hh"
+#include "FactoryExpr.hh"
+
+namespace Essembly {
 
 class Expr;
 class FactoryExpr;
 class PrintVisitor;
 
+using u_ptrToken = std::unique_ptr<Token>;
+using u_ptrExpr =  std::unique_ptr<Expr>;
+
 class Parser { 
 private:
-
-    std::vector<Token> tokens;
+    std::vector<u_ptrToken> tokens;
     std::vector<std::string> lexemes;
-    Expr* AST;
-    FactoryExpr* factory;
-    PrintVisitor* printVisitor;
+    u_ptrExpr AST;
+    std::unique_ptr<FactoryExpr> factory;
+    std::unique_ptr<PrintVisitor> printVisitor;
     size_t t_current; /* index to the current token */
     size_t l_current; /* index to the current lexeme */
 public:
     Parser();
-    Parser(std::vector<Token> tokens, std::vector<std::string> lexemes);
-    ~Parser();
+    Parser(std::vector<u_ptrToken> tokens, std::vector<std::string> lexemes);
 private: /* some helpers */
-    [[nodiscard]] inline Token currentToken() { return getToken(t_current); }
-    [[nodiscard]] inline Token previousToken() { return getToken(t_current - 1); }
-    [[nodiscard]] inline Token getToken(size_t position) { return tokens[position]; }
+    [[nodiscard]] inline bool atEnd() { return atEnd(0); }
+    [[nodiscard]] inline bool atEnd(size_t offset) { return t_current + offset >= tokens.size(); }
+    [[nodiscard]] inline u_ptrToken currentToken() { return getToken(t_current); }
+    [[nodiscard]] inline u_ptrToken previousToken() { return getToken(t_current - 1); }
+    [[nodiscard]] inline u_ptrToken getToken(size_t position) { return std::move(tokens[position]); }
     [[nodiscard]] inline std::string getLexeme(size_t position) { return lexemes[position]; }
     [[nodiscard]] inline std::string currentLexeme() { return getLexeme(l_current); }
     inline void advanceLexeme () noexcept { l_current++; }
@@ -43,25 +51,25 @@ private: /* some helpers */
         return match(0, first, args...);
     }
 public:
-    [[nodiscard]] Expr* parse();
+    [[nodiscard]] u_ptrExpr parse();
     void printAST() const;
 private:
-    [[nodiscard]] Expr* makeBinaryExpr(TEXPR exprType, Token, Expr*, Expr*) noexcept;
-    [[nodiscard]] Expr* makeUnaryExpr(Token, Expr*) noexcept;  
-    [[nodiscard]] Expr* makeIntExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeBinaryExpr(TEXPR exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
+    [[nodiscard]] u_ptrExpr makeUnaryExpr(u_ptrToken&, u_ptrExpr&) noexcept;  
+    [[nodiscard]] u_ptrExpr makeIntExpr() noexcept;
 
-    [[nodiscard]] Expr* expr(TEXPR);
-    [[nodiscard]] Expr* term(TEXPR);
-    [[nodiscard]] Expr* factor(TEXPR);
-    [[nodiscard]] Expr* unary();
-    [[nodiscard]] Expr* primary();
+    [[nodiscard]] u_ptrExpr expr(TEXPR);
+    [[nodiscard]] u_ptrExpr term(TEXPR);
+    [[nodiscard]] u_ptrExpr factor(TEXPR);
+    [[nodiscard]] u_ptrExpr unary();
+    [[nodiscard]] u_ptrExpr primary();
 };
 
 template <class T>
 [[nodiscard]] bool Parser::match(size_t offset, T type) {
     /* sometimes the offset could lead to bad access */
     /* for now I do not care as I need only offset=0 but in the future this might be necessary */
-    if (tokens[t_current + offset].type == type) {
+    if ((!atEnd()) && (tokens[t_current+offset]->type) == type) {
         t_current++;
         return true;
     }
@@ -77,3 +85,5 @@ template <class T, class ...Args>
 [[nodiscard]] bool matchCurrent(T first, Args...args) {
     return match(0, first, args...);
 }
+
+} // ESSEMBLY

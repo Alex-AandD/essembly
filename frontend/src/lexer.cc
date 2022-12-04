@@ -1,18 +1,22 @@
 #include "frontend/include/lexer.hh"
 #include "frontend/include/token.hh"
 
+namespace Essembly {
 Lexer::Lexer(): input(""), current(0), start(0), line(1), input_len(0) { }
-Lexer::Lexer(std::string _inp): input(_inp), current(0), start(0), line(1), input_len(_inp.length()) { }
+Lexer::Lexer(std::string _inp): input(_inp), current(0), start(0), line(1), input_len(_inp.length()) {
+    tokens.reserve(10000);
+    lexemes.reserve(10000);
+}
 Lexer::~Lexer() { }
 
-[[nodiscard]] Token Lexer::createToken(TT type) noexcept {
-    Token token = Token(type, start, line, "modules must be implemented");
+[[nodiscard]] std::unique_ptr<Token> Lexer::createToken(TT type) noexcept {
+    auto token = std::make_unique<Token>(type, start, line, "modules must be implemented");
     return token;
 }
 
 void Lexer::pushToken(TT type) noexcept {
-    Token token = createToken(type); 
-    tokens.push_back(token);
+    std::unique_ptr<Token> token = createToken(type); 
+    tokens.push_back(std::move(token));
 }
 
 void Lexer::pushString() {
@@ -38,7 +42,6 @@ void Lexer::pushNumber() noexcept {
     pushToken(TT::INT_LITERAL);
     pushLexeme(input.substr(start, current - start + 1));
 }
-//TODO: add unary operators @author
 void Lexer::pushFloat() noexcept {
     while(!atEnd() && std::isdigit(peekNext())) { 
         advance();
@@ -47,7 +50,6 @@ void Lexer::pushFloat() noexcept {
     pushLexeme(input.substr(start, current - start + 1));
 }
 
-//TODO: #3 add support for unary operations @Alex-AandD
 void Lexer::scan() {
     while (!atEnd()){
         start = current;
@@ -88,3 +90,4 @@ void Lexer::scan() {
     return false;
 }
 [[nodiscard]] bool Lexer::matchNext(char c) noexcept { return match(1, c); }
+}

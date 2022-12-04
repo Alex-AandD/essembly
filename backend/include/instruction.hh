@@ -17,7 +17,10 @@
 should we push a value or an integer?
 For now let's keep native types, then we will see
 */
+
+namespace Essembly {
 class DisassembleVisitor;
+
 
 class Instruction {
 public:
@@ -86,3 +89,4 @@ public:
 public:
     [[nodiscard]] std::string acceptDisassembler(DisassembleVisitor* visitor) noexcept override;
 };
+}

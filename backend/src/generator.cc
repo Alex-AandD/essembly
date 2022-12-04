@@ -2,37 +2,21 @@
 #include "backend/include/bytecodeVisitor.hh"
 #include "frontend/include/expr.hh"
 #include "backend/include/instruction.hh"
+#include "backend/include/disassembleVisitor.hh"
 #include <iostream>
 
 
-Generator::Generator(Expr* _AST): bytecodeVisitor(new BytecodeVisitor(instructions)), AST(_AST)  {
-    /* reserve some space for all the instructions */
-    instructions.reserve(10000);
+namespace Essembly {
+
+Generator::Generator(u_ptrExpr& _AST): 
+    AST(std::move(_AST)), 
+    bytecodeVisitor(std::make_unique<BytecodeVisitor>()), 
+    disassembleVisitor(std::make_unique<DisassembleVisitor>())
+{
+    // reserve some space for all the instructions
+    instructions.reserve(100000);
 }
-Generator::~Generator() {
-    if (bytecodeVisitor) {
-        delete bytecodeVisitor;
-        bytecodeVisitor = nullptr;
-    }
-
-    if (disassembleVisitor) {
-        delete disassembleVisitor;
-        disassembleVisitor = nullptr;
-    }
-
-    /* TODO: #6 turn this loop into a lambda @Alex-AandD */
-    for (size_t i = 0; i < instructions.size(); i++) {
-        if (instructions[i]) {
-            delete instructions[i];
-            instructions[i] = nullptr;
-        }
-    }
-
-    if (AST) {
-        delete AST;
-        AST = nullptr;
-    }
-}
+Generator::~Generator() { }
 
 /* now here we need to generate some good code */
 /* pass the statements to the */
@@ -41,7 +25,8 @@ Generator::~Generator() {
 void Generator::generateBytecode() {
     /* make the AST accept the visitor */
     /* then the visitor is going to choose the correct method thanks to the vtable */
-    AST->acceptBytecodeVisitor(bytecodeVisitor);
+    AST->acceptBytecodeVisitor(bytecodeVisitor.get());
+    instructions = std::move(bytecodeVisitor->instructions);
 }
 
 // TODO: #10 disassemble using an external file @Alex-AandD
@@ -52,8 +37,9 @@ void Generator::disassemble() const noexcept {
     size_t len = instructions.size();
     for (size_t i = 0; i < len; i++) {
         auto instruction = instructions[i];
-        std::string stringInstruction = instruction->acceptDisassembler(disassembleVisitor);
+        std::string stringInstruction = instruction->acceptDisassembler(disassembleVisitor.get());
         std::cout << std::hex << i << "     " <<
         stringInstruction << '\n';
     }
+}
 }

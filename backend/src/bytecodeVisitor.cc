@@ -2,16 +2,24 @@
 #include "backend/include/instruction.hh"
 #include "frontend/include/expr.hh"
 
-BytecodeVisitor::BytecodeVisitor(std::vector<Instruction*>& instr): instructions(instr) { }
+namespace Essembly
+{
+    
+
+BytecodeVisitor::BytecodeVisitor() {
+}
 BytecodeVisitor::~BytecodeVisitor() {
     for(size_t i = 0; i < instructions.size(); i++) {
-        delete instructions[i];
+        if (instructions[i]) {
+            delete instructions[i];
+            instructions[i] = nullptr;
+        }
     }
 }
 
 void BytecodeVisitor::binaryExprHelper(BinaryExpr* expr) {
-    Expr* lhs = expr->lhs;
-    Expr* rhs = expr->rhs;
+    Expr* lhs = expr->lhs.get();
+    Expr* rhs = expr->rhs.get();
     lhs->acceptBytecodeVisitor(this);
     rhs->acceptBytecodeVisitor(this);
 }
@@ -41,7 +49,6 @@ void BytecodeVisitor::visitIAddExpr(IAddExpr* expr) {
     /* add the add instruction at the end */
     instructions.push_back(new IADD_i());
 }
-
 void BytecodeVisitor::visitISubExpr(ISubExpr* expr) {
     binaryExprHelper(expr);
     /* add the sub instruction at the end */
@@ -61,6 +68,7 @@ void BytecodeVisitor::visitIDivExpr(IDivExpr* expr) {
 }
 
 void BytecodeVisitor::visitUnaryExpr(UnaryExpr* expr) {
+
 }
 
 void BytecodeVisitor::visitUnaryNotExpr(UnaryNotExpr* expr) {
@@ -104,3 +112,5 @@ void BytecodeVisitor::visitIntExpr(IntExpr* expr) {
     /* IPUSH operand */
     instructions.push_back(new IPUSH_i(expr->value));
 }
+
+} // Essembly

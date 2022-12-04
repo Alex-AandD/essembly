@@ -7,6 +7,7 @@
 /* for now I have no idea how to provide the number we'll support that later */
 //TODO: #9 add line number support @Alex-AandD
 
+namespace Essembly {
 DisassembleVisitor::DisassembleVisitor() { }
 DisassembleVisitor::~DisassembleVisitor() { }
 
@@ -46,4 +47,5 @@ DisassembleVisitor::~DisassembleVisitor() { }
     std::string codeString = CodetoString(instruction->code);
     std::string operand = std::to_string(instruction->operand);
     return codeString + "   " + operand ;
+}
 }

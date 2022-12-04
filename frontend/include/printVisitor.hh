@@ -2,11 +2,13 @@
 
 #include "expr.hh"
 #include <string>
+#include <memory>
+
+namespace Essembly {
 
 class PrintVisitor {
 public:
     PrintVisitor();
-    ~PrintVisitor();
 private:
     [[nodiscard]] std::string binaryExprHelper(BinaryExpr*, std::string op);
     [[nodiscard]] std::string unaryExprHelper(UnaryExpr*, std::string op);
@@ -28,3 +30,4 @@ public:
     [[nodiscard]] std::string visitUnaryMinusExpr(UnaryMinusExpr* expr);
     [[nodiscard]] std::string visitIntExpr(IntExpr* expr);
 };
+}

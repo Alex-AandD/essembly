@@ -1,46 +1,54 @@
 #include "frontend/include/FactoryExpr.hh"
 #include "frontend/include/expr.hh"
+#include "frontend/include/token.hh"
 
-FactoryExpr::FactoryExpr() {}
+namespace Essembly {
+
+using u_ptrExpr = std::unique_ptr<Expr>;
+using u_ptrToken = std::unique_ptr<Token>;
+
+FactoryExpr::FactoryExpr() { }
 FactoryExpr::~FactoryExpr() { }
 
-[[nodiscard]] Expr* FactoryExpr::makeAdd(TEXPR exprType, Token _op, Expr* l, Expr* r) {
+[[nodiscard]] u_ptrExpr FactoryExpr::makeAdd(TEXPR exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case TEXPR::INT: return new IAddExpr(_op, l, r);
+        case TEXPR::INT: return std::make_unique<IAddExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
 }
 
-[[nodiscard]] Expr* FactoryExpr::makeSub(TEXPR exprType, Token _op, Expr* l, Expr* r) {
+[[nodiscard]] u_ptrExpr FactoryExpr::makeSub(TEXPR exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case TEXPR::INT: return new ISubExpr(_op, l, r);
+        case TEXPR::INT: return std::make_unique<ISubExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
 }
 
-[[nodiscard]] Expr* FactoryExpr::makeMul(TEXPR exprType, Token _op, Expr* l, Expr* r) {
+[[nodiscard]] u_ptrExpr FactoryExpr::makeMul(TEXPR exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case TEXPR::INT: return new IMulExpr(_op, l, r);
+        case TEXPR::INT: return std::make_unique<IMulExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
 }
 
-[[nodiscard]] Expr* FactoryExpr::makeDiv(TEXPR exprType, Token _op, Expr* l, Expr* r) {
+[[nodiscard]] u_ptrExpr FactoryExpr::makeDiv(TEXPR exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case TEXPR::INT: return new IDivExpr(_op, l, r);
+        case TEXPR::INT: return std::make_unique<IDivExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
 }
 
-[[nodiscard]] Expr* FactoryExpr::makeUnary(Token _op, Expr* r) noexcept {
-    switch(_op.type) {
-        case TT::MINUS: return new UnaryMinusExpr(_op, r);
-        case TT::NOT: return new UnaryNotExpr(_op, r);
+[[nodiscard]] u_ptrExpr FactoryExpr::makeUnary(u_ptrToken& _op, u_ptrExpr& r) noexcept {
+    switch(_op->type) {
+        case TT::MINUS: return std::make_unique<UnaryMinusExpr>(_op, r);
+        case TT::NOT: return std::make_unique<UnaryNotExpr>(_op, r);
         default: break;
     }
 }
 
-[[nodiscard]] Expr* FactoryExpr::makeInt(std::string lex) noexcept {
+[[nodiscard]] u_ptrExpr FactoryExpr::makeInt(std::string lex) noexcept {
     int value = std::stoi(lex);
-    return new IntExpr(value);
+    return std::make_unique<IntExpr>(value);
+}
+
 }

@@ -2,8 +2,8 @@
 #include "../include/token.hh"
 #include <string>
 
+namespace Essembly {
 PrintVisitor::PrintVisitor() { };
-PrintVisitor::~PrintVisitor() { }
 
 std::string PrintVisitor::binaryExprHelper(BinaryExpr* expr, std::string op) {
     std::string lhs = expr->lhs->acceptPrintVisitor(this);
@@ -18,8 +18,8 @@ std::string PrintVisitor::binaryExprHelper(BinaryExpr* expr, std::string op) {
 
 /* first all the binary expressions */
 [[nodiscard]] std::string PrintVisitor::visitBinaryExpr(BinaryExpr* expr) {
-    std::string op = TokentoString(expr->op);
-    return binaryExprHelper(expr, op);
+    std::string opString = TokentoString(expr->op.get());
+    return binaryExprHelper(expr, opString);
 }
 
 [[nodiscard]] std::string PrintVisitor::visitAddExpr(AddExpr* expr) {
@@ -55,8 +55,8 @@ std::string PrintVisitor::visitIDivExpr(IDivExpr* expr) {
 }
 
 std::string PrintVisitor::visitUnaryExpr(UnaryExpr* expr) { 
-    std::string op = TokentoString(expr->op);
-    return unaryExprHelper(expr, op);
+    std::string opString = TokentoString(expr->op.get());
+    return unaryExprHelper(expr, opString);
 }
 
 std::string PrintVisitor::visitUnaryNotExpr(UnaryNotExpr* expr) { 
@@ -71,3 +71,5 @@ std::string PrintVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) {
 std::string PrintVisitor::visitIntExpr(IntExpr* expr) {
     return std::to_string(expr->value);
 }
+
+} // ESSEMBLY

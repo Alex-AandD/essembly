@@ -5,6 +5,8 @@
 /* do not clogg the instruction file with methods used mainly for debugging and testing */
 /* use a different interface instead */
 
+namespace Essembly {
+
 class Instruction;
 
 class DisassembleVisitor {
@@ -25,3 +27,4 @@ public:
     // push integers
     [[nodiscard]] std::string disassembleIPUSH(IPUSH_i*) const noexcept;
 };
+}

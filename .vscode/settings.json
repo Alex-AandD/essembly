@@ -69,6 +69,12 @@
         "algorithm": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "__tree": "cpp",
+        "any": "cpp",
+        "condition_variable": "cpp",
+        "iomanip": "cpp",
+        "map": "cpp",
+        "set": "cpp"
     }
 }

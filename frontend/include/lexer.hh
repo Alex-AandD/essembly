@@ -3,7 +3,9 @@
 #include "frontend/include/token.hh"
 #include <vector>
 #include <string>
+#include <memory>
 
+namespace Essembly {
 class Lexer {
 public:
     size_t current;
@@ -13,7 +15,7 @@ public:
     std::string input;
 public:
     std::vector<std::string> lexemes;
-    std::vector<Token> tokens;
+    std::vector<std::unique_ptr<Token>> tokens;
 public:
     Lexer();
     Lexer(std::string _inp);
@@ -27,7 +29,7 @@ private:
     [[nodiscard]] inline char peek(size_t offset) const { return input[current + offset]; }
     [[nodiscard]] inline bool isValidVar(char c) { return std::isalpha(c) || c == '_'; }
     [[nodiscard]] inline bool atEnd(size_t offset) noexcept { return current + offset >= input_len; }
-    [[nodiscard]] Token createToken(TT type) noexcept;
+    [[nodiscard]] std::unique_ptr<Token> createToken(TT type) noexcept;
     [[nodiscard]] bool match(size_t offset, char c) noexcept;
     [[nodiscard]] bool matchNext(char c) noexcept;
     inline void advance() noexcept { current++; }
@@ -38,3 +40,4 @@ private:
     void pushNumber() noexcept;
     void pushFloat() noexcept;
 };
+}

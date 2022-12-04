@@ -4,6 +4,7 @@
 #define MB 1024 * 1000
 #define STACK_SIZE 8 * MB
 
+namepace Essembly {
 Vm::Vm(): ip(0), sp(0), retAddr(0) { 
     /* reserve some space in advance for the stack */
     /* initialize the dispatch map */ 
@@ -92,4 +93,5 @@ void Vm::idiv() {
     IntValue* lhs = ipop(); 
     IntValue* finalValue = floor(lhs->value / rhs->value);
     ipush(finalValue);
+}
 }

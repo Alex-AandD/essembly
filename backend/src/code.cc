@@ -1,5 +1,6 @@
 #include "backend/include/code.hh"
 
+namespace Essembly {
 [[nodiscard]] std::string CodetoString(CODE code) {
     switch(code) {
         case CODE::IADD: return "IADD";
@@ -13,3 +14,4 @@
         default: return "UNKNOWN CODE, ADD IT TO THE LIST OF CODES";
     }
 }
+} // Essembly

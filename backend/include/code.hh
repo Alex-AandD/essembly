@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 
+namespace Essembly {
 enum class CODE: uint8_t {
     IPUSH       =   0x1,
     IPOP        =   0x2,
@@ -16,3 +17,4 @@ enum class CODE: uint8_t {
 };
 /* use the string version of the code for the disassembly part */
 [[nodiscard]] std::string CodetoString(CODE code);
+}

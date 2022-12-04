@@ -1,7 +1,8 @@
 #pragma once
-
 #include <string>
+#include <memory>
 
+namespace Essembly {
 enum class TT {
     PLUS,
     MINUS,
@@ -32,4 +33,6 @@ public:
 };
 
 /* print the lexeme of the token */
-std::string TokentoString(const Token& token);
+std::string TokentoString(Token* token);
+
+}

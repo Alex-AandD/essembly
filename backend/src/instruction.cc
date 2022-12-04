@@ -2,6 +2,8 @@
 #include "backend/include/code.hh"
 #include "backend/include/disassembleVisitor.hh"
 
+namespace Essembly {
+
 Instruction::Instruction(CODE t): code(t) { }
 Instruction::~Instruction() { }
 
@@ -45,4 +47,5 @@ IPUSH_i::IPUSH_i(int op): Instruction(CODE::IPUSH), operand(op) { }
 IPUSH_i::~IPUSH_i() { }
 [[nodiscard]] std::string IPUSH_i::acceptDisassembler(DisassembleVisitor* visitor) noexcept {
     return visitor->disassembleIPUSH(this);
+}
 }

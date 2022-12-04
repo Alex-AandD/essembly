@@ -1,11 +1,14 @@
 #include "../include/token.hh"
 #include <string>
+#include <memory>
+
+namespace Essembly {
 
 Token::Token(TT t, size_t off, size_t l, std::string m): type(t), offset(off), line(l), mod(std::move(m)) { }
 Token::~Token() { }
 
-std::string TokentoString(const Token& token) {
-    TT type = token.type;
+std::string TokentoString(Token* token) {
+    TT type = token->type;
     switch (type)
     {
     case TT::PLUS: return "+";
@@ -21,3 +24,5 @@ std::string TokentoString(const Token& token) {
         throw "cannot convert token to string. Unexpected token";
     }
 }
+
+} // ESSEMBLY

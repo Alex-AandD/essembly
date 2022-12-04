@@ -5,7 +5,7 @@ add_library(backendlib
     src/bytecodeVisitor.cc
     src/disassembleVisitor.cc
     src/code.cc
-    # src/generator.cc
+    src/generator.cc
 )
 
 target_include_directories(backendlib PUBLIC 

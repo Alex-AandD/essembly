@@ -5,251 +5,150 @@
 #include "backend/include/bytecodeVisitor.hh"
 #include <vector>
 
+namespace Essembly {
+
 Expr::Expr() { }
 Expr::~Expr() { }
 
 /* expressions constructors */
-BinaryExpr::BinaryExpr(Token _op, Expr* l, Expr* r): op(_op), lhs(l), rhs(r) { }
-BinaryExpr::~BinaryExpr() {
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-}
+BinaryExpr::BinaryExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r):
+    op(std::move(_op)), lhs(std::move(l)), rhs(std::move(r)) { }
 
-AddExpr::AddExpr(Token _op, Expr* l, Expr* r): BinaryExpr(_op, l, r) { }
-SubExpr::SubExpr(Token _op, Expr* l, Expr* r): BinaryExpr(_op, l, r) { }
-MulExpr::MulExpr(Token _op, Expr* l, Expr* r): BinaryExpr(_op, l, r) { }
-DivExpr::DivExpr(Token _op, Expr* l, Expr* r): BinaryExpr(_op, l, r) { }
+BinaryExpr::~BinaryExpr(){ };
+AddExpr::AddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
+SubExpr::SubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
+MulExpr::MulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
+DivExpr::DivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
 
-AddExpr::~AddExpr() {
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-}
-SubExpr::~SubExpr() { 
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-}
-MulExpr::~MulExpr() {
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-}
-
-DivExpr::~DivExpr() {
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-}
-
-IAddExpr::IAddExpr(Token _op, Expr* l, Expr* r): AddExpr(_op, l, r) { }
-IAddExpr::~IAddExpr() {
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-}
-
-ISubExpr::ISubExpr(Token _op, Expr* l, Expr* r): SubExpr(_op, l, r) { }
-ISubExpr::~ISubExpr() {
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-}
-
-IMulExpr::IMulExpr(Token _op, Expr* l, Expr* r): MulExpr(_op, l, r) { }
-IMulExpr::~IMulExpr() {
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-}
-
-IDivExpr::IDivExpr(Token _op, Expr* l, Expr* r): DivExpr(_op, l, r) { }
-IDivExpr::~IDivExpr() {
-    if (lhs) {
-        delete lhs;
-        lhs = nullptr;
-    }
-    if (rhs) {
-        delete rhs;
-        rhs = nullptr;
-    }
-}
-
-UnaryExpr::UnaryExpr(Token _op, Expr* e): op(_op), expr(e) { }
-UnaryExpr::~UnaryExpr() {
-    if (expr) {
-        delete expr;
-        expr = nullptr;
-    }
-}
-
-UnaryNotExpr::UnaryNotExpr(Token _op, Expr* r): UnaryExpr(_op, r) { } 
-UnaryNotExpr::~UnaryNotExpr() {
-    if (expr) {
-        delete expr;
-        expr = nullptr;
-    }
-}
+AddExpr::~AddExpr() { }
+SubExpr::~SubExpr() { }
+MulExpr::~MulExpr() { }
+DivExpr::~DivExpr() { }
 
 
-UnaryMinusExpr::UnaryMinusExpr(Token _op, Expr* r): UnaryExpr(_op, r) { } 
-UnaryMinusExpr::~UnaryMinusExpr() {
-    if (expr) {
-        delete expr;
-        expr = nullptr;
-    }
-} 
+IAddExpr::IAddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): AddExpr(_op, l, r) { }
+ISubExpr::ISubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, l, r) { }
+IMulExpr::IMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
+IDivExpr::IDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
 
+IAddExpr::~IAddExpr() { }
+ISubExpr::~ISubExpr() { }
+IMulExpr::~IMulExpr() { }
+IDivExpr::~IDivExpr() { }
+
+UnaryExpr::UnaryExpr(u_ptrToken& _op, u_ptrExpr&  e): op(std::move(_op)), expr(std::move(e)) { }
+UnaryNotExpr::UnaryNotExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
+UnaryMinusExpr::UnaryMinusExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
+
+UnaryExpr::~UnaryExpr() { }
+UnaryNotExpr::~UnaryNotExpr() { }
+UnaryMinusExpr::~UnaryMinusExpr() { }
 
 IntExpr::IntExpr(int val): value(val) { }
 IntExpr::~IntExpr() { }
 
 /* now the accept methods to print the expression */
-[[nodiscard]] std::string BinaryExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string BinaryExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitBinaryExpr(this);
 }
 
-[[nodiscard]] std::string AddExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string AddExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitAddExpr(this);
 }
 
-[[nodiscard]] std::string IAddExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string IAddExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitIAddExpr(this);
 }
 
-[[nodiscard]] std::string ISubExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string ISubExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitISubExpr(this);
 }
 
-[[nodiscard]] std::string SubExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string SubExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitSubExpr(this);
 }
 
-[[nodiscard]] std::string MulExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string MulExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitMulExpr(this);
 }
 
-[[nodiscard]] std::string IMulExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string IMulExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitIMulExpr(this);
 }
 
-[[nodiscard]] std::string DivExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string DivExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitDivExpr(this);
 }
-[[nodiscard]] std::string IDivExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string IDivExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitIDivExpr(this);
 }
 
-[[nodiscard]] std::string UnaryExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string UnaryExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitUnaryExpr(this);
 }
 
-[[nodiscard]] std::string UnaryMinusExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string UnaryMinusExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitUnaryMinusExpr(this);
 }
 
-[[nodiscard]] std::string UnaryNotExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string UnaryNotExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitUnaryNotExpr(this);
 }
 
-[[nodiscard]] std::string IntExpr::acceptPrintVisitor(PrintVisitor* visitor) {
+[[nodiscard]] std::string IntExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitIntExpr(this);
 }
 
 /* now the accept methods to generate the bytecode */
-void BinaryExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void BinaryExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitBinaryExpr(this);
 }
 
-void AddExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void AddExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitAddExpr(this);
 }
 
-void IAddExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void IAddExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitIAddExpr(this);
 }
 
-void SubExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void SubExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitSubExpr(this);
 }
 
-void ISubExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void ISubExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitISubExpr(this);
 }
 
-void MulExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void MulExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitMulExpr(this);
 }
 
-void IMulExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void IMulExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitIMulExpr(this);
 }
 
-void DivExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void DivExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitDivExpr(this);
 }
 
-void IDivExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void IDivExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitIDivExpr(this);
 }
 
-void UnaryExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void UnaryExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitUnaryExpr(this);
 }
 
-void UnaryMinusExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void UnaryMinusExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitUnaryMinusExpr(this);
 }
 
-void UnaryNotExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void UnaryNotExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitUnaryNotExpr(this);
 }
 
-void IntExpr::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
+void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitIntExpr(this);
 }
+} // ESSEMBLY

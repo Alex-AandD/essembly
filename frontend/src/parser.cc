@@ -4,35 +4,40 @@
 #include "frontend/include/printVisitor.hh"
 #include <iostream>
 
+/* USE OF SMART AND RAW POINTERS */
+/* FACTORIES CAN RETURN SMART POINTERS */
+/* THE EXPRESSIONS THAT MAKE UP THE AST WILL BE SMART POINTERS */
+/* VISITORS DO NOT OWN ANYTHING, THEREFORE THEY ONLY GET A RAW POINTER */
+
+namespace Essembly {
+
 Parser::Parser(): 
-    factory(new FactoryExpr()), printVisitor(new PrintVisitor()), t_current(0), l_current(0) { }
-Parser::Parser(std::vector<Token> toks, std::vector<std::string> lexemes): 
-    tokens(toks), lexemes(lexemes), t_current(0), l_current(0), 
-    factory(new FactoryExpr()), printVisitor(new PrintVisitor()), AST(nullptr) { }
-Parser::~Parser() {
-    if (AST) {
-        delete AST;
-        AST = nullptr;
-    }
+    factory(std::make_unique<FactoryExpr>()), 
+    printVisitor(std::make_unique<PrintVisitor>()),
+    AST(nullptr),
+    t_current(0),
+    l_current(0)
+    { }
 
-    if (factory) {
-        delete factory;
-    }
 
-    if (printVisitor) {
-        delete printVisitor;
-        printVisitor = nullptr;
-    }
-}
+Parser::Parser(std::vector<u_ptrToken> toks, std::vector<std::string> lexemes): 
+    tokens(std::move(toks)), 
+    lexemes(lexemes), 
+    factory(std::make_unique<FactoryExpr>()),
+    printVisitor(std::make_unique<PrintVisitor>()),
+    AST(nullptr),
+    t_current(0), 
+    l_current(0)
+    { }
 
 void Parser::printAST() const {
     if (AST) {
-        std::cout << AST -> acceptPrintVisitor(printVisitor) << '\n';
+        std::cout << AST -> acceptPrintVisitor(printVisitor.get()) << '\n';
     }
 }
 
-[[nodiscard]] Expr* Parser::makeBinaryExpr(TEXPR exprType, Token _op, Expr* l, Expr* r) noexcept {
-    switch(_op.type) {
+[[nodiscard]] u_ptrExpr Parser::makeBinaryExpr(TEXPR exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) noexcept {
+    switch(_op->type) {
         case TT::PLUS:  return factory->makeAdd(exprType, _op, l, r);
         case TT::MINUS: return factory->makeSub(exprType, _op, l, r);
         case TT::TIMES: return factory->makeMul(exprType, _op, l, r);
@@ -41,54 +46,55 @@ void Parser::printAST() const {
     }
 }
 
-[[nodiscard]] Expr* Parser::makeUnaryExpr(Token _op, Expr* r) noexcept {
+[[nodiscard]] u_ptrExpr Parser::makeUnaryExpr(u_ptrToken& _op, u_ptrExpr& r) noexcept {
     return factory->makeUnary(_op, r);
 }
 
-[[nodiscard]] Expr* Parser::parse() {
+[[nodiscard]] u_ptrExpr Parser::parse() {
     AST = expr(TEXPR::INT);
-    return AST;
+    return std::move(AST);
 }
 
-[[nodiscard]] Expr* Parser::expr(TEXPR exprType) {
+[[nodiscard]] u_ptrExpr Parser::expr(TEXPR exprType) {
     return term(exprType);
 }
 
-[[nodiscard]] Expr* Parser::term(TEXPR exprType) {
-    Expr* lhs = factor(exprType);
+[[nodiscard]] u_ptrExpr Parser::term(TEXPR exprType) {
+    u_ptrExpr lhs = factor(exprType);
     while (matchCurrent(TT::PLUS, TT::MINUS)) {
-        Token op = previousToken();
-        Expr* rhs = factor(exprType);
+        u_ptrToken op = previousToken();
+        u_ptrExpr rhs = factor(exprType);
         lhs = makeBinaryExpr(exprType, op, lhs, rhs);
     }
     return lhs;
 }
-[[nodiscard]] Expr* Parser::factor(TEXPR exprType) {
-    Expr* lhs = unary();
+[[nodiscard]] u_ptrExpr Parser::factor(TEXPR exprType) {
+    u_ptrExpr lhs = unary();
     while (matchCurrent(TT::TIMES, TT::SLASH)) {
-        Token op = previousToken();
-        Expr* rhs = unary();
+        u_ptrToken op = previousToken();
+        u_ptrExpr rhs = unary();
         lhs = makeBinaryExpr(exprType, op, lhs, rhs);
     }
     return lhs;
 }
 
-[[nodiscard]] Expr* Parser::unary() {
+[[nodiscard]] u_ptrExpr Parser::unary() {
     while(matchCurrent(TT::NOT, TT::MINUS)) {
-        Token op = previousToken();
-        Expr* rhs = unary();
+        u_ptrToken op = previousToken();
+        u_ptrExpr rhs = unary();
         return makeUnaryExpr(op, rhs);
     }
     return primary();
 }
 
-[[nodiscard]] Expr* Parser::makeIntExpr() noexcept {
-    Expr* expr = factory->makeInt(currentLexeme());
+[[nodiscard]] u_ptrExpr Parser::makeIntExpr() noexcept {
+    u_ptrExpr expr = factory->makeInt(currentLexeme());
     advanceLexeme();
     return expr;
 }
 
-[[nodiscard]] Expr* Parser::primary() {
+[[nodiscard]] u_ptrExpr Parser::primary() {
     if (matchCurrent(TT::INT_LITERAL)) return makeIntExpr();
     else { throw "unknown expression type"; }
+}
 }

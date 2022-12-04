@@ -3,6 +3,7 @@ project(essembly)
 
 set (CMAKE_CXX_STANDARD 17)
 
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -15,5 +16,4 @@ FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(frontend)
 add_subdirectory(backend)
-add_subdirectory(tests)
 add_subdirectory(app)

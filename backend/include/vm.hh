@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <unordered_map>
 
+namespace Essembly {
 class Vm {
 private:
     size_t ip;  /* instruction pointer pointing at the next instruction */
@@ -49,3 +50,4 @@ public:
     }
     [[nodiscard]] inline const bool atEnd() { return ip >= numInstructions; }
 };
+}

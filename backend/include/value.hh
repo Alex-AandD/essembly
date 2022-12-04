@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+namespace Essembly {
 class Value {
 public:
     Value();
@@ -14,3 +15,4 @@ public:
     IntValue(int _value);
     ~IntValue() override;
 };
+}

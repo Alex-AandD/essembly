@@ -1,4 +1,7 @@
 #pragma once
+
+namespace Essembly {
+
 enum class TEXPR {
     BYTE,
     SHORT,
@@ -6,3 +9,5 @@ enum class TEXPR {
     FLOAT,
     DOUBLE,
 };
+
+} // Essembly

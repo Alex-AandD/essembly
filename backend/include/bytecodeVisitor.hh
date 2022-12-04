@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 
+
+namespace Essembly {
+
 class BinaryExpr;
 class IntExpr;
 class UnaryExpr;
@@ -16,13 +19,13 @@ class IMulExpr;
 class UnaryNotExpr;
 class UnaryMinusExpr;
 
-
 /* this visitor is going to generate raw and unoptimized bytecode */
 class BytecodeVisitor {
+public:
     /* this is going to be the instruction vector placed inside of the generator */
     std::vector<Instruction*> instructions;
 public:
-    BytecodeVisitor(std::vector<Instruction*>& instr);
+    BytecodeVisitor();
     ~BytecodeVisitor();
 private:
     /* these are going to be some helpers to create bytecode */
@@ -48,3 +51,4 @@ public:
     /* primary expresssions */
     void visitIntExpr(IntExpr* expr);
 }; 
+}
