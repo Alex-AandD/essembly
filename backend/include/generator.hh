@@ -36,5 +36,6 @@ public:
     void generateBytecode();
     [[nodiscard]] inline std::vector<Instruction*> getInstructions() const noexcept  { return instructions; }
     void disassemble() const noexcept;
+    void disassemble(std::string filename) const noexcept;
 };
 }

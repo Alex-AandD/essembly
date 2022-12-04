@@ -1,0 +1,7 @@
+0     IPUSH   5
+1     IPUSH   2
+2     IPUSH   90
+3     IMUL
+4     IPUSH   21
+5     IMUL
+6     IADD

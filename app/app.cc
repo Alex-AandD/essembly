@@ -15,5 +15,5 @@ int main(int argc, char const *argv[])
     auto AST = std::move(parser.parse());
     Generator generator = Generator(AST);
     generator.generateBytecode();
-    generator.disassemble();
+    generator.disassemble("random_testing_file");
 }

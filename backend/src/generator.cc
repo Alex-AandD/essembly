@@ -4,6 +4,7 @@
 #include "backend/include/instruction.hh"
 #include "backend/include/disassembleVisitor.hh"
 #include <iostream>
+#include <fstream>
 
 
 namespace Essembly {
@@ -40,6 +41,19 @@ void Generator::disassemble() const noexcept {
         std::string stringInstruction = instruction->acceptDisassembler(disassembleVisitor.get());
         std::cout << std::hex << i << "     " <<
         stringInstruction << '\n';
+    }
+}
+
+void Generator::disassemble(std::string filename) const noexcept {
+    size_t len = instructions.size();
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        for (size_t i = 0; i < len; i++) {
+            auto instruction = instructions[i];
+            std::string stringInstruction = instruction->acceptDisassembler(disassembleVisitor.get());
+            file << std::hex << i << "     " <<
+            stringInstruction << '\n';
+        }
     }
 }
 }
