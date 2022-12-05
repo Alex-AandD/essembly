@@ -158,14 +158,15 @@ public:
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
-class UnaryNoTEXPRr: public UnaryExpr {
+class UnaryNotExpr: public UnaryExpr {
 public:
-    UnaryNoTEXPRr(u_ptrToken&, u_ptrExpr& );
-    ~UnaryNoTEXPRr() override;
+    UnaryNotExpr(u_ptrToken&, u_ptrExpr& );
+    ~UnaryNotExpr() override;
+public:
+    [[nodiscard]] TEXPR getType() const noexcept override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
     [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
-    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 

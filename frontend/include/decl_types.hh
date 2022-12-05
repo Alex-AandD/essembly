@@ -9,7 +9,6 @@ enum class DECL {
     FLOAT,
     BOOL,
     DOUBLE,
-    BOOL,
     FUN,
     METHOD,
     CLASS,

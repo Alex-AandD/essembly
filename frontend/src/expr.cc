@@ -36,21 +36,21 @@ IMulExpr::~IMulExpr() { }
 IDivExpr::~IDivExpr() { }
 
 UnaryExpr::UnaryExpr(u_ptrToken& _op, u_ptrExpr&  e): op(std::move(_op)), expr(std::move(e)) { }
-UnaryNoTEXPR::UnaryNoTEXPR(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
+UnaryNotExpr::UnaryNotExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
 UnaryMinusExpr::UnaryMinusExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
 
 UnaryExpr::~UnaryExpr() { }
-UnaryNoTEXPR::~UnaryNoTEXPR() { }
+UnaryNotExpr::~UnaryNotExpr() { }
 UnaryMinusExpr::~UnaryMinusExpr() { }
 
-InTEXPR::InTEXPR(int val): value(val) { }
-InTEXPR::~InTEXPR() { }
+IntExpr::IntExpr(int val): value(val) { }
+IntExpr::~IntExpr() { }
 
 
 /* getType implementations */
-[[nodiscard]] TEXPR BinaryExpr::getType() const noexcept override { return TEXPR::BINARY; }
+[[nodiscard]] TEXPR BinaryExpr::getType() const noexcept { return TEXPR::BINARY; }
 
-[[nodiscard]] TEXPR AddExpr::getType() const noexcept override{ return TEXPR::ADD; }
+[[nodiscard]] TEXPR AddExpr::getType() const noexcept { return TEXPR::ADD; }
 [[nodiscard]] TEXPR SubExpr::getType() const noexcept { return TEXPR::SUB; }
 [[nodiscard]] TEXPR DivExpr::getType() const noexcept { return TEXPR::DIV; }
 [[nodiscard]] TEXPR MulExpr::getType() const noexcept { return TEXPR::MUL; }
@@ -62,9 +62,9 @@ InTEXPR::~InTEXPR() { }
 
 [[nodiscard]] TEXPR UnaryExpr::getType() const noexcept { return TEXPR::UNARY; }
 [[nodiscard]] TEXPR UnaryMinusExpr::getType() const noexcept { return TEXPR::UNARY_MINUS; }
-[[nodiscard]] TEXPR UnaryNoTEXPR::getType() const noexcept { return TEXPR::UNARY_NOT; }
+[[nodiscard]] TEXPR UnaryNotExpr::getType() const noexcept { return TEXPR::UNARY_NOT; }
 
-[[nodiscard]] TEXPR InTEXPR::getType() const noexcept { return TEXPR::INT; }
+[[nodiscard]] TEXPR IntExpr::getType() const noexcept { return TEXPR::INT; }
 
 /* now the accept methods to print the expression */
 [[nodiscard]] std::string BinaryExpr::acceptPrintVisitor(ptrPVisitor visitor) {
@@ -110,12 +110,12 @@ InTEXPR::~InTEXPR() { }
     return visitor->visitUnaryMinusExpr(this);
 }
 
-[[nodiscard]] std::string UnaryNoTEXPR::acceptPrintVisitor(ptrPVisitor visitor) {
-    return visitor->visitUnaryNoTEXPR(this);
+[[nodiscard]] std::string UnaryNotExpr::acceptPrintVisitor(ptrPVisitor visitor) {
+    return visitor->visitUnaryNotExpr(this);
 }
 
-[[nodiscard]] std::string InTEXPR::acceptPrintVisitor(ptrPVisitor visitor) {
-    return visitor->visitInTEXPR(this);
+[[nodiscard]] std::string IntExpr::acceptPrintVisitor(ptrPVisitor visitor) {
+    return visitor->visitIntExpr(this);
 }
 
 /* now the accept methods to generate the bytecode */
@@ -163,19 +163,62 @@ void UnaryMinusExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitUnaryMinusExpr(this);
 }
 
-void UnaryNoTEXPR::acceptBytecodeVisitor(ptrBVisitor visitor) {
-    return visitor->visitUnaryNoTEXPR(this);
+void UnaryNotExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitUnaryNotExpr(this);
 }
 
-void InTEXPR::acceptBytecodeVisitor(ptrBVisitor visitor) {
-    return visitor->visitInTEXPR(this);
+void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitIntExpr(this);
 }
 
 /* accept methods for typechecking */
+[[nodiscard]] DECL BinaryExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkBinaryExpr(this);
+}
 
+[[nodiscard]] DECL IAddExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkIAddExpr(this);
+}
 
+[[nodiscard]] DECL SubExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkSubExpr(this);
+}
 
+[[nodiscard]] DECL ISubExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkISubExpr(this);
+}
 
+[[nodiscard]] DECL MulExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkMulExpr(this);
+}
+
+[[nodiscard]] DECL IMulExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkIMulExpr(this);
+}
+
+[[nodiscard]] DECL DivExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkDivExpr(this);
+}
+
+[[nodiscard]] DECL IDivExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkIDivExpr(this);
+}
+
+[[nodiscard]] DECL UnaryExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkUnaryExpr(this);
+}
+
+[[nodiscard]] DECL UnaryNotExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkUnaryNotExpr(this);
+}
+
+[[nodiscard]] DECL UnaryMinusExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkUnaryExpr(this);
+}
+
+[[nodiscard]] DECL IntExpr::acceptTypeChecker(TypeChecker* checker) {
+    return checker->checkIntExpr(this);
+}
 
 
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "expr_types.hh"
+#include "decl_types.hh"
 #include <vector>
 
 namespace Essembly {
@@ -13,8 +13,11 @@ class IAddExpr;
 class ISubExpr;
 class IMulExpr;
 class IDivExpr;
-class InDECL;
+class IntExpr;
 class BinaryExpr;
+class UnaryExpr;
+class UnaryNotExpr;
+class UnaryMinusExpr;
 
 /* the typechecker is not going to return anything */
 /* it is just going to emit errors */
@@ -27,20 +30,25 @@ class BinaryExpr;
 
 class TypeChecker {
 private:
-    DECL binaryHelper(BinaryExpr*);
 public:
+    [[nodiscard]] DECL checkBinaryExpr(BinaryExpr*);
+
     /* dynamic checking */
-    DECL checkAddExpr(AddExpr*);
-    DECL checkSubExpr(SubExpr*);
-    DECL checkMulExpr(SubExpr*);
-    DECL checkDivExpr(SubExpr*);
+    [[nodiscard]] DECL checkAddExpr(AddExpr*);
+    [[nodiscard]] DECL checkSubExpr(SubExpr*);
+    [[nodiscard]] DECL checkMulExpr(MulExpr*);
+    [[nodiscard]] DECL checkDivExpr(DivExpr*);
 
-    DECL checkIAddExpr(IAddExpr*);
-    DECL checkISubExpr(ISubExpr*);
-    DECL checkIMulExpr(IMulExpr*);
-    DECL checkIDivExpr(IDivExpr*);
+    [[nodiscard]] DECL checkIAddExpr(IAddExpr*);
+    [[nodiscard]] DECL checkISubExpr(ISubExpr*);
+    [[nodiscard]] DECL checkIMulExpr(IMulExpr*);
+    [[nodiscard]] DECL checkIDivExpr(IDivExpr*);
 
-    DECL checkInt(InDECL*); /* for now this is going to be our base case*/
+    [[nodiscard]] DECL checkUnaryExpr(UnaryExpr*);
+    [[nodiscard]] DECL checkUnaryNotExpr(UnaryNotExpr*);
+    [[nodiscard]] DECL checkUnaryMinusExpr(UnaryMinusExpr*);
+
+    [[nodiscard]] DECL checkIntExpr(IntExpr*); /* for now this is going to be our base case*/
 };
 
 } // ESSEMBLY

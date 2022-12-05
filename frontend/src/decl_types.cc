@@ -11,7 +11,7 @@ std::string DECLtoString(DECL declType) {
     case DECL::BOOL: return "BOOL_DECL";
     case DECL::FLOAT: return "FLOAT_DECL";
     case DECL::METHOD: return "METHOD_DECL";
-    case DECL::CLASS: return "_DECL";
+    case DECL::CLASS: return "CLASS_DECL";
     default: return "UNKNOWN TYPE, GO IMPLEMENT IT";
     }
     return nullptr;
