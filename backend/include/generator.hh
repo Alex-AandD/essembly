@@ -35,6 +35,7 @@ public:
     /* here we will call the visit method for every statement */
     void generateBytecode();
     [[nodiscard]] inline std::vector<Instruction*> getInstructions() const noexcept  { return instructions; }
+    // TODO: #12 do not repeat code in disassemble functions. create some base function that get's called @Alex-AandD
     void disassemble() const noexcept;
     void disassemble(std::string filename) const noexcept;
 };

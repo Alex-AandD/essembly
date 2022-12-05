@@ -1,12 +1,14 @@
 #pragma once
 #include "token.hh"
 #include "expr_types.hh"
+#include "decl_types.hh"
+#include "printVisitor.hh"
+#include "FactoryExpr.hh"
+
 #include <vector>
 #include <string>
 #include <ctype.h>
 #include <memory>
-#include "printVisitor.hh"
-#include "FactoryExpr.hh"
 
 namespace Essembly {
 

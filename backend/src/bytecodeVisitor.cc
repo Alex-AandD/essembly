@@ -2,6 +2,14 @@
 #include "backend/include/instruction.hh"
 #include "frontend/include/expr.hh"
 
+/* THE MAIN PROBLEM THAT I AM FACING */
+/*
+    Sometimes an instruction should not get executed and instead an error should be returned
+    We need a way to 
+
+*/
+
+
 namespace Essembly
 {
     
@@ -68,11 +76,13 @@ void BytecodeVisitor::visitIDivExpr(IDivExpr* expr) {
 }
 
 void BytecodeVisitor::visitUnaryExpr(UnaryExpr* expr) {
-
 }
 
 void BytecodeVisitor::visitUnaryNotExpr(UnaryNotExpr* expr) {
-
+    /* first we need to check for compatibility */
+    /* can we not every value? */
+    /* I do not think that having truthy or falsy values is a good idea */
+    /* so I will enforce that the type of the expression must be bool */
 }
 
 void BytecodeVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) {

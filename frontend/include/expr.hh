@@ -1,15 +1,21 @@
 #pragma once
 #include "token.hh"
+#include "expr_types.hh"
+#include "decl_types.hh"
 #include <string>
 #include <vector>
 #include <memory>
 
+/* each expression manages memory using a unique pointer */
+/* this means that copying an expression would result into an error. Expressions can only be movable */
+/* therefore copy constructor and assignment are deleted */
 
 namespace Essembly {
 
     class BytecodeVisitor;
     class PrintVisitor;
     class Expr;
+    class TypeChecker;
 
     using ptrPVisitor = PrintVisitor*;
     using ptrBVisitor = BytecodeVisitor*;
@@ -22,10 +28,17 @@ class Expr {
 public:
     Expr();
     virtual ~Expr();
+    Expr(const Expr&) = delete;
+    Expr& operator=(const Expr&) = delete;
+public: // helper virtual methods
+    [[nodiscard]] virtual TEXPR getType() const noexcept = 0;
 public:
+    /* visitors */
     [[nodiscard]] virtual std::string acceptPrintVisitor(ptrPVisitor) = 0;
-    virtual void acceptBytecodeVisitor(ptrBVisitor) = 0;
-};
+    [[nodiscard]] virtual DECL acceptTypeChecker(TypeChecker*) = 0;
+    virtual void acceptBytecodeVisitor(ptrBVisitor  visitor) = 0;
+   };
+
 
 class BinaryExpr: public Expr {
 public:
@@ -36,8 +49,11 @@ public:
     BinaryExpr(u_ptrToken& op, u_ptrExpr& lhs, u_ptrExpr& rhs);
     virtual ~BinaryExpr();
 public:
+    [[nodiscard]] TEXPR getType() const noexcept override;
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor visitor) override;
-    void acceptBytecodeVisitor(ptrBVisitor  visitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    void acceptBytecodeVisitor(ptrBVisitor visitor) override;
+
 };
 
 class AddExpr: public BinaryExpr {
@@ -46,6 +62,8 @@ public:
     ~AddExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -55,6 +73,8 @@ public:
     ~IAddExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -64,6 +84,8 @@ public:
     ~SubExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -73,6 +95,8 @@ public:
     ~ISubExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor  visitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -82,6 +106,8 @@ public:
     ~MulExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -91,7 +117,9 @@ public:
     ~IMulExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
 };
 
 class DivExpr: public BinaryExpr {
@@ -100,6 +128,8 @@ public:
     ~DivExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -109,6 +139,8 @@ public:
     ~IDivExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -121,15 +153,19 @@ public:
     ~UnaryExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor visitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
-class UnaryNotExpr: public UnaryExpr {
+class UnaryNoTEXPRr: public UnaryExpr {
 public:
-    UnaryNotExpr(u_ptrToken&, u_ptrExpr& );
-    ~UnaryNotExpr() override;
+    UnaryNoTEXPRr(u_ptrToken&, u_ptrExpr& );
+    ~UnaryNoTEXPRr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -139,6 +175,8 @@ public:
     ~UnaryMinusExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -150,6 +188,7 @@ public:
     ~IntExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 } // Essembly
