@@ -3,14 +3,23 @@
 
 namespace Essembly {
 
-[[nodiscard]] DECL TypeChecker::checkBinaryExpr(BinaryExpr* expr) {
-    // get left and right expressions
-    Expr* lhs  = (expr->lhs).get(); /* get the raw pointer */
-    Expr* rhs =  (expr ->rhs).get(); /* get the raw pointer*/
+[[nodiscard]] static DECL getType(TypeChecker* checker, Expr* expr) {
+    return expr->acceptTypeChecker(checker); 
+}
+
+[[nodiscard]] DECL TypeChecker::IExprHelper(BinaryExpr* expr) {
 
     // call recursively the check method
-    DECL lhsType = lhs->acceptTypeChecker(this);
-    DECL rhsType = rhs->acceptTypeChecker(this);
+    DECL rhsType = getType(this, expr->rhs.get());
+    DECL lhsType = getType(this, expr->lhs.get());
+    
+    // TODO: #15 find a clever way to check the types @Alex-AandD
+
+}
+
+
+[[nodiscard]] DECL TypeChecker::checkBinaryExpr(BinaryExpr* expr) {
+    // get left and right expressions
     
     // TODO: #14 add compare function @Alex-AandD
 }

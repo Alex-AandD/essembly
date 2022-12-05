@@ -190,6 +190,7 @@ public:
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 } // Essembly

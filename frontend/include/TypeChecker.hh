@@ -30,6 +30,7 @@ class UnaryMinusExpr;
 
 class TypeChecker {
 private:
+    [[nodiscard]] DECL IExprHelper(BinaryExpr*);
 public:
     [[nodiscard]] DECL checkBinaryExpr(BinaryExpr*);
 

@@ -224,5 +224,4 @@ void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
 
 
 
-
 } // ESSEMBLY
