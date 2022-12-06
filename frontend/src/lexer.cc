@@ -40,7 +40,7 @@ void Lexer::pushString() {
         throw "missing closing quote at some line, IMPLEMENT EXCEPTIONS!!!";
     }
     /* given string "hello" start = '"' so when we substring we do start + 1 to current - start */
-    pushToken(TT::STR_LITERAL);
+    pushToken(TT::STRING_LITERAL);
     pushLexeme(input.substr(start+1, current-start));
 }
 

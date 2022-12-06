@@ -61,6 +61,63 @@ namespace Essembly {
     return DECL::INT;
 }
 
+[[nodiscard]] DECL TypeCheckerVisitor::SExprHelper(BinaryExpr* expr) {
+
+    // call recursively the check method
+    DECL rhsType = getType(this, expr->rhs.get());
+    DECL lhsType = getType(this, expr->lhs.get());
+    
+    // TODO: #15 find a clever way to check the types @Alex-AandD
+    // for now just a switch statement. Something better at a later point
+    if (!compatible_with_short(rhsType)) {
+        assert("type error not implemented yet for rhs");
+    }
+
+    if (!compatible_with_short(lhsType)) {
+        assert("type error not implemented yet for lhs");
+    }
+    /* if the types are good then just return */
+    return DECL::SHORT;
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::FExprHelper(BinaryExpr* expr) {
+
+    // call recursively the check method
+    DECL rhsType = getType(this, expr->rhs.get());
+    DECL lhsType = getType(this, expr->lhs.get());
+    
+    // TODO: #15 find a clever way to check the types @Alex-AandD
+    // for now just a switch statement. Something better at a later point
+    if (!compatible_with_float(rhsType)) {
+        assert("type error not implemented yet for rhs");
+    }
+
+    if (!compatible_with_float(lhsType)) {
+        assert("type error not implemented yet for lhs");
+    }
+    /* if the types are good then just return */
+    return DECL::FLOAT;
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::DxprHelper(BinaryExpr* expr) {
+
+    // call recursively the check method
+    DECL rhsType = getType(this, expr->rhs.get());
+    DECL lhsType = getType(this, expr->lhs.get());
+    
+    // TODO: #15 find a clever way to check the types @Alex-AandD
+    // for now just a switch statement. Something better at a later point
+    if (!compatible_with_double(rhsType)) {
+        assert("type error not implemented yet for rhs");
+    }
+
+    if (!compatible_with_double(lhsType)) {
+        assert("type error not implemented yet for lhs");
+    }
+    /* if the types are good then just return */
+    return DECL::DOUBLE;
+}
+
 [[nodiscard]] DECL getBiggestType(DECL first, DECL second) {
     if (first > second) return first;
     return second;
@@ -121,6 +178,28 @@ namespace Essembly {
     return DECL::INT;
 }
 
+[[nodiscard]] DECL TypeCheckerVisitor::checkStringExpr(StringExpr* expr) {
+    return DECL::STRING;
+}
 
+[[nodiscard]] DECL TypeCheckerVisitor::checkFloatExpr(FloatExpr* expr) {
+    return DECL::FLOAT;
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkDoubleExpr(DoubleExpr* expr) {
+    return DECL::DOUBLE;
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkShortExpr(ShortExpr* expr) {
+    return DECL::SHORT;
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkBoolExpr(BoolExpr* expr) {
+    return DECL::BOOL;
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkIdExpr(IdExpr* expr) {
+    return expr->type;
+}
 
 } // ESSEMBLY

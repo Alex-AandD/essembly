@@ -56,6 +56,7 @@ void Parser::printAST() const {
     return std::move(AST);
 }
 
+
 [[nodiscard]] u_ptrExpr Parser::expr(DECL exprType) {
     return term(exprType);
 }
@@ -81,13 +82,13 @@ void Parser::printAST() const {
     return lhs;
 }
 
-[[nodiscard]] u_ptrExpr Parser::unary() {
+[[nodiscard]] u_ptrExpr Parser::unary(DECL exprType) {
     while(matchCurrent(TT::NOT, TT::MINUS)) {
         u_ptrToken op = previousToken();
-        u_ptrExpr rhs = unary();
+        u_ptrExpr rhs = unary(exprType);
         return makeUnaryExpr(op, rhs);
     }
-    return primary();
+    return primary(exprType);
 }
 
 [[nodiscard]] u_ptrExpr Parser::makeIntExpr() noexcept {
@@ -96,9 +97,13 @@ void Parser::printAST() const {
     return expr;
 }
 
-[[nodiscard]] u_ptrExpr Parser::primary() {
+[[nodiscard]] u_ptrExpr Parser::primary(DECL exprType) {
     if (matchCurrent(TT::INT_LITERAL)) return makeIntExpr();
-    if (matchCurrent(TT::ID)) return ;
+    if (matchCurrent(TT::FLOAT_LITERAL)) return makeFloatExpr();
+    if (matchCurrent(TT::DOUBLE_LITERAL)) return makeDoubleExpr();
+    if (matchCurrent(TT::STRING_LITERAL)) return makeStringExpr();
+    /* add make idExpr to factory function */
+    if (matchCurrent(TT::ID)) return makeIdExpr();
     else { throw "unknown expression type"; }
 }
 

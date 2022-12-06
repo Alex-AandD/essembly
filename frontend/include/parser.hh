@@ -10,12 +10,20 @@
 #include <ctype.h>
 #include <memory>
 
-/* building up declarations */
-/* int | float | string | double | byte | short */
+/* IMPORTANT */
+/* change the parser */
+/* from having an AST that is just an expression */
+/* now needs to be a vector of declarations */
+/* implement also block statements */
+/* implement declarations inside the visitor methods */
+
+
+
 
 namespace Essembly {
 
 class Expr;
+class Declaration;
 class FactoryDeclaration;
 class PrintVisitor;
 

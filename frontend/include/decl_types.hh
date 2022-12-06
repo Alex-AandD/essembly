@@ -8,11 +8,12 @@ enum class DECL {
     BOOL    =    2,
     SHORT   =    3,
     FUN     =    4,
-    INT     =    7, 
-    FLOAT   =   15,
-    DOUBLE  =   31,
     METHOD  =    5,
     CLASS   =    6,
+    INT     =    7, 
+    STRING  =    8,    
+    FLOAT   =   15,
+    DOUBLE  =   31,
 };
 
 std::string DECLtoString(DECL);

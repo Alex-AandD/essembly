@@ -9,6 +9,7 @@ class Instruction;
 class BinaryExpr;
 class IntExpr;
 class UnaryExpr;
+
 class AddExpr;
 class SubExpr;
 class DivExpr;
@@ -18,14 +19,17 @@ class IAddExpr;
 class ISubExpr;
 class IDivExpr;
 class IMulExpr;
+
 class SAddExpr;
 class SSubExpr;
 class SDivExpr;
 class SMulExpr;
+
 class FAddExpr;
 class FSubExpr;
-class FDivExpr;
 class FMulExpr;
+class FDivExpr;
+
 class DAddExpr;
 class DSubExpr;
 class DDivExpr;
@@ -78,9 +82,10 @@ public:
     /* primary expresssions */
     void visitIntExpr(IntExpr* expr);
     void visitDoubleExpr(DoubleExpr* expr);
-    void visitBoolExpr(BoolExpr* expr);
-    void visitStringExpr(StringExpr* expr);
     void visitFloatExpr(FloatExpr* expr);
+    void visitShortExpr(FloatExpr* expr);
     void visitIdExpr(IdExpr* expr);
+    void visitStringExpr(StringExpr* expr);
+    void visitBoolExpr(BoolExpr* expr);
 }; 
 }

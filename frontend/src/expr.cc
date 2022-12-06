@@ -49,7 +49,7 @@ IntExpr::IntExpr(u_ptrToken& tok, int val): PrimaryExpr(tok), value(val) { }
 FloatExpr::FloatExpr(u_ptrToken& tok, float val): PrimaryExpr(tok), value(val) { }
 DoubleExpr::DoubleExpr(u_ptrToken& tok, double val): PrimaryExpr(tok), value(val) { }
 BoolExpr::BoolExpr(u_ptrToken& tok, bool val): PrimaryExpr(tok), value(val) { }
-IdExpr::IdExpr(u_ptrToken& tok, const std::string& val): PrimaryExpr(tok), name(val) { }
+IdExpr::IdExpr(u_ptrToken& tok, const std::string& val, DECL _type): PrimaryExpr(tok), name(val), type(_type) { }
 StringExpr::StringExpr(u_ptrToken& tok, const std::string& val): PrimaryExpr(tok), value(val) { }
 
 /* destructors*/
@@ -217,9 +217,26 @@ void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitIntExpr(this);
 }
 
-[[nodiscard]] std::string IdExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
-    return visitor -> visitIdExpr(this);
+void IdExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitIdExpr(this);
 }
+
+void StringExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitStringExpr(this);
+}
+
+void FloatExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitFloatExpr(this);
+}
+
+void ShortExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitShortExpr(this);
+}
+
+void BoolExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor->visitBoolExpr(this);
+}
+
 
 /* accept methods for typechecking */
 [[nodiscard]] DECL BinaryExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {

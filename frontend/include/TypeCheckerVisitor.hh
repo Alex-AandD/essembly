@@ -50,6 +50,9 @@ class UnaryMinusExpr;
 class TypeCheckerVisitor {
 private:
     [[nodiscard]] DECL IExprHelper(BinaryExpr*);
+    [[nodiscard]] DECL SExprHelper(BinaryExpr*);
+    [[nodiscard]] DECL FExprHelper(BinaryExpr*);
+    [[nodiscard]] DECL DExprHelper(BinaryExpr*);
 public:
     [[nodiscard]] DECL checkBinaryExpr(BinaryExpr*);
 

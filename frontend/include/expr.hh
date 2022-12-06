@@ -408,8 +408,9 @@ public:
 class IdExpr: public PrimaryExpr {
 public:
     std::string name;
+    DECL type;
 public:
-    IdExpr(u_ptrToken&, const std::string&);
+    IdExpr(u_ptrToken&, const std::string&, DECL);
     ~IdExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
