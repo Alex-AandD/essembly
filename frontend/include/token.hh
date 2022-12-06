@@ -4,28 +4,18 @@
 
 namespace Essembly {
 enum class TT {
-    PLUS,
-    MINUS,
-    TIMES,
-    SLASH,
-    NOT,
-    NEQ,
-    INT_TYPE,
-    INT_LITERAL,
-    FLOAT_TYPE,
-    FLOAT_LITERAL,
-    STR_TYPE,
-    STR_LITERAL,
+    PLUS, MINUS, TIMES, SLASH,
+    NOT, NEQ, EQE, EQ,
+    INT_TYPE, INT_LITERAL,
+    FLOAT_TYPE, FLOAT_LITERAL,
+    STR_TYPE, STR_LITERAL,
     ID,
-    TAB,
-    LF,
+    TAB, LF,
     SEMICOLON,
-    IF,
-    WHILE,
-    FOR,
+    IF, ELIF,
+    WHILE, FOR,
     FUN,
-    BOOL_LITERAL,
-    BOOL_TYPE
+    BOOL_LITERAL, BOOL_TYPE
 };
 
 struct Token {
@@ -40,5 +30,4 @@ public:
 
 /* print the lexeme of the token */
 std::string TokentoString(Token* token);
-
 }

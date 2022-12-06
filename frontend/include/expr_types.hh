@@ -26,6 +26,7 @@ enum class TEXPR {
     DYNAMIC,
     PRIMARY,
     BINARY
+    ID
 };
 
 std::string TEXPRtoString(TEXPR);

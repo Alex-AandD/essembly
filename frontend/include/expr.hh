@@ -78,6 +78,39 @@ public:
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
+class FAddExpr: public AddExpr { 
+public:
+    FAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~FAddExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class DAddExpr: public AddExpr { 
+public:
+    DAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DAddExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class SAddExpr: public AddExpr { 
+public:
+    SAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~SAddExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
 class SubExpr: public BinaryExpr {
 public:
     SubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
@@ -89,12 +122,46 @@ public:
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
+/* sub expressions */
 class ISubExpr: public SubExpr { 
 public:
     ISubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~ISubExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor  visitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class FSubExpr: public SubExpr { 
+public:
+    FSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~FSubExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class DSubExpr: public SubExpr { 
+public:
+    DSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DSubExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class SSubExpr: public SubExpr { 
+public:
+    SSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~SSubExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
     [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
@@ -122,9 +189,42 @@ public:
     [[nodiscard]] TEXPR getType() const noexcept override;
 };
 
+class FMulExpr: public MulExpr { 
+public:
+    FMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~FMulExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class DMulExpr: public MulExpr { 
+public:
+    DMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DMulExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class SMulExpr: public MulExpr { 
+public:
+    SMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~SMulExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
 class DivExpr: public BinaryExpr {
 public:
-    DivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    DivExpr(u_ptrToken& _op, u_ptrExpr& lhs, u_ptrExpr& rhs);
     ~DivExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
@@ -137,6 +237,39 @@ class IDivExpr: public DivExpr {
 public:
     IDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~IDivExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class FDivExpr: public DivExpr { 
+public:
+    FDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~FDivExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class SDivExpr: public DivExpr { 
+public:
+    SDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~SDivExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class DDivExpr: public DivExpr { 
+public:
+    DDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DDivExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
     [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
@@ -172,7 +305,7 @@ public:
 
 class UnaryMinusExpr: public UnaryExpr {
 public:
-    UnaryMinusExpr(u_ptrToken&, u_ptrExpr& );
+    UnaryMinusExpr(u_ptrToken&, u_ptrExpr&);
     ~UnaryMinusExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
@@ -206,4 +339,84 @@ public:
     [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
+
+class ShortExpr: public PrimaryExpr { 
+public:
+    short value;
+public:
+    ShortExpr(u_ptrToken&, short);
+    ~ShortExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class BoolExpr: public PrimaryExpr { 
+public:
+    bool value;
+public:
+    BoolExpr(u_ptrToken&, bool);
+    ~BoolExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class FloatExpr: public PrimaryExpr { 
+public:
+    bool value;
+public:
+    FloatExpr(u_ptrToken&, float);
+    ~FloatExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class DoubleExpr: public PrimaryExpr { 
+public:
+    double value;
+public:
+    DoubleExpr(u_ptrToken&, double);
+    ~DoubleExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class StringExpr: public PrimaryExpr {
+public:
+    std::string value;
+public:
+    StringExpr(u_ptrToken&, const std::string&);
+    ~StringExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class IdExpr: public PrimaryExpr {
+public:
+    std::string name;
+public:
+    IdExpr(u_ptrToken&, const std::string&);
+    ~IdExpr() override;
+public:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+
 } // Essembly

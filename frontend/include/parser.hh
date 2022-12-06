@@ -3,17 +3,20 @@
 #include "expr_types.hh"
 #include "decl_types.hh"
 #include "printVisitor.hh"
-#include "FactoryExpr.hh"
+#include "FactoryDeclaration.hh"
 
 #include <vector>
 #include <string>
 #include <ctype.h>
 #include <memory>
 
+/* building up declarations */
+/* int | float | string | double | byte | short */
+
 namespace Essembly {
 
 class Expr;
-class FactoryExpr;
+class FactoryDeclaration;
 class PrintVisitor;
 
 using u_ptrToken = std::unique_ptr<Token>;
@@ -23,9 +26,9 @@ class Parser {
 private:
     std::vector<u_ptrToken> tokens;
     std::vector<std::string> lexemes;
-    u_ptrExpr AST;
-    std::unique_ptr<FactoryExpr> factory;
+    std::unique_ptr<FactoryDeclaration> factory;
     std::unique_ptr<PrintVisitor> printVisitor;
+    u_ptrExpr AST;
     size_t t_current; /* index to the current token */
     size_t l_current; /* index to the current lexeme */
 public:
@@ -56,13 +59,14 @@ public:
     [[nodiscard]] u_ptrExpr parse();
     void printAST() const;
 private:
-    [[nodiscard]] u_ptrExpr makeBinaryExpr(TEXPR exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
+    [[nodiscard]] u_ptrExpr makeBinaryExpr(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
     [[nodiscard]] u_ptrExpr makeUnaryExpr(u_ptrToken&, u_ptrExpr&) noexcept;  
     [[nodiscard]] u_ptrExpr makeIntExpr() noexcept;
 
-    [[nodiscard]] u_ptrExpr expr(TEXPR);
-    [[nodiscard]] u_ptrExpr term(TEXPR);
-    [[nodiscard]] u_ptrExpr factor(TEXPR);
+    [[nodiscard]] u_ptrExpr declaration();
+    [[nodiscard]] u_ptrExpr expr(DECL);
+    [[nodiscard]] u_ptrExpr term(DECL);
+    [[nodiscard]] u_ptrExpr factor(DECL);
     [[nodiscard]] u_ptrExpr unary();
     [[nodiscard]] u_ptrExpr primary();
 };

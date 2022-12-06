@@ -4,18 +4,33 @@
 
 namespace Essembly {
 
+class Instruction;
+
 class BinaryExpr;
 class IntExpr;
 class UnaryExpr;
-class Instruction;
 class AddExpr;
 class SubExpr;
 class DivExpr;
 class MulExpr;
+
 class IAddExpr;
 class ISubExpr;
 class IDivExpr;
 class IMulExpr;
+class SAddExpr;
+class SSubExpr;
+class SDivExpr;
+class SMulExpr;
+class FAddExpr;
+class FSubExpr;
+class FDivExpr;
+class FMulExpr;
+class DAddExpr;
+class DSubExpr;
+class DDivExpr;
+class DMulExpr;
+
 class UnaryNotExpr;
 class UnaryMinusExpr;
 
@@ -42,6 +57,18 @@ public:
     void visitISubExpr(ISubExpr* expr);
     void visitIMulExpr(IMulExpr* expr);
     void visitIDivExpr(IDivExpr* expr);
+    void visitSAddExpr(SAddExpr* expr);
+    void visitSSubExpr(SSubExpr* expr);
+    void visitSMulExpr(SMulExpr* expr);
+    void visitSDivExpr(SDivExpr* expr);
+    void visitFAddExpr(FAddExpr* expr);
+    void visitFSubExpr(FSubExpr* expr);
+    void visitFMulExpr(FMulExpr* expr);
+    void visitFDivExpr(FDivExpr* expr);
+    void visitDAddExpr(DAddExpr* expr);
+    void visitDSubExpr(DSubExpr* expr);
+    void visitDMulExpr(DMulExpr* expr);
+    void visitDDivExpr(DDivExpr* expr);
 
     /* unary expressions*/
     void visitUnaryExpr(UnaryExpr* expr);
@@ -50,5 +77,10 @@ public:
 
     /* primary expresssions */
     void visitIntExpr(IntExpr* expr);
+    void visitDoubleExpr(DoubleExpr* expr);
+    void visitBoolExpr(BoolExpr* expr);
+    void visitStringExpr(StringExpr* expr);
+    void visitFloatExpr(FloatExpr* expr);
+    void visitIdExpr(IdExpr* expr);
 }; 
 }

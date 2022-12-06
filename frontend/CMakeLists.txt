@@ -4,7 +4,7 @@ add_library(frontendlib
     src/printVisitor.cc 
     src/token.cc
     src/parser.cc
-    src/FactoryExpr.cc
+    src/FactoryDeclaration.cc
 )
 
 target_include_directories(frontendlib PUBLIC

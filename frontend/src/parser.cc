@@ -1,6 +1,6 @@
 #include "frontend/include/parser.hh"
 #include "frontend/include/token.hh"
-#include "frontend/include/FactoryExpr.hh"
+#include "frontend/include/FactoryDeclaration.hh"
 #include "frontend/include/printVisitor.hh"
 #include <iostream>
 
@@ -12,7 +12,7 @@
 namespace Essembly {
 
 Parser::Parser(): 
-    factory(std::make_unique<FactoryExpr>()), 
+    factory(std::make_unique<FactoryDeclaration>()), 
     printVisitor(std::make_unique<PrintVisitor>()),
     AST(nullptr),
     t_current(0),
@@ -23,7 +23,7 @@ Parser::Parser():
 Parser::Parser(std::vector<u_ptrToken> toks, std::vector<std::string> lexemes): 
     tokens(std::move(toks)), 
     lexemes(lexemes), 
-    factory(std::make_unique<FactoryExpr>()),
+    factory(std::make_unique<FactoryDeclaration>()),
     printVisitor(std::make_unique<PrintVisitor>()),
     AST(nullptr),
     t_current(0), 
@@ -35,6 +35,7 @@ void Parser::printAST() const {
         std::cout << AST -> acceptPrintVisitor(printVisitor.get()) << '\n';
     }
 }
+
 
 [[nodiscard]] u_ptrExpr Parser::makeBinaryExpr(TEXPR exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) noexcept {
     switch(_op->type) {
@@ -51,15 +52,17 @@ void Parser::printAST() const {
 }
 
 [[nodiscard]] u_ptrExpr Parser::parse() {
-    AST = expr(TEXPR::INT);
+    AST = declaration();
     return std::move(AST);
 }
 
-[[nodiscard]] u_ptrExpr Parser::expr(TEXPR exprType) {
+[[nodiscard]] u_ptrExpr Parser::expr(DECL exprType) {
     return term(exprType);
 }
+   
+   
 
-[[nodiscard]] u_ptrExpr Parser::term(TEXPR exprType) {
+[[nodiscard]] u_ptrExpr Parser::term(DECL exprType) {
     u_ptrExpr lhs = factor(exprType);
     while (matchCurrent(TT::PLUS, TT::MINUS)) {
         u_ptrToken op = previousToken();
@@ -68,7 +71,7 @@ void Parser::printAST() const {
     }
     return lhs;
 }
-[[nodiscard]] u_ptrExpr Parser::factor(TEXPR exprType) {
+[[nodiscard]] u_ptrExpr Parser::factor(DECL exprType) {
     u_ptrExpr lhs = unary();
     while (matchCurrent(TT::TIMES, TT::SLASH)) {
         u_ptrToken op = previousToken();
@@ -95,6 +98,8 @@ void Parser::printAST() const {
 
 [[nodiscard]] u_ptrExpr Parser::primary() {
     if (matchCurrent(TT::INT_LITERAL)) return makeIntExpr();
+    if (matchCurrent(TT::ID)) return ;
     else { throw "unknown expression type"; }
 }
-}
+
+} // Essembly

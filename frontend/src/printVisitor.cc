@@ -1,5 +1,6 @@
-#include "../include/printVisitor.hh"
-#include "../include/token.hh"
+#include "frontend/include/printVisitor.hh"
+#include "frontend/include/token.hh"
+#include "frontend/include/expr.hh"
 #include <string>
 
 namespace Essembly {
@@ -42,7 +43,31 @@ std::string PrintVisitor::visitIAddExpr(IAddExpr* expr) {
     return binaryExprHelper(expr, "+");
 }
 
+std::string PrintVisitor::visitSAddExpr(SAddExpr* expr) {
+    return binaryExprHelper(expr, "+");
+}
+
+std::string PrintVisitor::visitFAddExpr(FAddExpr* expr) {
+    return binaryExprHelper(expr, "+");
+}
+
+std::string PrintVisitor::visitDAddExpr(DAddExpr* expr) {
+    return binaryExprHelper(expr, "+");
+}
+
 std::string PrintVisitor::visitISubExpr(ISubExpr* expr) {
+    return binaryExprHelper(expr, "-");
+}
+
+std::string PrintVisitor::visitFSubExpr(FSubExpr* expr) {
+    return binaryExprHelper(expr, "-");
+}
+
+std::string PrintVisitor::visitDSubExpr(DSubExpr* expr) {
+    return binaryExprHelper(expr, "-");
+}
+
+std::string PrintVisitor::visitSSubExpr(SSubExpr* expr) {
     return binaryExprHelper(expr, "-");
 }
 
@@ -50,7 +75,31 @@ std::string PrintVisitor::visitIMulExpr(IMulExpr* expr) {
     return binaryExprHelper(expr, "*");
 }
 
+std::string PrintVisitor::visitFMulExpr(FMulExpr* expr) {
+    return binaryExprHelper(expr, "*");
+}
+
+std::string PrintVisitor::visitDMulExpr(DMulExpr* expr) {
+    return binaryExprHelper(expr, "*");
+}
+
+std::string PrintVisitor::visitSMulExpr(SMulExpr* expr) {
+    return binaryExprHelper(expr, "*");
+}
+
 std::string PrintVisitor::visitIDivExpr(IDivExpr* expr) {
+    return binaryExprHelper(expr, "/");
+}
+
+std::string PrintVisitor::visitFDivExpr(FDivExpr* expr) {
+    return binaryExprHelper(expr, "/");
+}
+
+std::string PrintVisitor::visitDDivExpr(DDivExpr* expr) {
+    return binaryExprHelper(expr, "/");
+}
+
+std::string PrintVisitor::visitSDivExpr(SDivExpr* expr) {
     return binaryExprHelper(expr, "/");
 }
 
@@ -67,9 +116,28 @@ std::string PrintVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) {
     return unaryExprHelper(expr, "-");
 }
 
-
 std::string PrintVisitor::visitIntExpr(IntExpr* expr) {
     return std::to_string(expr->value);
+}
+
+std::string PrintVisitor::visitIdExpr(IdExpr* expr) {
+    return expr->name;
+}
+
+std::string PrintVisitor::visitFloatExpr(FloatExpr* expr) {
+    return std::to_string(expr->value);
+}
+
+std::string PrintVisitor::visitBoolExpr(BoolExpr* expr) {
+    return std::to_string(expr->value);
+}
+
+std::string PrintVisitor::visitDoubleExpr(DoubleExpr* expr) {
+    return std::to_string(expr->value);
+}
+
+std::string PrintVisitor::visitStringExpr(StringExpr* expr) {
+    return expr->value;
 }
 
 } // ESSEMBLY

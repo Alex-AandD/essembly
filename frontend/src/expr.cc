@@ -24,6 +24,19 @@ IAddExpr::IAddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): AddExpr(_op, 
 ISubExpr::ISubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, l, r) { }
 IMulExpr::IMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
 IDivExpr::IDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
+SAddExpr::SAddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): AddExpr(_op, l, r) { }
+SSubExpr::SSubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, l, r) { }
+SMulExpr::SMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
+SDivExpr::SDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
+FAddExpr::FAddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): AddExpr(_op, l, r) { }
+FSubExpr::FSubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, l, r) { }
+FMulExpr::FMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
+FDivExpr::FDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
+DAddExpr::DAddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): AddExpr(_op, l, r) { }
+DSubExpr::DSubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, l, r) { }
+DMulExpr::DMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
+DDivExpr::DDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
+
 
 UnaryExpr::UnaryExpr(u_ptrToken& _op, u_ptrExpr&  e): op(std::move(_op)), expr(std::move(e)) { }
 UnaryNotExpr::UnaryNotExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
@@ -33,6 +46,11 @@ PrimaryExpr::PrimaryExpr(u_ptrToken& tok): token(std::move(tok)) { }
 PrimaryExpr::~PrimaryExpr() { }
 
 IntExpr::IntExpr(u_ptrToken& tok, int val): PrimaryExpr(tok), value(val) { }
+FloatExpr::FloatExpr(u_ptrToken& tok, float val): PrimaryExpr(tok), value(val) { }
+DoubleExpr::DoubleExpr(u_ptrToken& tok, double val): PrimaryExpr(tok), value(val) { }
+BoolExpr::BoolExpr(u_ptrToken& tok, bool val): PrimaryExpr(tok), value(val) { }
+IdExpr::IdExpr(u_ptrToken& tok, const std::string& val): PrimaryExpr(tok), name(val) { }
+StringExpr::StringExpr(u_ptrToken& tok, const std::string& val): PrimaryExpr(tok), value(val) { }
 
 /* destructors*/
 AddExpr::~AddExpr() { }
@@ -44,6 +62,18 @@ IAddExpr::~IAddExpr() { }
 ISubExpr::~ISubExpr() { }
 IMulExpr::~IMulExpr() { }
 IDivExpr::~IDivExpr() { }
+SAddExpr::~SAddExpr() { }
+SSubExpr::~SSubExpr() { }
+SMulExpr::~SMulExpr() { }
+SDivExpr::~SDivExpr() { }
+DAddExpr::~DAddExpr() { }
+DSubExpr::~DSubExpr() { }
+DMulExpr::~DMulExpr() { }
+DDivExpr::~DDivExpr() { }
+FAddExpr::~FAddExpr() { }
+FSubExpr::~FSubExpr() { }
+FMulExpr::~FMulExpr() { }
+FDivExpr::~FDivExpr() { }
 
 UnaryExpr::~UnaryExpr() { }
 UnaryNotExpr::~UnaryNotExpr() { }
@@ -51,6 +81,11 @@ UnaryMinusExpr::~UnaryMinusExpr() { }
 
 PrimaryExpr::~PrimaryExpr() { }
 IntExpr::~IntExpr() { }
+ShortExpr::~ShortExpr() { }
+FloatExpr::~FloatExpr() { }
+DoubleExpr::~DoubleExpr() { }
+StringExpr::~StringExpr() { }
+IdExpr::~IdExpr() { }
 
 /* getType implementations */
 [[nodiscard]] TEXPR BinaryExpr::getType() const noexcept { return TEXPR::BINARY; }
@@ -71,6 +106,7 @@ IntExpr::~IntExpr() { }
 
 [[nodiscard]] TEXPR PrimaryExpr::getType() const noexcept { return TEXPR::PRIMARY; }
 [[nodiscard]] TEXPR IntExpr::getType() const noexcept { return TEXPR::INT; }
+[[nodiscard]] TEXPR IdExpr::getType() const noexcept { return TEXPR::ID; }
 
 /* now the accept methods to print the expression */
 [[nodiscard]] std::string BinaryExpr::acceptPrintVisitor(ptrPVisitor visitor) {
@@ -122,6 +158,10 @@ IntExpr::~IntExpr() { }
 
 [[nodiscard]] std::string IntExpr::acceptPrintVisitor(ptrPVisitor visitor) {
     return visitor->visitIntExpr(this);
+}
+
+[[nodiscard]] std::string IdExpr::acceptPrintVisitor(ptrPVisitor visitor) {
+    return visitor -> visitIdExpr(this);
 }
 
 /* now the accept methods to generate the bytecode */
@@ -177,6 +217,10 @@ void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return visitor->visitIntExpr(this);
 }
 
+[[nodiscard]] std::string IdExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
+    return visitor -> visitIdExpr(this);
+}
+
 /* accept methods for typechecking */
 [[nodiscard]] DECL BinaryExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkBinaryExpr(this);
@@ -226,5 +270,8 @@ void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
     return checker->checkIntExpr(this);
 }
 
+[[nodiscard]] DECL IdExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
+    return checker->checkIdExpr(this);
+}
 
 } // ESSEMBLY

@@ -95,6 +95,7 @@ void Lexer::scan() {
         case '/':  pushToken(TT::SLASH); break;
         case '-':  pushToken(TT::MINUS); break;
         case ';':  pushToken(TT::SEMICOLON); break;
+        case '=':  matchNext('=') ? pushToken(TT::EQE) : pushToken(TT::EQ); break;
         case '"':  pushString(); break;
         case '!':  matchNext('=') ? pushToken(TT::NEQ) : pushToken(TT::NOT); break;
         case 'i':
