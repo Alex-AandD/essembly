@@ -23,7 +23,9 @@ enum class TEXPR {
     UNARY,
     UNARY_NOT,
     UNARY_MINUS,
-    DYNAMIC
+    DYNAMIC,
+    PRIMARY,
+    BINARY
 };
 
 std::string TEXPRtoString(TEXPR);

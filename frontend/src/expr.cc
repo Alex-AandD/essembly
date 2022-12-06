@@ -3,7 +3,7 @@
 #include "backend/include/instruction.hh"
 #include "frontend/include/printVisitor.hh"
 #include "backend/include/bytecodeVisitor.hh"
-#include "frontend/include/TypeChecker.hh"
+#include "frontend/include/TypeCheckerVisitor.hh"
 #include <vector>
 
 namespace Essembly {
@@ -20,32 +20,37 @@ SubExpr::SubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op,
 MulExpr::MulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
 DivExpr::DivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
 
-AddExpr::~AddExpr() { }
-SubExpr::~SubExpr() { }
-MulExpr::~MulExpr() { }
-DivExpr::~DivExpr() { }
-
 IAddExpr::IAddExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): AddExpr(_op, l, r) { }
 ISubExpr::ISubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, l, r) { }
 IMulExpr::IMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
 IDivExpr::IDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
+
+UnaryExpr::UnaryExpr(u_ptrToken& _op, u_ptrExpr&  e): op(std::move(_op)), expr(std::move(e)) { }
+UnaryNotExpr::UnaryNotExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
+UnaryMinusExpr::UnaryMinusExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
+
+PrimaryExpr::PrimaryExpr(u_ptrToken& tok): token(std::move(tok)) { }
+PrimaryExpr::~PrimaryExpr() { }
+
+IntExpr::IntExpr(u_ptrToken& tok, int val): PrimaryExpr(tok), value(val) { }
+
+/* destructors*/
+AddExpr::~AddExpr() { }
+SubExpr::~SubExpr() { }
+MulExpr::~MulExpr() { }
+DivExpr::~DivExpr() { }
 
 IAddExpr::~IAddExpr() { }
 ISubExpr::~ISubExpr() { }
 IMulExpr::~IMulExpr() { }
 IDivExpr::~IDivExpr() { }
 
-UnaryExpr::UnaryExpr(u_ptrToken& _op, u_ptrExpr&  e): op(std::move(_op)), expr(std::move(e)) { }
-UnaryNotExpr::UnaryNotExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
-UnaryMinusExpr::UnaryMinusExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 
-
 UnaryExpr::~UnaryExpr() { }
 UnaryNotExpr::~UnaryNotExpr() { }
 UnaryMinusExpr::~UnaryMinusExpr() { }
 
-IntExpr::IntExpr(int val): value(val) { }
+PrimaryExpr::~PrimaryExpr() { }
 IntExpr::~IntExpr() { }
-
 
 /* getType implementations */
 [[nodiscard]] TEXPR BinaryExpr::getType() const noexcept { return TEXPR::BINARY; }
@@ -64,6 +69,7 @@ IntExpr::~IntExpr() { }
 [[nodiscard]] TEXPR UnaryMinusExpr::getType() const noexcept { return TEXPR::UNARY_MINUS; }
 [[nodiscard]] TEXPR UnaryNotExpr::getType() const noexcept { return TEXPR::UNARY_NOT; }
 
+[[nodiscard]] TEXPR PrimaryExpr::getType() const noexcept { return TEXPR::PRIMARY; }
 [[nodiscard]] TEXPR IntExpr::getType() const noexcept { return TEXPR::INT; }
 
 /* now the accept methods to print the expression */
@@ -172,56 +178,53 @@ void IntExpr::acceptBytecodeVisitor(ptrBVisitor visitor) {
 }
 
 /* accept methods for typechecking */
-[[nodiscard]] DECL BinaryExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL BinaryExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkBinaryExpr(this);
 }
 
-[[nodiscard]] DECL IAddExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL IAddExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkIAddExpr(this);
 }
 
-[[nodiscard]] DECL SubExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL SubExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkSubExpr(this);
 }
 
-[[nodiscard]] DECL ISubExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL ISubExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkISubExpr(this);
 }
 
-[[nodiscard]] DECL MulExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL MulExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkMulExpr(this);
 }
 
-[[nodiscard]] DECL IMulExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL IMulExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkIMulExpr(this);
 }
 
-[[nodiscard]] DECL DivExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL DivExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkDivExpr(this);
 }
 
-[[nodiscard]] DECL IDivExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL IDivExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkIDivExpr(this);
 }
 
-[[nodiscard]] DECL UnaryExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL UnaryExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkUnaryExpr(this);
 }
 
-[[nodiscard]] DECL UnaryNotExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL UnaryNotExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkUnaryNotExpr(this);
 }
 
-[[nodiscard]] DECL UnaryMinusExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL UnaryMinusExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkUnaryExpr(this);
 }
 
-[[nodiscard]] DECL IntExpr::acceptTypeChecker(TypeChecker* checker) {
+[[nodiscard]] DECL IntExpr::acceptTypeCheckerVisitor(TypeCheckerVisitor* checker) {
     return checker->checkIntExpr(this);
 }
-
-
-
 
 
 } // ESSEMBLY

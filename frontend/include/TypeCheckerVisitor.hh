@@ -19,7 +19,7 @@ class UnaryExpr;
 class UnaryNotExpr;
 class UnaryMinusExpr;
 
-/* the typechecker is not going to return anything */
+/* the TypeCheckerVisitor is not going to return anything */
 /* it is just going to emit errors */
 /* only dynamic types will be resolved */
 /* how is this checking going to happen? */
@@ -28,7 +28,7 @@ class UnaryMinusExpr;
 /* check right and check left */
 /* recursively check the type of the expression */
 
-class TypeChecker {
+class TypeCheckerVisitor {
 private:
     [[nodiscard]] DECL IExprHelper(BinaryExpr*);
 public:

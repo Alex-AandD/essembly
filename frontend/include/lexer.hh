@@ -19,7 +19,6 @@ public:
 public:
     Lexer();
     Lexer(std::string _inp);
-    ~Lexer();
 public:
     void scan();
 private:
@@ -33,11 +32,12 @@ private:
     [[nodiscard]] bool match(size_t offset, char c) noexcept;
     [[nodiscard]] bool matchNext(char c) noexcept;
     inline void advance() noexcept { current++; }
-
     inline void pushLexeme(const std::string& lexeme) noexcept { lexemes.push_back(lexeme); }
     void pushToken(TT) noexcept; /* push the token inside the array of tokens */
     void pushString();
     void pushNumber() noexcept;
     void pushFloat() noexcept;
+    void pushId();
+    void pushKeyword();
 };
 }

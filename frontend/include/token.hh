@@ -20,6 +20,12 @@ enum class TT {
     TAB,
     LF,
     SEMICOLON,
+    IF,
+    WHILE,
+    FOR,
+    FUN,
+    BOOL_LITERAL,
+    BOOL_TYPE
 };
 
 struct Token {

@@ -15,7 +15,7 @@ namespace Essembly {
     class BytecodeVisitor;
     class PrintVisitor;
     class Expr;
-    class TypeChecker;
+    class TypeCheckerVisitor;
 
     using ptrPVisitor = PrintVisitor*;
     using ptrBVisitor = BytecodeVisitor*;
@@ -35,7 +35,7 @@ public: // helper virtual methods
 public:
     /* visitors */
     [[nodiscard]] virtual std::string acceptPrintVisitor(ptrPVisitor) = 0;
-    [[nodiscard]] virtual DECL acceptTypeChecker(TypeChecker*) = 0;
+    [[nodiscard]] virtual DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
     virtual void acceptBytecodeVisitor(ptrBVisitor  visitor) = 0;
    };
 
@@ -51,7 +51,7 @@ public:
 public:
     [[nodiscard]] TEXPR getType() const noexcept override;
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor visitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(ptrBVisitor visitor) override;
 
 };
@@ -62,7 +62,7 @@ public:
     ~AddExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -73,7 +73,7 @@ public:
     ~IAddExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -84,7 +84,7 @@ public:
     ~SubExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -95,7 +95,7 @@ public:
     ~ISubExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor  visitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -106,7 +106,7 @@ public:
     ~MulExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -117,7 +117,7 @@ public:
     ~IMulExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
 };
@@ -128,7 +128,7 @@ public:
     ~DivExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -139,7 +139,7 @@ public:
     ~IDivExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -153,7 +153,7 @@ public:
     ~UnaryExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor visitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
@@ -166,7 +166,7 @@ public:
     [[nodiscard]] TEXPR getType() const noexcept override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
@@ -176,21 +176,34 @@ public:
     ~UnaryMinusExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 
-class IntExpr: public Expr { 
+class PrimaryExpr: public Expr {
+public:
+    u_ptrToken token;
+public:
+    PrimaryExpr(u_ptrToken&);
+    ~PrimaryExpr() override;
+private:
+    [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
+    [[nodiscard]] TEXPR getType() const noexcept override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptBytecodeVisitor(ptrBVisitor) override;
+};
+
+class IntExpr: public PrimaryExpr { 
 public:
     int value;
 public:
-    IntExpr(int);
+    IntExpr(u_ptrToken&, int);
     ~IntExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;
     [[nodiscard]] TEXPR getType() const noexcept override;
-    [[nodiscard]] DECL acceptTypeChecker(TypeChecker*) override;
+    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(ptrBVisitor) override;
 };
 } // Essembly

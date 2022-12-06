@@ -11,6 +11,7 @@ namespace Essembly {
             case TEXPR::STRING: return "STRING_EXPR";
             case TEXPR::SHORT: return "SHORT_EXPR";
             case TEXPR::DYNAMIC: return "DYNAMIC_EXPR";
+            case TEXPR::PRIMARY: return "PRIMARY_EXPR";
             default: return "UNKNOWN TYPE, GO IMPLEMENT IT";
         }
         return nullptr;
