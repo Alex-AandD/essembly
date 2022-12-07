@@ -5,7 +5,7 @@
 namespace Essembly {
 
 class Expr;
-class Declaration;
+class Stmt;
 class AddExpr;
 class MulExpr;
 class SubExpr;
@@ -15,21 +15,24 @@ class IntExpr;
 class FactoryDeclaration {
 
 using u_ptrExpr = std::unique_ptr<Expr>;
-using u_ptrDecl = std::unique_ptr<Declaration>;
+using u_ptrStmt = std::unique_ptr<Stmt>;
 using u_ptrToken = std::unique_ptr<Token>;
 
 public:
     FactoryDeclaration();
     ~FactoryDeclaration();
 public:
-    [[nodiscard]] u_ptrDecl makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeIntDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeShortDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeFloatDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeDoubleDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeBoolDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeStringDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrDecl makeDynamicDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+
+    [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace);
+
+    [[nodiscard]] u_ptrStmt makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeIntDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeShortDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeFloatDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeDoubleDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeBoolDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeStringDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeDynamicDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
 
     /* expressions */
     [[nodiscard]] u_ptrExpr makeAdd(DECL, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r);

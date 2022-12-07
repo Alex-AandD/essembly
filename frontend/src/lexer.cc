@@ -117,6 +117,8 @@ void Lexer::scan() {
         case '1':  pushNumber(); break;
         case '2':  pushNumber(); break;
         case '3':  pushNumber(); break;
+        case '{':  pushToken(TT::LEFT_BRACE); break;
+        case '}':  pushToken(TT::RIGHT_BRACE); break;
         case '4':  pushNumber(); break;
         case '5':  pushNumber(); break;
         case '6':  pushNumber(); break;

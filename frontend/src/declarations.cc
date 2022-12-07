@@ -6,11 +6,22 @@
 
 namespace Essembly
 {
+Stmt::Stmt() { }
+BlockStmt::BlockStmt(u_ptrToken& _lbrace, const std::vector<u_ptrStmt>& _stmts, u_ptrToken& _rbrace):
+    lbrace(std::move(_lbrace)), stmts(std::move(_stmts)), rbrace(std::move(_rbrace)) { }
+BlockStmt::~BlockStmt() { }
 
 /* constructors */
 Declaration::Declaration() { }
-ValueDeclaration::ValueDeclaration(u_ptrToken tok, u_ptrExpr value): declToken(std::move(tok)), valueExpr(std::move(value)) { }
-IntDeclaration::IntDeclaration(u_ptrToken tok, u_ptrExpr value): ValueDeclaration(tok, value) { };
+Declaration::~Declaration() { }
+ValueDeclaration::ValueDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): 
+    declToken(std::move(tok)), idExpr(std::move(id)), valueExpr(std::move(value)) { }
+IntDeclaration::IntDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
+StringDeclaration::StringDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
+DoubleDeclaration::DoubleDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
+FloatDeclaration::FloatDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
+ShortDeclaration::ShortDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
+BoolDeclaration::BoolDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
 
 /* destructors */
 Declaration::~Declaration() { }

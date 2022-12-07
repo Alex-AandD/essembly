@@ -15,10 +15,11 @@ namespace Essembly {
 Parser::Parser(): 
     factory(std::make_unique<FactoryDeclaration>()), 
     printVisitor(std::make_unique<PrintVisitor>()),
-    AST(nullptr),
     t_current(0),
     l_current(0)
-    { }
+    {
+        AST.reserve(10000);
+    }
 
 
 Parser::Parser(std::vector<u_ptrToken> toks, std::vector<std::string> lexemes): 
@@ -26,14 +27,14 @@ Parser::Parser(std::vector<u_ptrToken> toks, std::vector<std::string> lexemes):
     lexemes(lexemes), 
     factory(std::make_unique<FactoryDeclaration>()),
     printVisitor(std::make_unique<PrintVisitor>()),
-    AST(nullptr),
     t_current(0), 
     l_current(0)
-    { }
-
+    {
+        AST.reserve(10000);
+    }
 void Parser::printAST() const {
-    if (AST) {
-        std::cout << AST -> acceptPrintVisitor(printVisitor.get()) << '\n';
+    for (const auto& stmt: AST) {
+        std::cout << stmt -> acceptPrintVisitor(printVisitor.get()) << '\n';
     }
 }
 
@@ -52,15 +53,48 @@ void Parser::printAST() const {
     return factory->makeUnary(_op, r);
 }
 
-[[nodiscard]] u_ptrDecl Parser::parse() {
-    AST = declaration();
-    return std::move(AST);
+[[nodiscard]] std::vector<u_ptrStmt> Parser::parse() {
+    while (!atEnd()){
+        try {
+            AST.push_back(stmt());
+        } catch(std::exception& e) {
+            std::cout << e << '\n';
+            // add synchronize function
+        }
+    }
+    return AST;
 }
 
-[[nodiscard]] u_ptrDecl Parser::declaration() {
-    /* how to find the different declarations ? */
-    /* just use a switch statement */
+/* 
+    block: '{' stmt* '}'
+         | stmt;
+*/
+[[nodiscard]] u_ptrStmt Parser::block() {
+    // save the left brace for debugging and error handling
+    u_ptrToken lbraceToken = previousToken();
+    std::vector<u_ptrStmt> stmts;
+    while(!atEnd() && !matchCurrent(TT::RIGHT_BRACE)) {
+        stmts.push_back(stmt());
+    }
+    if (atEnd()) assert("missing closing brace opened at some line");
+    u_ptrToken rbraceToken = previousToken();
+    return makeBlockStmt(lbraceToken, stmts, rbraceToken);
+}
 
+[[nodiscard]] u_ptrStmt Parser::makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace) {
+    return factory->makeBlockStmt(lbrace, std::move(stmts), rbrace);
+}
+
+[[nodiscard]] u_ptrStmt Parser::stmt() {
+    if (matchCurrent(TT::LEFT_BRACE)) return block();
+    /* parse all the other kind of statements */
+    return declaration();
+}
+
+[[nodiscard]] u_ptrStmt Parser::declaration() {
+    /* for now supporting just: 
+         int, double, float, bool, string and short
+    */
     if (matchCurrent(TT::INT_TYPE)) {
         u_ptrToken declToken = previousToken();
         return finishDeclaration(DECL::INT, declToken);
@@ -90,7 +124,7 @@ void Parser::printAST() const {
     // return expr(DECL::DYNAMIC);
 }
 
-[[nodiscard]] u_ptrDecl Parser::finishDeclaration(DECL exprType, u_ptrToken& declToken) {
+[[nodiscard]] u_ptrStmt Parser::finishDeclaration(DECL exprType, u_ptrToken& declToken) {
     /* find the idExpr */
     u_ptrExpr idExpr = expr(exprType);
     /* check if there is an equal sign */
@@ -143,7 +177,7 @@ void Parser::printAST() const {
     return primary(exprType);
 }
 
-[[nodiscard]] u_ptrDecl Parser::makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) noexcept {
+[[nodiscard]] u_ptrStmt Parser::makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) noexcept {
     return factory->makeDeclaration(type, declToken, idExpr, valueExpr);
 }
 

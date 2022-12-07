@@ -1,18 +1,69 @@
 #include "frontend/include/printVisitor.hh"
 #include "frontend/include/token.hh"
 #include "frontend/include/expr.hh"
+#include "frontend/include/declarations.hh"
 #include <string>
 
 namespace Essembly {
 PrintVisitor::PrintVisitor() { };
 
-std::string PrintVisitor::binaryExprHelper(BinaryExpr* expr, std::string op) {
+/********************** 
+/********************** 
+    DECLARATIONS
+********************
+**********************/
+[[nodiscard]] std::string PrintVisitor::visitBlockStmt(BlockStmt* block) {
+    /* print all the statements contained inside the block */
+    std::string finalBlock = "{\n";
+    auto stmts = block->stmts;
+    for (const auto& stmt: block->stmts) {
+        finalBlock+ stmt->acceptPrintVisitor(this) + '\n';
+    }
+    return finalBlock + "\n}";
+}
+
+[[nodiscard]] std::string PrintVisitor::declarationHelper(ValueDeclaration* decl, const std::string& typeString) {
+    auto idExprString = (decl->idExpr)->acceptPrintVisitor(this);
+    auto valueExprString = (decl->valueExpr)->acceptPrintVisitor(this);
+    return typeString + " " + idExprString + " = "  + valueExprString;
+}
+
+[[nodiscard]] std::string PrintVisitor::visitIntDeclaration(IntDeclaration* decl) {
+    return declarationHelper(decl, "int");
+}
+
+[[nodiscard]] std::string PrintVisitor::visitDoubleDeclaration(DoubleDeclaration* decl) {
+    return declarationHelper(decl, "double");
+}
+
+[[nodiscard]] std::string PrintVisitor::visitBoolDeclaration(BoolDeclaration* decl) {
+    return declarationHelper(decl, "bool");
+}
+
+[[nodiscard]] std::string PrintVisitor::visitFloatDeclaration(FloatDeclaration* decl) {
+    return declarationHelper(decl, "float");
+}
+
+[[nodiscard]] std::string PrintVisitor::visitStringDeclaration(StringDeclaration* decl) {
+    return declarationHelper(decl, "string");
+}
+
+[[nodiscard]] std::string PrintVisitor::visitShortDeclaration(ShortDeclaration* decl) {
+    return declarationHelper(decl, "short");
+}
+
+/********************** 
+/********************** 
+    EXPRESSIONS 
+********************
+**********************/
+[[nodiscard]] std::string PrintVisitor::binaryExprHelper(BinaryExpr* expr, const std::string& op) {
     std::string lhs = expr->lhs->acceptPrintVisitor(this);
     std::string rhs = expr->rhs->acceptPrintVisitor(this);
     return "(" + lhs + op + rhs + ")";
 }
 
-[[nodiscard]] std::string PrintVisitor::unaryExprHelper(UnaryExpr* expr, std::string op) {
+[[nodiscard]] std::string PrintVisitor::unaryExprHelper(UnaryExpr* expr, const std::string& op) {
     std::string rhs = expr->expr->acceptPrintVisitor(this);
     return "(" + op + rhs + ")";
 }

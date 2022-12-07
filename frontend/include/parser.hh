@@ -10,16 +10,17 @@
 #include <ctype.h>
 #include <memory>
 
-/* IMPORTANT */
-/* change the parser */
-/* from having an AST that is just an expression */
-/* now needs to be a vector of declarations */
-/* implement also block statements */
-/* implement declarations inside the visitor methods */
+
+/* parsing block statements */
+/* the program is a huge block statement */
+/* how do you parse block stmt? */
+/* block statements can be parsed */
+/* at the end of the day they are just vectors of statements */
 
 namespace Essembly {
 
 class Expr;
+class Stmt;
 class Declaration;
 class FactoryDeclaration;
 class PrintVisitor;
@@ -27,6 +28,7 @@ class PrintVisitor;
 using u_ptrToken = std::unique_ptr<Token>;
 using u_ptrExpr =  std::unique_ptr<Expr>;
 using u_ptrDecl =  std::unique_ptr<Declaration>;
+using u_ptrStmt =  std::unique_ptr<Stmt>;
 
 class Parser { 
 private:
@@ -34,7 +36,7 @@ private:
     std::vector<std::string> lexemes;
     std::unique_ptr<FactoryDeclaration> factory;
     std::unique_ptr<PrintVisitor> printVisitor;
-    u_ptrDecl AST;
+    std::vector<u_ptrStmt> AST; /* an AST is a vector of statements */
     size_t t_current; /* index to the current token */
     size_t l_current; /* index to the current lexeme */
 public:
@@ -62,10 +64,11 @@ private: /* some helpers */
         return match(0, first, args...);
     }
 public:
-    [[nodiscard]] u_ptrDecl parse();
+    [[nodiscard]] u_ptrStmt parse();
     void printAST() const;
 private:
-    [[nodiscard]] u_ptrDecl makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
+    [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;
+    [[nodiscard]] u_ptrStmt makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
 
     [[nodiscard]] u_ptrExpr makeBinaryExpr(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
     [[nodiscard]] u_ptrExpr makeUnaryExpr(u_ptrToken&, u_ptrExpr&) noexcept;  
@@ -77,8 +80,10 @@ private:
     [[nodiscard]] u_ptrExpr makeStringExpr() noexcept;
     [[nodiscard]] u_ptrExpr makeIdExpr() noexcept;
 
-    [[nodiscard]] u_ptrDecl declaration();
-    [[nodiscard]] u_ptrDecl finishDeclaration(DECL exprType, u_ptrToken&);
+    [[nodiscard]] u_ptrStmt block();
+    [[nodiscard]] u_ptrStmt stmt();
+    [[nodiscard]] u_ptrStmt declaration();
+    [[nodiscard]] u_ptrStmt finishDeclaration(DECL exprType, u_ptrToken&);
     [[nodiscard]] u_ptrExpr expr(DECL);
     [[nodiscard]] u_ptrExpr term(DECL);
     [[nodiscard]] u_ptrExpr factor(DECL);

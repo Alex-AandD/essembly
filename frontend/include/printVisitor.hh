@@ -16,6 +16,16 @@ class IMulExpr;
 class ISubExpr;
 class IAddExpr;
 
+class Stmt;
+class BlockStmt;
+class Declaration;
+class ValueDeclaration;
+class IntDeclaration;
+class FloatDeclaration;
+class DoubleDeclaration;
+class StringDeclaration;
+class BoolDeclaration;
+
 class UnaryExpr;
 class PrimaryExpr;
 class IntExpr;
@@ -31,9 +41,19 @@ class PrintVisitor {
 public:
     PrintVisitor();
 private:
-    [[nodiscard]] std::string binaryExprHelper(BinaryExpr*, std::string op);
-    [[nodiscard]] std::string unaryExprHelper(UnaryExpr*, std::string op);
+    [[nodiscard]] std::string declarationHelper(ValueDeclaration*, const std::string& op);
+    [[nodiscard]] std::string binaryExprHelper(BinaryExpr*, const std::string& op);
+    [[nodiscard]] std::string unaryExprHelper(UnaryExpr*, const std::string& op);
 public:
+    [[nodiscard]] std::string visitBlockStmt(BlockStmt*);
+    [[nodiscard]] std::string visitValueDeclaration(ValueDeclaration*);
+    [[nodiscard]] std::string visitIntDeclaration(IntDeclaration*);
+    [[nodiscard]] std::string visitFloatDeclaration(FloatDeclaration*);
+    [[nodiscard]] std::string visitStringDeclaration(StringDeclaration*);
+    [[nodiscard]] std::string visitDoubleDeclaration(DoubleDeclaration*);
+    [[nodiscard]] std::string visitBoolDeclaration(BoolDeclaration*);
+    [[nodiscard]] std::string visitShortDeclaration(ShortDeclaration*);
+
     /* all the binary operations */
     [[nodiscard]] std::string visitBinaryExpr(BinaryExpr* expr);
     [[nodiscard]] std::string visitAddExpr(AddExpr* expr);

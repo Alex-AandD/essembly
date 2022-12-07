@@ -18,7 +18,8 @@ enum class TT {
     IF, ELIF,
     WHILE, FOR,
     FUN,
-    TRUE_LITERAL, FALSE_LITERAL
+    TRUE_LITERAL, FALSE_LITERAL,
+    LEFT_BRACE, RIGHT_BRACE
 };
 
 struct Token {

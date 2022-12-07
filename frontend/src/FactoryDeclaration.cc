@@ -9,12 +9,19 @@ namespace Essembly {
 using u_ptrExpr = std::unique_ptr<Expr>;
 using u_ptrDecl = std::unique_ptr<Declaration>;
 using u_ptrToken = std::unique_ptr<Token>;
+using u_ptrStmt = std::unique_ptr<Stmt>;
 
 FactoryDeclaration::FactoryDeclaration() { }
 FactoryDeclaration::~FactoryDeclaration() { }
+/* STMTS*/
+
+/* block statement */
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace) {
+    return std::make_unique<BlockStmt>(lbrace, stmts, rbrace);
+}
 
 /* DECLARATIONS */
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     switch(type) {
         case DECL::INT: return makeIntDeclaration(declToken, idExpr, valueExpr);
         case DECL::SHORT: return makeShortDeclaration(declToken, idExpr, valueExpr);
@@ -27,27 +34,27 @@ FactoryDeclaration::~FactoryDeclaration() { }
     return nullptr;
 }
 
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeIntDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeIntDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     return std::make_unique<IntDeclaration>(declToken, idExpr, valueExpr);
 }
 
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeShortDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeShortDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     return std::make_unique<ShortDeclaration>(declToken, idExpr, valueExpr);
 }
 
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeDoubleDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeDoubleDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     return std::make_unique<DoubleDeclaration>(declToken, idExpr, valueExpr);
 }
 
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeBoolDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeBoolDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     return std::make_unique<DoubleDeclaration>(declToken, idExpr, valueExpr);
 }
 
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeFloatDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeFloatDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     return std::make_unique<FloatDeclaration>(declToken, idExpr, valueExpr);
 }
 
-[[nodiscard]] u_ptrDecl FactoryDeclaration::makeStringDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeStringDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
     return std::make_unique<StringDeclaration>(declToken, idExpr, valueExpr);
 }
 

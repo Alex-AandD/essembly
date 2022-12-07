@@ -51,6 +51,15 @@ private:
     void binaryExprHelper(BinaryExpr* expr);
     void unaryExprHelper(UnaryExpr* expr);
 public:
+    void visitValueDeclaration(ValueDeclaration*);
+    void visitIntDeclaration(IntDeclaration*);
+    void visitFloatDeclaration(FloatDeclaration*);
+    void visitStringDeclaration(StringDeclaration*);
+    void visitBoolDeclaration(BoolDeclaration*);
+    void visitDoubleDeclaration(DoubleDeclaration*);
+    void visitShortDeclaration(ShortDeclaration*);
+
+
     /* all the binary expressions */
     void visitBinaryExpr(BinaryExpr* expr);
     void visitAddExpr(AddExpr* expr);
