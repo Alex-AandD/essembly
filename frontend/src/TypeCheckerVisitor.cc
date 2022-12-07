@@ -99,7 +99,7 @@ namespace Essembly {
     return DECL::FLOAT;
 }
 
-[[nodiscard]] DECL TypeCheckerVisitor::DxprHelper(BinaryExpr* expr) {
+[[nodiscard]] DECL TypeCheckerVisitor::DExprHelper(BinaryExpr* expr) {
 
     // call recursively the check method
     DECL rhsType = getType(this, expr->rhs.get());

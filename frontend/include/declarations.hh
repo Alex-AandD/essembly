@@ -3,6 +3,10 @@
 #include <string>
 #include <vector>
 
+// we do not check the type of the declarations themselves
+// just the expressions that belong to the declarations
+// therefore the typechecking of the declarations does not return any value
+
 namespace Essembly {
 /* Declaration class */
 /* type of declarations */
@@ -36,7 +40,7 @@ public:
     Stmt();
     virtual ~Stmt() = 0;
     [[nodiscard]] virtual std::string acceptPrintVisitor(PrintVisitor*) = 0;
-    [[nodiscard]] virtual DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
+    virtual void acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
     virtual void acceptBytecodeVisitor(BytecodeVisitor*) = 0;
 };
 
@@ -50,7 +54,7 @@ public:
     ~BlockStmt() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -64,12 +68,12 @@ public:
     ~Declaration();
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
 class ValueDeclaration: public Declaration {
-public;
+public:
     u_ptrToken declToken;
     u_ptrExpr  idExpr;
     u_ptrExpr  valueExpr;
@@ -77,7 +81,7 @@ public:
     ValueDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     ~ValueDeclaration() override;
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -87,7 +91,7 @@ public:
     ~IntDeclaration() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -97,7 +101,7 @@ public:
     ~ShortDeclaration() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -107,7 +111,7 @@ public:
     ~FloatDeclaration() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -117,7 +121,7 @@ public:
     virtual ~StringDeclaration() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -127,7 +131,7 @@ public:
     ~DoubleDeclaration() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 
@@ -137,7 +141,7 @@ public:
     virtual ~BoolDeclaration();
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    [[nodiscard]] DECL acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 

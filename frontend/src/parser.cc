@@ -32,6 +32,7 @@ Parser::Parser(std::vector<u_ptrToken> toks, std::vector<std::string> lexemes):
     {
         AST.reserve(10000);
     }
+
 void Parser::printAST() const {
     for (const auto& stmt: AST) {
         std::cout << stmt -> acceptPrintVisitor(printVisitor.get()) << '\n';
@@ -58,7 +59,7 @@ void Parser::printAST() const {
         try {
             AST.push_back(stmt());
         } catch(std::exception& e) {
-            std::cout << e << '\n';
+            std::cout << e.what() << '\n';
             // add synchronize function
         }
     }
@@ -126,7 +127,11 @@ void Parser::printAST() const {
 
 [[nodiscard]] u_ptrStmt Parser::finishDeclaration(DECL exprType, u_ptrToken& declToken) {
     /* find the idExpr */
-    u_ptrExpr idExpr = expr(exprType);
+    if (!matchCurrent(TT::ID)) {
+        assert("we need an id after the type");
+    }
+    /* otherwise we know that this is an expression */
+    u_ptrExpr idExpr = primary(exprType);
     /* check if there is an equal sign */
     if (!matchCurrent(TT::EQ)) {
         // throw an expression

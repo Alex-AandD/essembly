@@ -64,7 +64,7 @@ private: /* some helpers */
         return match(0, first, args...);
     }
 public:
-    [[nodiscard]] u_ptrStmt parse();
+    [[nodiscard]] std::vector<u_ptrStmt> parse();
     void printAST() const;
 private:
     [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;

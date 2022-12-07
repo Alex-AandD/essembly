@@ -38,21 +38,87 @@ void IntDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
 }
 
 /* type checking */
-[[nodiscard]] DECL ValueDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
-    return visitor->checkValueDeclaration(this);
+[[nodiscard]] void BlockStmt::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    for (const auto& stmt: stmts) {
+        stmt->acceptTypeCheckerVisitor(visitor);        
+    }
 }
 
-[[nodiscard]] DECL IntDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
-    return visitor->checkIntDeclaration(this);
+[[nodiscard]] void ValueDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    // handle ValueDeclaration
+}
+
+[[nodiscard]] void IntDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    // just check if the valueExpr is correct
+    DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
+    if (type != DECL::INT) {
+        assert("expected integer type");
+    };
+}
+
+[[nodiscard]] void FloatDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    // just check if the valueExpr is correct
+    DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
+    if (type != DECL::FLOAT){
+        assert("expected float type");
+    };
+}
+
+[[nodiscard]] void ShortDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    // just check if the valueExpr is correct
+    DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
+    if (type != DECL::SHORT){
+        assert("expected short type");
+    };
+}
+
+[[nodiscard]] void DoubleDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    // just check if the valueExpr is correct
+    DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
+    if (type != DECL::DOUBLE) {
+        assert("expected double type");
+    };
+}
+
+[[nodiscard]] void BoolDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+    // just check if the valueExpr is correct
+    DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
+    if (type != DECL::BOOL) {
+        assert("expected bool type");
+    };
 }
 
 /* print visitor */
+[[nodiscard]] std::string BlockStmt::acceptPrintVisitor(PrintVisitor* visitor) {
+    return visitor->visitBlockStmt(this);
+}
+
 [[nodiscard]] std::string ValueDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
     return visitor->visitValueDeclaration(this);
 }
 
 [[nodiscard]] std::string IntDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
     return visitor->visitIntDeclaration(this);
+}
+
+[[nodiscard]] std::string DoubleDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
+    return visitor->visitDoubleDeclaration(this);
+}
+
+[[nodiscard]] std::string StringDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
+    return visitor->visitStringDeclaration(this);
+}
+
+[[nodiscard]] std::string FloatDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
+    return visitor->visitFloatDeclaration(this);
+}
+
+[[nodiscard]] std::string BoolDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
+    return visitor->visitBoolDeclaration(this);
+}
+
+[[nodiscard]] std::string ShortDeclaration::acceptPrintVisitor(PrintVisitor* visitor) {
+    return visitor->visitShortDeclaration(this);
 }
 
 } // namespace Essembly
