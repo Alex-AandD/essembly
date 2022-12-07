@@ -17,9 +17,6 @@
 /* implement also block statements */
 /* implement declarations inside the visitor methods */
 
-
-
-
 namespace Essembly {
 
 class Expr;
@@ -29,6 +26,7 @@ class PrintVisitor;
 
 using u_ptrToken = std::unique_ptr<Token>;
 using u_ptrExpr =  std::unique_ptr<Expr>;
+using u_ptrDecl =  std::unique_ptr<Declaration>;
 
 class Parser { 
 private:
@@ -36,7 +34,7 @@ private:
     std::vector<std::string> lexemes;
     std::unique_ptr<FactoryDeclaration> factory;
     std::unique_ptr<PrintVisitor> printVisitor;
-    u_ptrExpr AST;
+    u_ptrDecl AST;
     size_t t_current; /* index to the current token */
     size_t l_current; /* index to the current lexeme */
 public:
@@ -64,19 +62,22 @@ private: /* some helpers */
         return match(0, first, args...);
     }
 public:
-    [[nodiscard]] u_ptrExpr parse();
+    [[nodiscard]] u_ptrDecl parse();
     void printAST() const;
 private:
+    [[nodiscard]] u_ptrDecl makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
+
     [[nodiscard]] u_ptrExpr makeBinaryExpr(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
     [[nodiscard]] u_ptrExpr makeUnaryExpr(u_ptrToken&, u_ptrExpr&) noexcept;  
     [[nodiscard]] u_ptrExpr makeIntExpr() noexcept;
 
-    [[nodiscard]] u_ptrExpr declaration();
+    [[nodiscard]] u_ptrDecl declaration();
+    [[nodiscard]] u_ptrDecl finishDeclaration(DECL exprType, u_ptrToken&);
     [[nodiscard]] u_ptrExpr expr(DECL);
     [[nodiscard]] u_ptrExpr term(DECL);
     [[nodiscard]] u_ptrExpr factor(DECL);
-    [[nodiscard]] u_ptrExpr unary();
-    [[nodiscard]] u_ptrExpr primary();
+    [[nodiscard]] u_ptrExpr unary(DECL);
+    [[nodiscard]] u_ptrExpr primary(DECL);
 };
 
 template <class T>

@@ -48,7 +48,7 @@ PrimaryExpr::~PrimaryExpr() { }
 IntExpr::IntExpr(u_ptrToken& tok, int val): PrimaryExpr(tok), value(val) { }
 FloatExpr::FloatExpr(u_ptrToken& tok, float val): PrimaryExpr(tok), value(val) { }
 DoubleExpr::DoubleExpr(u_ptrToken& tok, double val): PrimaryExpr(tok), value(val) { }
-BoolExpr::BoolExpr(u_ptrToken& tok, bool val): PrimaryExpr(tok), value(val) { }
+BoolExpr::BoolExpr(u_ptrToken& tok): PrimaryExpr(tok) { value = tok->type == TT::TRUE_LITERAL; }
 IdExpr::IdExpr(u_ptrToken& tok, const std::string& val, DECL _type): PrimaryExpr(tok), name(val), type(_type) { }
 StringExpr::StringExpr(u_ptrToken& tok, const std::string& val): PrimaryExpr(tok), value(val) { }
 

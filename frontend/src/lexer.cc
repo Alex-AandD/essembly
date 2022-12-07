@@ -12,8 +12,12 @@ static std::unordered_map<std::string, TT> KeywordTable {
     {"for", TT::FOR},
     {"float", TT::FLOAT_TYPE},
     {"int", TT::INT_TYPE},
+    {"double", TT::DOUBLE_TYPE},
+    {"short", TT::SHORT_TYPE},
     {"bool", TT::BOOL_TYPE},
-    {"string", TT::STR_TYPE}
+    {"string", TT::STRING_TYPE},
+    {"true", TT::TRUE_LITERAL},
+    {"false", TT::FALSE_LITERAL},
 };
 
 Lexer::Lexer(): input(""), current(0), start(0), line(1), input_len(0) { }

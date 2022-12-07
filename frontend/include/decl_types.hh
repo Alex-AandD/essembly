@@ -12,6 +12,7 @@ enum class DECL {
     CLASS   =    6,
     INT     =    7, 
     STRING  =    8,    
+    DYNAMIC =    9,
     FLOAT   =   15,
     DOUBLE  =   31,
 };

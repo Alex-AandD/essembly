@@ -20,6 +20,8 @@ std::string TokentoString(Token* token) {
     case TT::INT_TYPE: return "INT_TYPE";
     case TT::SEMICOLON: return ";";
     case TT::INT_LITERAL: return "INT LITERAL";
+    case TT::FALSE_LITERAL: return "FALSE";
+    case TT::TRUE_LITERAL: return "TRUE";
     default:
         throw "cannot convert token to string. Unexpected token";
     }

@@ -1,5 +1,4 @@
 #pragma once
-#include "token.hh"
 #include "expr_types.hh"
 #include "decl_types.hh"
 #include <string>
@@ -357,7 +356,7 @@ class BoolExpr: public PrimaryExpr {
 public:
     bool value;
 public:
-    BoolExpr(u_ptrToken&, bool);
+    BoolExpr(u_ptrToken&);
     ~BoolExpr() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(ptrPVisitor) override;

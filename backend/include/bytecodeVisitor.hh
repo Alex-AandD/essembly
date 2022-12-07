@@ -83,7 +83,7 @@ public:
     void visitIntExpr(IntExpr* expr);
     void visitDoubleExpr(DoubleExpr* expr);
     void visitFloatExpr(FloatExpr* expr);
-    void visitShortExpr(FloatExpr* expr);
+    void visitShortExpr(ShortExpr* expr);
     void visitIdExpr(IdExpr* expr);
     void visitStringExpr(StringExpr* expr);
     void visitBoolExpr(BoolExpr* expr);
