@@ -38,7 +38,8 @@ public:
     [[nodiscard]] u_ptrExpr makeDiv(DECL, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r);
 
     [[nodiscard]] u_ptrExpr makeUnary(u_ptrToken& _op, u_ptrExpr& r) noexcept;
-    [[nodiscard]] u_ptrExpr makeIntExpr(u_ptrToken& _op, std::string lex) noexcept;
+    [[nodiscard]] u_ptrExpr makePrimaryExpr(u_ptrToken& _op, const std::string& lex) noexcept;
+    [[nodiscard]] u_ptrExpr makeIntExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeFloatExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeShortExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeDoubleExpr(u_ptrToken& _op, const std::string& lex) noexcept;

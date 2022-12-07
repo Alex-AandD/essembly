@@ -70,6 +70,12 @@ private:
     [[nodiscard]] u_ptrExpr makeBinaryExpr(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
     [[nodiscard]] u_ptrExpr makeUnaryExpr(u_ptrToken&, u_ptrExpr&) noexcept;  
     [[nodiscard]] u_ptrExpr makeIntExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeShortExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeFloatExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeDoubleExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeBoolExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeStringExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeIdExpr() noexcept;
 
     [[nodiscard]] u_ptrDecl declaration();
     [[nodiscard]] u_ptrDecl finishDeclaration(DECL exprType, u_ptrToken&);

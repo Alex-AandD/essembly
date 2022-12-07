@@ -149,7 +149,50 @@ void Parser::printAST() const {
 
 
 [[nodiscard]] u_ptrExpr Parser::makeIntExpr() noexcept {
-    u_ptrExpr expr = factory->makeInt(currentLexeme());
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeIntExpr(exprToken, currentLexeme());
+    advanceLexeme();
+    return expr;
+}
+
+[[nodiscard]] u_ptrExpr Parser::makeFloatExpr() noexcept {
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeFloatExpr(exprToken, currentLexeme());
+    advanceLexeme();
+    return expr;
+}
+
+[[nodiscard]] u_ptrExpr Parser::makeStringExpr() noexcept {
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeStringExpr(exprToken, currentLexeme());
+    advanceLexeme();
+    return expr;
+}
+
+[[nodiscard]] u_ptrExpr Parser::makeDoubleExpr() noexcept {
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeDoubleExpr(exprToken, currentLexeme());
+    advanceLexeme();
+    return expr;
+}
+
+[[nodiscard]] u_ptrExpr Parser::makeShortExpr() noexcept {
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeShortExpr(exprToken, currentLexeme());
+    advanceLexeme();
+    return expr;
+}
+
+[[nodiscard]] u_ptrExpr Parser::makeBoolExpr() noexcept {
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeBoolExpr(exprToken);
+    advanceLexeme();
+    return expr;
+}
+
+[[nodiscard]] u_ptrExpr Parser::makeIdExpr() noexcept {
+    u_ptrToken exprToken = previousToken();
+    u_ptrExpr expr = factory->makeIdExpr(exprToken, currentLexeme());
     advanceLexeme();
     return expr;
 }

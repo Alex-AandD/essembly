@@ -88,6 +88,10 @@ FactoryDeclaration::~FactoryDeclaration() { }
     }
 }
 
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makePrimaryExpr(u_ptrToken& exprToken, const std::string& lex) {
+    
+}
+
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeIntExpr(u_ptrToken& _op, const std::string& lex) noexcept {
     int value = std::stoi(lex);
     return std::make_unique<IntExpr>(_op, value);
@@ -117,7 +121,7 @@ FactoryDeclaration::~FactoryDeclaration() { }
     return std::make_unique<ShortExpr>(_op, value);
 }
 
-[[nodiscard]] u_ptrExpr FactoryDeclaration::makeShortExpr(u_ptrToken& _op, const std::string lex) noexcept {
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makeShortExpr(u_ptrToken& _op, const std::string& lex) noexcept {
     int value = std::stoi(lex);
     return std::make_unique<IdExpr>(_op, value);
 }
