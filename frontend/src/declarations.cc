@@ -38,17 +38,17 @@ void IntDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
 }
 
 /* type checking */
-[[nodiscard]] void BlockStmt::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void BlockStmt::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     for (const auto& stmt: stmts) {
         stmt->acceptTypeCheckerVisitor(visitor);        
     }
 }
 
-[[nodiscard]] void ValueDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void ValueDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     // handle ValueDeclaration
 }
 
-[[nodiscard]] void IntDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void IntDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     // just check if the valueExpr is correct
     DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
     if (type != DECL::INT) {
@@ -56,7 +56,7 @@ void IntDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
     };
 }
 
-[[nodiscard]] void FloatDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void FloatDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     // just check if the valueExpr is correct
     DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
     if (type != DECL::FLOAT){
@@ -64,7 +64,7 @@ void IntDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
     };
 }
 
-[[nodiscard]] void ShortDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void ShortDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     // just check if the valueExpr is correct
     DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
     if (type != DECL::SHORT){
@@ -72,7 +72,7 @@ void IntDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
     };
 }
 
-[[nodiscard]] void DoubleDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void DoubleDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     // just check if the valueExpr is correct
     DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
     if (type != DECL::DOUBLE) {
@@ -80,7 +80,7 @@ void IntDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) {
     };
 }
 
-[[nodiscard]] void BoolDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
+void BoolDeclaration::acceptTypeCheckerVisitor(TypeCheckerVisitor* visitor) {
     // just check if the valueExpr is correct
     DECL type = valueExpr->acceptTypeCheckerVisitor(visitor);
     if (type != DECL::BOOL) {

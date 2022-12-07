@@ -65,7 +65,6 @@ void Parser::printAST() const {
     }
     return AST;
 }
-
 /* 
     block: '{' stmt* '}'
          | stmt;

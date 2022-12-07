@@ -1,4 +1,4 @@
-#pragma once
+#include "frontend/include/expr_types.hh"
 #include <string>
 
 namespace Essembly {

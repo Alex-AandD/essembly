@@ -126,7 +126,7 @@ void Lexer::scan() {
         case '8':  pushNumber(); break;
         case '9':  pushNumber(); break;
         default:
-            if (potentialId(currChar)) { pushId(); }
+            if (potentialId(currChar)) { pushId(); } break;
             throw "unexpected character";
         }
         advance();

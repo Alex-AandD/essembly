@@ -25,6 +25,8 @@ class FloatDeclaration;
 class DoubleDeclaration;
 class StringDeclaration;
 class BoolDeclaration;
+class ShortDeclaration;
+
 
 class UnaryExpr;
 class PrimaryExpr;

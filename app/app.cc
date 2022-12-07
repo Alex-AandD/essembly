@@ -1,19 +1,19 @@
 #include <iostream>
 #include "frontend/include/lexer.hh"
-#include "frontend/include/parser.hh"
-#include "backend/include/generator.hh"
+#include "frontend/include/token.hh"
+//#include "backend/include/generator.hh"
+//#include "backend/include/generator.hh"
 #include <memory>
 
 using namespace Essembly;
 int main(int argc, char const *argv[])
 {
-    Lexer lexer = Lexer("5 + 2 * 90 * 21");
+    std::string input = "int a=5+7 + 9;double b = 5 * 7 / 5;int c =  76 * 12 + 54;";
+    Lexer lexer = Lexer(input);
     lexer.scan();
     auto tokens = std::move(lexer.tokens);
     auto lexemes = lexer.lexemes;
-    Parser parser = Parser(std::move(tokens), lexemes);
-    auto AST = std::move(parser.parse());
-    Generator generator = Generator(AST);
-    generator.generateBytecode();
-    generator.disassemble("random_testing_file");
+    for (const auto& tok: tokens) {
+        std::cout << TokentoString(tok.get()) << '\n';
+    }
 }

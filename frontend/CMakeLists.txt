@@ -1,10 +1,14 @@
 add_library(frontendlib 
-    src/expr.cc
     src/lexer.cc
-    src/printVisitor.cc 
     src/token.cc
-    src/parser.cc
-    src/FactoryDeclaration.cc
+    src/expr.cc
+    src/expr_types.cc
+    #src/declarations.cc
+    #src/printVisitor.cc 
+    #src/parser.cc
+    #src/FactoryDeclaration.cc
+    #src/TypeCheckerVisitor.cc
+    #src/decl_types.cc
 )
 
 target_include_directories(frontendlib PUBLIC

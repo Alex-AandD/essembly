@@ -9,6 +9,12 @@ class Instruction;
 class BinaryExpr;
 class IntExpr;
 class UnaryExpr;
+class FloatDeclaration;
+class ShortDeclaration;
+class IntDeclaration;
+class DoubleDeclaration;
+class BoolDeclaration;
+class StringDeclaration;
 
 class AddExpr;
 class SubExpr;
