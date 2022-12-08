@@ -2,7 +2,7 @@
 #include "frontend/include/declarations.hh"
 #include "frontend/include/expr.hh"
 #include "frontend/include/token.hh"
-#include <memory>
+#include <memory>noexcept 
 
 namespace Essembly {
 
@@ -16,7 +16,8 @@ FactoryDeclaration::~FactoryDeclaration() { }
 /* STMTS*/
 
 /* block statement */
-[[nodiscard]] u_ptrStmt FactoryDeclaration::makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace) {
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeBlockStmt(u_ptrToken& lbrace, 
+    std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace) {
     return std::make_unique<BlockStmt>(lbrace, stmts, rbrace);
 }
 
@@ -61,9 +62,10 @@ FactoryDeclaration::~FactoryDeclaration() { }
 /* EXPRESSIONS */
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeAdd(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case DECL::INT: return std::make_unique<IAddExpr>(_op, l, r);
+        case DECL::INT: return std::move(std::make_unique<IAddExpr>(_op, l, r));
         default: throw "type for add expr not supported";
     }
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeSub(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
@@ -95,7 +97,7 @@ FactoryDeclaration::~FactoryDeclaration() { }
     }
 }
 
-[[nodiscard]] u_ptrExpr FactoryDeclaration::makePrimaryExpr(u_ptrToken& exprToken, const std::string& lex) {
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makePrimaryExpr(u_ptrToken& exprToken, const std::string& lex) noexcept {
     
 }
 
@@ -128,8 +130,7 @@ FactoryDeclaration::~FactoryDeclaration() { }
     return std::make_unique<ShortExpr>(_op, value);
 }
 
-[[nodiscard]] u_ptrExpr FactoryDeclaration::makeShortExpr(u_ptrToken& _op, const std::string& lex) noexcept {
-    int value = std::stoi(lex);
-    return std::make_unique<IdExpr>(_op, value);
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makeIdExpr(DECL exprType, u_ptrToken& _op, const std::string& lex) noexcept {
+    return std::make_unique<IdExpr>(_op, lex, exprType);
 }
 } // Essembly

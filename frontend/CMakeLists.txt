@@ -3,12 +3,12 @@ add_library(frontendlib
     src/token.cc
     src/expr.cc
     src/expr_types.cc
-    #src/declarations.cc
-    #src/printVisitor.cc 
-    #src/parser.cc
-    #src/FactoryDeclaration.cc
+    src/decl_types.cc
+    src/declarations.cc
+    src/printVisitor.cc 
+    src/parser.cc
+    src/FactoryDeclaration.cc
     #src/TypeCheckerVisitor.cc
-    #src/decl_types.cc
 )
 
 target_include_directories(frontendlib PUBLIC

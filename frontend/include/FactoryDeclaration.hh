@@ -4,6 +4,7 @@
 
 namespace Essembly {
 
+class Token;
 class Expr;
 class Stmt;
 class AddExpr;
@@ -23,7 +24,7 @@ public:
     ~FactoryDeclaration();
 public:
 
-    [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace);
+    [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace);
 
     [[nodiscard]] u_ptrStmt makeDeclaration(DECL type, u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
     [[nodiscard]] u_ptrStmt makeIntDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
@@ -48,7 +49,7 @@ public:
     [[nodiscard]] u_ptrExpr makeDoubleExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeBoolExpr(u_ptrToken& _op) noexcept;
     [[nodiscard]] u_ptrExpr makeStringExpr(u_ptrToken& _op, const std::string& lex) noexcept;
-    [[nodiscard]] u_ptrExpr makeIdExpr(u_ptrToken& _op, const std::string& lex) noexcept;
+    [[nodiscard]] u_ptrExpr makeIdExpr(DECL exprType, u_ptrToken& _op, const std::string& lex) noexcept;
 };
 
 } // Essembly

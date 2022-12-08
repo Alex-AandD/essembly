@@ -3,17 +3,25 @@
 #include "frontend/include/printVisitor.hh"
 #include "backend/include/bytecodeVisitor.hh"
 #include "frontend/include/TypeCheckerVisitor.hh"
+#include "frontend/include/token.hh"
+#include <vector>
 
 namespace Essembly
 {
+using u_ptrToken = std::unique_ptr<Token>;
+using u_ptrExpr = std::unique_ptr<Expr>;
+using u_ptrStmt = std::unique_ptr<Stmt>;
+
 Stmt::Stmt() { }
-BlockStmt::BlockStmt(u_ptrToken& _lbrace, const std::vector<u_ptrStmt>& _stmts, u_ptrToken& _rbrace):
-    lbrace(std::move(_lbrace)), stmts(std::move(_stmts)), rbrace(std::move(_rbrace)) { }
+Stmt::~Stmt() { }
+
+BlockStmt::BlockStmt(u_ptrToken& _lbrace, std::vector<u_ptrStmt>& _stmts, u_ptrToken& _rbrace):
+    lbrace(std::move(_lbrace)), stmts(std::move(stmts)), rbrace(std::move(_rbrace)) {
+}
 BlockStmt::~BlockStmt() { }
 
 /* constructors */
 Declaration::Declaration() { }
-Declaration::~Declaration() { }
 ValueDeclaration::ValueDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): 
     declToken(std::move(tok)), idExpr(std::move(id)), valueExpr(std::move(value)) { }
 IntDeclaration::IntDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): ValueDeclaration(tok, id, value) { };
@@ -27,6 +35,11 @@ BoolDeclaration::BoolDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& valu
 Declaration::~Declaration() { }
 ValueDeclaration::~ValueDeclaration() { }
 IntDeclaration::~IntDeclaration() { }
+DoubleDeclaration::~DoubleDeclaration() { }
+StringDeclaration::~StringDeclaration() { }
+FloatDeclaration::~FloatDeclaration() { }
+ShortDeclaration::~ShortDeclaration() { }
+BoolDeclaration::~BoolDeclaration() { }
 
 /* bytecode visitor */
 void ValueDeclaration::acceptBytecodeVisitor(BytecodeVisitor* visitor) { 

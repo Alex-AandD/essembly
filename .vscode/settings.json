@@ -75,6 +75,9 @@
         "condition_variable": "cpp",
         "iomanip": "cpp",
         "map": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "deque": "cpp",
+        "fstream": "cpp",
+        "stack": "cpp"
     }
 }

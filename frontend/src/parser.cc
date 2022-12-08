@@ -1,9 +1,11 @@
 #include "frontend/include/parser.hh"
 #include "frontend/include/token.hh"
+#include "frontend/include/expr.hh"
 #include "frontend/include/FactoryDeclaration.hh"
 #include "frontend/include/declarations.hh"
 #include "frontend/include/printVisitor.hh"
 #include <iostream>
+#include <vector>
 
 /* USE OF SMART AND RAW POINTERS */
 /* FACTORIES CAN RETURN SMART POINTERS */
@@ -22,16 +24,13 @@ Parser::Parser():
     }
 
 
-Parser::Parser(std::vector<u_ptrToken> toks, std::vector<std::string> lexemes): 
+Parser::Parser(std::vector<u_ptrToken>& toks, const std::vector<std::string>& lexemes): 
     tokens(std::move(toks)), 
     lexemes(lexemes), 
     factory(std::make_unique<FactoryDeclaration>()),
     printVisitor(std::make_unique<PrintVisitor>()),
     t_current(0), 
-    l_current(0)
-    {
-        AST.reserve(10000);
-    }
+    l_current(0) { }
 
 void Parser::printAST() const {
     for (const auto& stmt: AST) {
@@ -42,7 +41,7 @@ void Parser::printAST() const {
 
 [[nodiscard]] u_ptrExpr Parser::makeBinaryExpr(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) noexcept {
     switch(_op->type) {
-        case TT::PLUS:  return factory->makeAdd(exprType, _op, l, r);
+        case TT::PLUS:  return std::move(factory->makeAdd(exprType, _op, l, r));
         case TT::MINUS: return factory->makeSub(exprType, _op, l, r);
         case TT::TIMES: return factory->makeMul(exprType, _op, l, r);
         case TT::SLASH: return factory->makeDiv(exprType, _op, l, r);
@@ -54,7 +53,7 @@ void Parser::printAST() const {
     return factory->makeUnary(_op, r);
 }
 
-[[nodiscard]] std::vector<u_ptrStmt> Parser::parse() {
+void Parser::parse() {
     while (!atEnd()){
         try {
             AST.push_back(stmt());
@@ -63,7 +62,6 @@ void Parser::printAST() const {
             // add synchronize function
         }
     }
-    return AST;
 }
 /* 
     block: '{' stmt* '}'
@@ -81,8 +79,8 @@ void Parser::printAST() const {
     return makeBlockStmt(lbraceToken, stmts, rbraceToken);
 }
 
-[[nodiscard]] u_ptrStmt Parser::makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace) {
-    return factory->makeBlockStmt(lbrace, std::move(stmts), rbrace);
+[[nodiscard]] u_ptrStmt Parser::makeBlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>& stmts, u_ptrToken& rbrace) noexcept {
+    return factory->makeBlockStmt(lbrace, stmts, rbrace);
 }
 
 [[nodiscard]] u_ptrStmt Parser::stmt() {
@@ -228,9 +226,9 @@ void Parser::printAST() const {
     return expr;
 }
 
-[[nodiscard]] u_ptrExpr Parser::makeIdExpr() noexcept {
+[[nodiscard]] u_ptrExpr Parser::makeIdExpr(DECL exprType) noexcept {
     u_ptrToken exprToken = previousToken();
-    u_ptrExpr expr = factory->makeIdExpr(exprToken, currentLexeme());
+    u_ptrExpr expr = factory->makeIdExpr(exprType, exprToken, currentLexeme());
     advanceLexeme();
     return expr;
 }
@@ -241,7 +239,7 @@ void Parser::printAST() const {
     if (matchCurrent(TT::DOUBLE_LITERAL)) return makeDoubleExpr();
     if (matchCurrent(TT::STRING_LITERAL)) return makeStringExpr();
     /* add make idExpr to factory function */
-    if (matchCurrent(TT::ID)) return makeIdExpr();
+    if (matchCurrent(TT::ID)) return makeIdExpr(exprType);
     else { throw "unknown expression type"; }
 }
 

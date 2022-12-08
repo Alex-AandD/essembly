@@ -15,6 +15,7 @@ namespace Essembly {
     class PrintVisitor;
     class Expr;
     class TypeCheckerVisitor;
+    class Token;
 
     using ptrPVisitor = PrintVisitor*;
     using ptrBVisitor = BytecodeVisitor*;
@@ -405,9 +406,9 @@ public:
 };
 
 class IdExpr: public PrimaryExpr {
-public:
-    std::string name;
+public: 
     DECL type;
+    std::string name;
 public:
     IdExpr(u_ptrToken&, const std::string&, DECL);
     ~IdExpr() override;

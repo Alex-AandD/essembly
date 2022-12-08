@@ -15,7 +15,6 @@ PrintVisitor::PrintVisitor() { };
 [[nodiscard]] std::string PrintVisitor::visitBlockStmt(BlockStmt* block) {
     /* print all the statements contained inside the block */
     std::string finalBlock = "{\n";
-    auto stmts = block->stmts;
     for (const auto& stmt: block->stmts) {
         finalBlock+ stmt->acceptPrintVisitor(this) + '\n';
     }

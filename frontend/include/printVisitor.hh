@@ -5,7 +5,6 @@
 
 namespace Essembly {
 
-class Expr;
 class BinaryExpr;
 class AddExpr;
 class SubExpr;
@@ -15,6 +14,18 @@ class IDivExpr;
 class IMulExpr;
 class ISubExpr;
 class IAddExpr;
+class DDivExpr;
+class DMulExpr;
+class DSubExpr;
+class DAddExpr;
+class FDivExpr;
+class FMulExpr;
+class FSubExpr;
+class FAddExpr;
+class SDivExpr;
+class SMulExpr;
+class SSubExpr;
+class SAddExpr;
 
 class Stmt;
 class BlockStmt;
@@ -26,7 +37,6 @@ class DoubleDeclaration;
 class StringDeclaration;
 class BoolDeclaration;
 class ShortDeclaration;
-
 
 class UnaryExpr;
 class PrimaryExpr;

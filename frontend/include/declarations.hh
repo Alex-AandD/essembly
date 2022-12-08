@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 #include <memory>
 #include <string>
 #include <vector>
@@ -25,20 +25,24 @@ namespace Essembly {
 /* and an expression, which is going to contain the token of the expression and the value (or another expression) */
 
 class Expr;
+class Token;
 class BytecodeVisitor;
 class PrintVisitor;
 class TypeCheckerVisitor;
+class Stmt;
 /* we want to keep the tokens into the expressions */
 /* the id is going to store a token to the name */
 /* while the actual expressions are going to store a token to the single values */
 
 using u_ptrExpr = std::unique_ptr<Expr>;
 using u_ptrStmt = std::unique_ptr<Stmt>;
+using u_ptrToken = std::unique_ptr<Token>;
 
 class Stmt {
 public:
     Stmt();
-    virtual ~Stmt() = 0;
+    virtual ~Stmt();
+public:
     [[nodiscard]] virtual std::string acceptPrintVisitor(PrintVisitor*) = 0;
     virtual void acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
     virtual void acceptBytecodeVisitor(BytecodeVisitor*) = 0;
@@ -50,11 +54,11 @@ public:
     std::vector<u_ptrStmt> stmts;
     u_ptrToken rbrace;
 public:
-    BlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>&, u_ptrToken& rbrace);
+    BlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>&, u_ptrToken& rbrace);
     ~BlockStmt() override;
 public:
     [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
+    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
     void acceptBytecodeVisitor(BytecodeVisitor*) override;
 };
 

@@ -37,11 +37,11 @@ private:
     std::unique_ptr<FactoryDeclaration> factory;
     std::unique_ptr<PrintVisitor> printVisitor;
     std::vector<u_ptrStmt> AST; /* an AST is a vector of statements */
-    size_t t_current; /* index to the current token */
+    size_t t_current; /* index o the current token */
     size_t l_current; /* index to the current lexeme */
 public:
     Parser();
-    Parser(std::vector<u_ptrToken> tokens, std::vector<std::string> lexemes);
+    Parser(std::vector<u_ptrToken>& tokens, const std::vector<std::string>& lexemes);
 private: /* some helpers */
     [[nodiscard]] inline bool atEnd() { return atEnd(0); }
     [[nodiscard]] inline bool atEnd(size_t offset) { return t_current + offset >= tokens.size(); }
@@ -64,10 +64,11 @@ private: /* some helpers */
         return match(0, first, args...);
     }
 public:
-    [[nodiscard]] std::vector<u_ptrStmt> parse();
+    void parse();
+    [[nodiscard]] inline std::vector<u_ptrStmt>& getAST() { return AST; }
     void printAST() const;
 private:
-    [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, const std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;
+    [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;
     [[nodiscard]] u_ptrStmt makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
 
     [[nodiscard]] u_ptrExpr makeBinaryExpr(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
@@ -78,7 +79,7 @@ private:
     [[nodiscard]] u_ptrExpr makeDoubleExpr() noexcept;
     [[nodiscard]] u_ptrExpr makeBoolExpr() noexcept;
     [[nodiscard]] u_ptrExpr makeStringExpr() noexcept;
-    [[nodiscard]] u_ptrExpr makeIdExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeIdExpr(DECL exprType) noexcept;
 
     [[nodiscard]] u_ptrStmt block();
     [[nodiscard]] u_ptrStmt stmt();
