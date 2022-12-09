@@ -183,16 +183,16 @@ void Parser::parse() {
 }
 
 
-[[nodiscard]] u_ptrExpr Parser::makeIntExpr() noexcept {
+[[nodiscard]] u_ptrExpr Parser::makeIntegerExpr(DECL exprType) noexcept {
     u_ptrToken exprToken = previousToken();
-    u_ptrExpr expr = factory->makeIntExpr(exprToken, currentLexeme());
+    u_ptrExpr expr = factory->makeIntegerExpr(exprType, exprToken, currentLexeme());
     advanceLexeme();
     return expr;
 }
 
-[[nodiscard]] u_ptrExpr Parser::makeFloatExpr() noexcept {
+[[nodiscard]] u_ptrExpr Parser::makeDecimalExpr(DECL exprType) noexcept {
     u_ptrToken exprToken = previousToken();
-    u_ptrExpr expr = factory->makeFloatExpr(exprToken, currentLexeme());
+    u_ptrExpr expr = factory->makeDecimalExpr(exprType, exprToken, currentLexeme());
     advanceLexeme();
     return expr;
 }
@@ -200,20 +200,6 @@ void Parser::parse() {
 [[nodiscard]] u_ptrExpr Parser::makeStringExpr() noexcept {
     u_ptrToken exprToken = previousToken();
     u_ptrExpr expr = factory->makeStringExpr(exprToken, currentLexeme());
-    advanceLexeme();
-    return expr;
-}
-
-[[nodiscard]] u_ptrExpr Parser::makeDoubleExpr() noexcept {
-    u_ptrToken exprToken = previousToken();
-    u_ptrExpr expr = factory->makeDoubleExpr(exprToken, currentLexeme());
-    advanceLexeme();
-    return expr;
-}
-
-[[nodiscard]] u_ptrExpr Parser::makeShortExpr() noexcept {
-    u_ptrToken exprToken = previousToken();
-    u_ptrExpr expr = factory->makeShortExpr(exprToken, currentLexeme());
     advanceLexeme();
     return expr;
 }
@@ -233,9 +219,8 @@ void Parser::parse() {
 }
 
 [[nodiscard]] u_ptrExpr Parser::primary(DECL exprType) {
-    if (matchCurrent(TT::INT_LITERAL)) return makeIntExpr();
-    if (matchCurrent(TT::FLOAT_LITERAL)) return makeFloatExpr();
-    if (matchCurrent(TT::DOUBLE_LITERAL)) return makeDoubleExpr();
+    if (matchCurrent(TT::INT_LITERAL)) return makeIntegerExpr(exprType);
+    if (matchCurrent(TT::FLOAT_LITERAL)) return makeDecimalExpr(exprType);
     if (matchCurrent(TT::STRING_LITERAL)) return makeStringExpr();
     /* add make idExpr to factory function */
     if (matchCurrent(TT::ID)) return makeIdExpr(exprType);

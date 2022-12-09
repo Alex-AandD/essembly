@@ -47,9 +47,11 @@ public:
 
     [[nodiscard]] u_ptrExpr makeUnary(u_ptrToken& _op, u_ptrExpr& r) noexcept;
 //  [[nodiscard]] u_ptrExpr makePrimaryExpr(u_ptrToken& _op, const std::string& lex) noexcept;
-    [[nodiscard]] u_ptrExpr makeIntExpr(u_ptrToken& _op, const std::string& lex) noexcept;
-    [[nodiscard]] u_ptrExpr makeFloatExpr(u_ptrToken& _op, const std::string& lex) noexcept;
+    [[nodiscard]] u_ptrExpr makeIntegerExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeShortExpr(u_ptrToken& _op, const std::string& lex) noexcept;
+    [[nodiscard]] u_ptrExpr makeIntExpr(u_ptrToken& _op, const std::string& lex) noexcept;
+    [[nodiscard]] u_ptrExpr makeDecimalExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept;
+    [[nodiscard]] u_ptrExpr makeFloatExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeDoubleExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeBoolExpr(u_ptrToken& _op) noexcept;
     [[nodiscard]] u_ptrExpr makeStringExpr(u_ptrToken& _op, const std::string& lex) noexcept;

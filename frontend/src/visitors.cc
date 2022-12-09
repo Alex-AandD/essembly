@@ -29,6 +29,7 @@ void PrintVisitor::visitDeclaration(Declaration* decl) {
 void PrintVisitor::declarationHelper(Declaration* decl, const std::string& typeString) {
     std::cout << typeString << " ";
     (decl->idExpr)->accept(*this);
+    PRINT_CHARACTERS(" = ")
     (decl->valueExpr)->accept(*this);
 }
 
@@ -57,7 +58,7 @@ void PrintVisitor::visitShortDeclaration(ShortDeclaration* decl) {
 }
 
 /********************** 
-/********************** 
+********************** 
     EXPRESSIONS 
 ********************
 **********************/

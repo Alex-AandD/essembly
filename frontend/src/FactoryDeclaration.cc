@@ -105,9 +105,27 @@ FactoryDeclaration::~FactoryDeclaration() { }
     
 // }
 
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makeIntegerExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept {
+    switch(declType) {
+        case DECL::INT: return makeIntExpr(_op, lex);
+        case DECL::SHORT: return makeShortExpr(_op, lex);
+        default: assert("integer type not supported");
+    } 
+    return nullptr;
+}
+
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeIntExpr(u_ptrToken& _op, const std::string& lex) noexcept {
     int value = std::stoi(lex);
     return std::make_unique<IntExpr>(_op, value);
+}
+
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makeDecimalExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept {
+    switch(declType) {
+        case DECL::DOUBLE: return makeDoubleExpr(_op, lex);
+        case DECL::FLOAT: return makeFloatExpr(_op, lex);
+        default: assert("decimal type not supported");
+    } 
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeFloatExpr(u_ptrToken& _op, const std::string& lex) noexcept {
