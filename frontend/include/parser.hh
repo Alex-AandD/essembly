@@ -34,7 +34,6 @@ private:
     std::vector<u_ptrToken> tokens;
     std::vector<std::string> lexemes;
     std::unique_ptr<FactoryDeclaration> factory;
-    Visitor* visitor;
     std::vector<u_ptrStmt> AST; /* an AST is a vector of statements */
     size_t t_current; /* index o the current token */
     size_t l_current; /* index to the current lexeme */
@@ -65,7 +64,7 @@ private: /* some helpers */
 public:
     void parse();
     [[nodiscard]] inline std::vector<u_ptrStmt>& getAST() { return AST; }
-    void printAST() const noexcept;
+    void printAST(Visitor& v) const noexcept;
 private:
     [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;
     [[nodiscard]] u_ptrStmt makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;

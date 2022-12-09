@@ -3,6 +3,7 @@
 #include "frontend/include/token.hh"
 #include "frontend/include/parser.hh"
 #include "frontend/include/declarations.hh"
+#include "frontend/include/visitors.hh"
 //#include "backend/include/generator.hh"
 #include <memory>
 #include <vector>
@@ -18,9 +19,10 @@ int main(int argc, char const *argv[])
         std::cout << TokentoString(lexer.tokens[i].get()) << '\n';
     }
     
+    PrintVisitor* visitor = new PrintVisitor();
     std::vector<std::unique_ptr<Token>> tokens = std::move(lexer.tokens);
     std::vector<std::string> lexemes = lexer.lexemes;
     auto parser = Parser(tokens, lexemes);
     parser.parse();
-    parser.printAST();
+    parser.printAST(*visitor);
 }

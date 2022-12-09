@@ -99,7 +99,7 @@ public:
     StringDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     virtual ~StringDeclaration() override;
 public:
-    void accept(Visitor& v);
+    void accept(Visitor& v) override;
 };
 
 class DoubleDeclaration: public Declaration {
@@ -107,7 +107,7 @@ public:
     DoubleDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     ~DoubleDeclaration() override;
 public:
-    void accept(Visitor& v);
+    void accept(Visitor& v) override;
 };
 
 class BoolDeclaration: public Declaration {
@@ -115,7 +115,7 @@ public:
     BoolDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     virtual ~BoolDeclaration();
 public:
-    void accept(Visitor& v);
+    void accept(Visitor& v) override;
 };
 
 } // Essembly

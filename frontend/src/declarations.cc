@@ -20,6 +20,7 @@ using u_ptrExpr = std::unique_ptr<Expr>;
 using u_ptrStmt = std::unique_ptr<Stmt>;
 
 Stmt::Stmt() { }
+Stmt::~Stmt() { }
 
 BlockStmt::BlockStmt(u_ptrToken& _lbrace, std::vector<u_ptrStmt>& _stmts, u_ptrToken& _rbrace):
     lbrace(std::move(_lbrace)), stmts(std::move(stmts)), rbrace(std::move(_rbrace)) {
@@ -47,6 +48,7 @@ BoolDeclaration::~BoolDeclaration() { }
 
 /* ACCEPT METHODS */
 ACCEPT_METHOD(BlockStmt);
+ACCEPT_METHOD(Declaration);
 ACCEPT_METHOD(BoolDeclaration);
 ACCEPT_METHOD(ShortDeclaration);
 ACCEPT_METHOD(IntDeclaration);

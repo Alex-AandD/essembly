@@ -73,6 +73,7 @@ FactoryDeclaration::~FactoryDeclaration() { }
         case DECL::INT: return std::make_unique<ISubExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeMul(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
@@ -80,6 +81,7 @@ FactoryDeclaration::~FactoryDeclaration() { }
         case DECL::INT: return std::make_unique<IMulExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeDiv(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
@@ -87,6 +89,7 @@ FactoryDeclaration::~FactoryDeclaration() { }
         case DECL::INT: return std::make_unique<IDivExpr>(_op, l, r);
         default: throw "type for add expr not supported";
     }
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeUnary(u_ptrToken& _op, u_ptrExpr& r) noexcept {
@@ -95,11 +98,12 @@ FactoryDeclaration::~FactoryDeclaration() { }
         case TT::NOT: return std::make_unique<UnaryNotExpr>(_op, r);
         default: break;
     }
+    return nullptr;
 }
 
-[[nodiscard]] u_ptrExpr FactoryDeclaration::makePrimaryExpr(u_ptrToken& exprToken, const std::string& lex) noexcept {
+// [[nodiscard]] u_ptrExpr FactoryDeclaration::makePrimaryExpr(u_ptrToken& exprToken, const std::string& lex) noexcept {
     
-}
+// }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeIntExpr(u_ptrToken& _op, const std::string& lex) noexcept {
     int value = std::stoi(lex);

@@ -38,7 +38,7 @@ public:
     BinaryExpr(u_ptrToken& op, u_ptrExpr& lhs, u_ptrExpr& rhs);
     virtual ~BinaryExpr();
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class AddExpr: public BinaryExpr {
@@ -46,7 +46,7 @@ public:
     AddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~AddExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class IAddExpr: public AddExpr { 
@@ -54,7 +54,7 @@ public:
     IAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~IAddExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class FAddExpr: public AddExpr { 
@@ -62,7 +62,7 @@ public:
     FAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~FAddExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class DAddExpr: public AddExpr { 
@@ -70,7 +70,7 @@ public:
     DAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~DAddExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class SAddExpr: public AddExpr { 
@@ -78,7 +78,7 @@ public:
     SAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~SAddExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class SubExpr: public BinaryExpr {
@@ -86,7 +86,7 @@ public:
     SubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~SubExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 /* sub expressions */
@@ -95,7 +95,7 @@ public:
     ISubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~ISubExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class FSubExpr: public SubExpr { 
@@ -103,7 +103,7 @@ public:
     FSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~FSubExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class DSubExpr: public SubExpr { 
@@ -111,7 +111,7 @@ public:
     DSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~DSubExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class SSubExpr: public SubExpr { 
@@ -119,7 +119,7 @@ public:
     SSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~SSubExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class MulExpr: public BinaryExpr {
@@ -127,7 +127,7 @@ public:
     MulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~MulExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class IMulExpr: public MulExpr { 
@@ -135,7 +135,7 @@ public:
     IMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~IMulExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class FMulExpr: public MulExpr { 
@@ -143,7 +143,7 @@ public:
     FMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~FMulExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class DMulExpr: public MulExpr { 
@@ -151,7 +151,7 @@ public:
     DMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~DMulExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class SMulExpr: public MulExpr { 
@@ -159,7 +159,7 @@ public:
     SMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~SMulExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class DivExpr: public BinaryExpr {
@@ -167,7 +167,7 @@ public:
     DivExpr(u_ptrToken& _op, u_ptrExpr& lhs, u_ptrExpr& rhs);
     ~DivExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class IDivExpr: public DivExpr { 
@@ -175,7 +175,7 @@ public:
     IDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~IDivExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class FDivExpr: public DivExpr { 
@@ -183,7 +183,7 @@ public:
     FDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~FDivExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class SDivExpr: public DivExpr { 
@@ -191,7 +191,7 @@ public:
     SDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~SDivExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class DDivExpr: public DivExpr { 
@@ -199,7 +199,7 @@ public:
     DDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~DDivExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class UnaryExpr: public Expr {
@@ -210,7 +210,7 @@ public:
     UnaryExpr(u_ptrToken&, u_ptrExpr&);
     ~UnaryExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class UnaryNotExpr: public UnaryExpr {
@@ -218,7 +218,7 @@ public:
     UnaryNotExpr(u_ptrToken&, u_ptrExpr& );
     ~UnaryNotExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class UnaryMinusExpr: public UnaryExpr {
@@ -226,7 +226,7 @@ public:
     UnaryMinusExpr(u_ptrToken&, u_ptrExpr&);
     ~UnaryMinusExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class PrimaryExpr: public Expr {
@@ -236,7 +236,7 @@ public:
     PrimaryExpr(u_ptrToken&);
     ~PrimaryExpr() override;
 private:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class IntExpr: public PrimaryExpr { 
@@ -246,7 +246,7 @@ public:
     IntExpr(u_ptrToken&, int);
     ~IntExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class ShortExpr: public PrimaryExpr { 
@@ -256,7 +256,7 @@ public:
     ShortExpr(u_ptrToken&, short);
     ~ShortExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class BoolExpr: public PrimaryExpr { 
@@ -266,7 +266,7 @@ public:
     BoolExpr(u_ptrToken&);
     ~BoolExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class FloatExpr: public PrimaryExpr { 
@@ -276,7 +276,7 @@ public:
     FloatExpr(u_ptrToken&, float);
     ~FloatExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class DoubleExpr: public PrimaryExpr { 
@@ -286,7 +286,7 @@ public:
     DoubleExpr(u_ptrToken&, double);
     ~DoubleExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class StringExpr: public PrimaryExpr {
@@ -296,7 +296,7 @@ public:
     StringExpr(u_ptrToken&, const std::string&);
     ~StringExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
 
 class IdExpr: public PrimaryExpr {
@@ -307,8 +307,7 @@ public:
     IdExpr(u_ptrToken&, const std::string&, DECL);
     ~IdExpr() override;
 public:
-    void accept(Visitor& visitor);
+    void accept(Visitor& visitor) override;
 };
-
 
 } // Essembly

@@ -66,6 +66,7 @@ private:
 public:
     void visitBlockStmt(BlockStmt*);
 
+    void visitDeclaration(Declaration*);
     void visitBoolDeclaration(BoolDeclaration*);
     void visitShortDeclaration(ShortDeclaration*);
     void visitIntDeclaration(IntDeclaration*);
@@ -100,14 +101,14 @@ public:
     void visitUnaryNotExpr(UnaryNotExpr* expr);
     void visitUnaryMinusExpr(UnaryMinusExpr* expr);
 
-
-    void visitBoolExpr(BoolExpr*) const noexcept;
-    void visitShortExpr(ShortExpr*) const noexcept;
-    void visitIntExpr(IntExpr*) const noexcept;
-    void visitFloatExpr(FloatExpr*) const noexcept;
-    void visitDoubleExpr(DoubleExpr*) const noexcept;
-    void visitStringExpr(StringExpr*) const noexcept;
-    void visitIdExpr(IdExpr*) const noexcept;
+    void visitPrimaryExpr(PrimaryExpr*);
+    void visitBoolExpr(BoolExpr*);
+    void visitShortExpr(ShortExpr*);
+    void visitIntExpr(IntExpr*);
+    void visitFloatExpr(FloatExpr*);
+    void visitDoubleExpr(DoubleExpr*);
+    void visitStringExpr(StringExpr*);
+    void visitIdExpr(IdExpr*);
 };
 
 } // Essembly

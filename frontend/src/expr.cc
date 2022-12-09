@@ -98,15 +98,14 @@ IdExpr::~IdExpr() { }
 /* all the accept methods are defined using a clever macro */
 
 /* declarations */
-ACCEPT_METHOD(BoolDeclaration);
-ACCEPT_METHOD(ShortDeclaration);
-ACCEPT_METHOD(IntDeclaration);
-ACCEPT_METHOD(FloatDeclaration);
-ACCEPT_METHOD(DoubleDeclaration);
-ACCEPT_METHOD(StringDeclaration);
 
 
 /* add, sub, mul, div */
+ACCEPT_METHOD(BinaryExpr);
+ACCEPT_METHOD(AddExpr);
+ACCEPT_METHOD(SubExpr);
+ACCEPT_METHOD(MulExpr);
+ACCEPT_METHOD(DivExpr);
 ACCEPT_METHOD(IAddExpr);
 ACCEPT_METHOD(ISubExpr);
 ACCEPT_METHOD(IDivExpr);
@@ -124,7 +123,13 @@ ACCEPT_METHOD(FSubExpr);
 ACCEPT_METHOD(FMulExpr);
 ACCEPT_METHOD(FDivExpr);
 
+/* unary expressions */
+ACCEPT_METHOD(UnaryExpr);
+ACCEPT_METHOD(UnaryMinusExpr);
+ACCEPT_METHOD(UnaryNotExpr);
+
 /* primary expressions */
+ACCEPT_METHOD(PrimaryExpr);
 ACCEPT_METHOD(BoolExpr);
 ACCEPT_METHOD(ShortExpr);
 ACCEPT_METHOD(IntExpr);

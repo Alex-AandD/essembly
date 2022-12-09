@@ -8,12 +8,11 @@
 #define PRINT_CHARACTERS(char) std::cout << char;
 
 namespace Essembly {
+Visitor::~Visitor() { }
+
 PrintVisitor::PrintVisitor() { }
 PrintVisitor::~PrintVisitor() { }
 
-/************************************/
-/*  BINARY EXPRESSIONS */
-/************************************/
 void PrintVisitor::visitBlockStmt(BlockStmt* block) {
     /* print all the statements contained inside the block */
     std::cout << "{ \n";
@@ -21,6 +20,10 @@ void PrintVisitor::visitBlockStmt(BlockStmt* block) {
         stmt->accept(*this);
     }
     std::cout << "\n}";
+}
+
+void PrintVisitor::visitDeclaration(Declaration* decl) {
+    assert("do not use declaration for print visitor");
 }
 
 void PrintVisitor::declarationHelper(Declaration* decl, const std::string& typeString) {
@@ -174,25 +177,29 @@ void PrintVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) {
 /************************************/
 /*  PRIMARY EXPRESSIONS */
 /************************************/
-void PrintVisitor::visitIntExpr(IntExpr* expr) const noexcept {
+void PrintVisitor::visitPrimaryExpr(PrimaryExpr* expr) {
+    assert("do not use");
+}
+
+void PrintVisitor::visitIntExpr(IntExpr* expr) {
     std::cout << expr -> value; 
 }
-void PrintVisitor::visitShortExpr(ShortExpr* expr) const noexcept {
+void PrintVisitor::visitShortExpr(ShortExpr* expr) {
     std::cout << expr -> value; 
 }
-void PrintVisitor::visitFloatExpr(FloatExpr* expr) const noexcept {
+void PrintVisitor::visitFloatExpr(FloatExpr* expr) {
     std::cout << expr -> value; 
 }
-void PrintVisitor::visitDoubleExpr(DoubleExpr* expr) const noexcept {
+void PrintVisitor::visitDoubleExpr(DoubleExpr* expr) {
     std::cout << expr -> value; 
 }
-void PrintVisitor::visitStringExpr(StringExpr* expr) const noexcept {
+void PrintVisitor::visitStringExpr(StringExpr* expr) {
     std::cout << expr -> value; 
 }
-void PrintVisitor::visitIdExpr(IdExpr* expr) const noexcept {
+void PrintVisitor::visitIdExpr(IdExpr* expr) {
     std::cout << expr -> name; 
 }
-void PrintVisitor::visitBoolExpr(BoolExpr* expr) const noexcept {
+void PrintVisitor::visitBoolExpr(BoolExpr* expr) {
     std::cout << expr -> value; 
 }
 

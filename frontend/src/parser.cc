@@ -16,7 +16,6 @@ namespace Essembly {
 
 Parser::Parser(): 
     factory(std::make_unique<FactoryDeclaration>()), 
-    visitor(nullptr),
     t_current(0),
     l_current(0)
     {
@@ -28,24 +27,24 @@ Parser::Parser(std::vector<u_ptrToken>& toks, const std::vector<std::string>& le
     tokens(std::move(toks)), 
     lexemes(lexemes), 
     factory(std::make_unique<FactoryDeclaration>()),
-    visitor(nullptr),
     t_current(0), 
     l_current(0) { }
 
-void Parser::printAST() const noexcept {
+void Parser::printAST(Visitor& visitor) const noexcept {
     for (auto& stmt: AST) {
-        stmt -> accept(*visitor);
+        stmt -> accept(visitor);
     }
 }
 
 [[nodiscard]] u_ptrExpr Parser::makeBinaryExpr(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) noexcept {
     switch(_op->type) {
-        case TT::PLUS:  return std::move(factory->makeAdd(exprType, _op, l, r));
+        case TT::PLUS:  return factory->makeAdd(exprType, _op, l, r);
         case TT::MINUS: return factory->makeSub(exprType, _op, l, r);
         case TT::TIMES: return factory->makeMul(exprType, _op, l, r);
         case TT::SLASH: return factory->makeDiv(exprType, _op, l, r);
         default: break;
     }
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr Parser::makeUnaryExpr(u_ptrToken& _op, u_ptrExpr& r) noexcept {
@@ -119,6 +118,7 @@ void Parser::parse() {
 
     /* create some kind of intermediate type expression statement, between statement and expression */
     // return expr(DECL::DYNAMIC);
+    return nullptr;
 }
 
 [[nodiscard]] u_ptrStmt Parser::finishDeclaration(DECL exprType, u_ptrToken& declToken) {
