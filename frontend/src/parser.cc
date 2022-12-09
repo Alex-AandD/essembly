@@ -61,10 +61,7 @@ void Parser::parse() {
         }
     }
 }
-/* 
-    block: '{' stmt* '}'
-         | stmt;
-*/
+
 [[nodiscard]] u_ptrStmt Parser::block() {
     // save the left brace for debugging and error handling
     u_ptrToken lbraceToken = previousToken();

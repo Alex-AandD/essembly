@@ -1,36 +1,42 @@
 #include <gtest/gtest.h>
 #include "frontend/include/lexer.hh"
+#include "frontend/include/token.hh"
 
-/* creating a fixture to reuse Lexer class */
-class LexerTest : public ::testing::Test {
-protected:
-    virtual ~LexerTest() { }
-    void SetUp() override {
-        lexer = Lexer("");
-    }
-    Lexer lexer;
+/* LEXER FIXTURE */
+class LexerTest: public ::testing::Test {
+public:
+    Essembly::Lexer lexer;
 };
 
+/* testing for empty input */
 TEST_F(LexerTest, EmptyInput) {
-    /* check how the lexer deals with an empty file */ 
+    // the vector of tokens should be of size 0;
+    lexer.reset("");
     lexer.scan();
-    /* we expect to have an empty list of tokens and an empty list of lexemes */
-    auto tokens = lexer.tokens;
-    auto lexemes = lexer.lexemes;
-    EXPECT_EQ(tokens.size(), 0) << "token array not empty \n";
-    EXPECT_EQ(lexemes.size(), 0) << "lexeme array not empty \n";
+    auto tokens = std::move(lexer.tokens);
+    EXPECT_EQ(tokens.size(), 0);
 }
 
-TEST_F(LexerTest, ConstructorWorks) {
-    /* check if the constructor works properly */
-    /* first empty input */
-    std::string input = "";
-    Lexer lexer = Lexer(input);
-    /* check if the input is correct */
-    EXPECT_TRUE(lexer.input == input);
-    EXPECT_EQ(lexer.current, 0);
-    EXPECT_EQ(lexer.start, 0);
-    EXPECT_EQ(lexer.input_len, 0);
+/* testing for arithmetic operators */
+TEST_F(LexerTest, ArithmeticTokens) {
+    // the vector of tokens should be of size 0;
+    using namespace Essembly;
+    lexer.reset("+ - / * + -");
+    lexer.scan();
+
+    // first compare the sizes of the two vectors
+    EXPECT_EQ(6, lexer.tokens.size());
+
+    auto tokens = std::move(lexer.tokens);
+    std::vector<TT> expectedTypes { TT::PLUS, TT::MINUS, TT::SLASH, TT::TIMES, TT::PLUS, TT::MINUS };
+    // now compare the actual types
+    for (size_t i = 0; i < tokens.size(); i++) {
+        EXPECT_EQ(tokens[i]->type, expectedTypes[i]);
+    }
+}
+
+TEST_F(LexerTest, ComparisonTokens) {
+
 }
 
 int main(int argc, char** argv) {

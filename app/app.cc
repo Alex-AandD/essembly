@@ -11,7 +11,7 @@
 using namespace Essembly;
 int main(int argc, char const *argv[])
 {
-    std::string input = "int a = 2;";
+    std::string input = "{ }";
     Lexer lexer = Lexer(input);
     lexer.scan();
     for (size_t i = 0; i < lexer.tokens.size(); i++)

@@ -5,7 +5,7 @@
 namespace Essembly {
 enum class TT {
     PLUS, MINUS, TIMES, SLASH,
-    NOT, NEQ, EQE, EQ,
+    NOT, NEQ, EQE, EQ, LT, LTE, GT, GTE,
     INT_TYPE, INT_LITERAL,
     FLOAT_TYPE, FLOAT_LITERAL,
     DOUBLE_TYPE,

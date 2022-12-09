@@ -21,6 +21,13 @@ public:
     Lexer(std::string _inp);
 public:
     void scan();
+    inline void reset(const std::string& _inp) { line = 1; current = 0; start = current; input = _inp; input_len = input.size(); }
+    inline std::vector<TT> getTokenTypes() const noexcept {
+        std::vector<TT> types(tokens.size());
+        for (size_t i = 0; i < tokens.size(); i++) {
+            types.push_back(tokens[i]->type);
+        }
+    }
 private:
     /* some helper methods */
     [[nodiscard]] inline bool atEnd() noexcept { return current >= input_len; }

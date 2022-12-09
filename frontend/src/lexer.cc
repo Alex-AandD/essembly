@@ -102,6 +102,8 @@ void Lexer::scan() {
         case '=':  matchNext('=') ? pushToken(TT::EQE) : pushToken(TT::EQ); break;
         case '"':  pushString(); break;
         case '!':  matchNext('=') ? pushToken(TT::NEQ) : pushToken(TT::NOT); break;
+        case '>':  matchNext('=') ? pushToken(TT::GTE) : pushToken(TT::GT); break;
+        case '<':  matchNext('=') ? pushToken(TT::LTE) : pushToken(TT::LT); break;
         case 'i':
         case 'b':
         case 'd':
