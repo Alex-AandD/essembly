@@ -4,6 +4,16 @@
 
 namespace Essembly {
 
+class BlockStmt;
+class Declaration;
+class ValueDeclaration;
+class IntDeclaration;
+class FloatDeclaration;
+class ShortDeclaration;
+class DoubleDeclaration;
+class StringDeclaration;
+class BoolDeclaration;
+
 class Expr;
 class BinaryExpr;
 class UnaryExpr;
@@ -32,8 +42,11 @@ class DDivExpr;
 
 class IntExpr;
 class FloatExpr;
-class DoubleEXpr;
+class DoubleExpr;
+class ShortExpr;
 class BoolExpr;
+class StringExpr;
+class IdExpr;
 
 class UnaryNotExpr;
 class UnaryMinusExpr;
@@ -49,48 +62,54 @@ class UnaryMinusExpr;
 
 class TypeCheckerVisitor {
 private:
-    [[nodiscard]] DECL IExprHelper(BinaryExpr*);
-    [[nodiscard]] DECL SExprHelper(BinaryExpr*);
-    [[nodiscard]] DECL FExprHelper(BinaryExpr*);
-    [[nodiscard]] DECL DExprHelper(BinaryExpr*);
+    DECL IExprHelper(BinaryExpr*);
+    DECL SExprHelper(BinaryExpr*);
+    DECL FExprHelper(BinaryExpr*);
+    DECL DExprHelper(BinaryExpr*);
 public:
-    [[nodiscard]] DECL checkBinaryExpr(BinaryExpr*);
+    void checkBlockStmt(BlockStmt*);
+    void checkIntDeclaration(IntDeclaration*);
+    void checkShortDeclaration(ShortDeclaration*);
+    void checkFloatDeclaration(FloatDeclaration*);
+    void checkDoubleDeclaration(DoubleDeclaration*);
+    void checkStringDeclaration(StringDeclaration*);
+    void checkBoolDeclaration(BoolDeclaration*);
 
+    DECL checkBinaryExpr(BinaryExpr*);
     /* dynamic checking */
-    [[nodiscard]] DECL checkAddExpr(AddExpr*);
-    [[nodiscard]] DECL checkSubExpr(SubExpr*);
-    [[nodiscard]] DECL checkMulExpr(MulExpr*);
-    [[nodiscard]] DECL checkDivExpr(DivExpr*);
+    DECL checkAddExpr(AddExpr*);
+    DECL checkSubExpr(SubExpr*);
+    DECL checkMulExpr(MulExpr*);
+    DECL checkDivExpr(DivExpr*);
 
-    [[nodiscard]] DECL checkIAddExpr(IAddExpr*);
-    [[nodiscard]] DECL checkISubExpr(ISubExpr*);
-    [[nodiscard]] DECL checkIMulExpr(IMulExpr*);
-    [[nodiscard]] DECL checkIDivExpr(IDivExpr*);
-    [[nodiscard]] DECL checkSAddExpr(SAddExpr*);
-    [[nodiscard]] DECL checkSSubExpr(SSubExpr*);
-    [[nodiscard]] DECL checkSMulExpr(SMulExpr*);
-    [[nodiscard]] DECL checkSDivExpr(SDivExpr*);
-    [[nodiscard]] DECL checkFAddExpr(FAddExpr*);
-    [[nodiscard]] DECL checkFSubExpr(FSubExpr*);
-    [[nodiscard]] DECL checkFMulExpr(FMulExpr*);
-    [[nodiscard]] DECL checkFDivExpr(FDivExpr*);
-    [[nodiscard]] DECL checkDAddExpr(DAddExpr*);
-    [[nodiscard]] DECL checkDSubExpr(DSubExpr*);
-    [[nodiscard]] DECL checkDMulExpr(DMulExpr*);
-    [[nodiscard]] DECL checkDDivExpr(DDivExpr*);
+    DECL checkIAddExpr(IAddExpr*);
+    DECL checkISubExpr(ISubExpr*);
+    DECL checkIMulExpr(IMulExpr*);
+    DECL checkIDivExpr(IDivExpr*);
+    DECL checkSAddExpr(SAddExpr*);
+    DECL checkSSubExpr(SSubExpr*);
+    DECL checkSMulExpr(SMulExpr*);
+    DECL checkSDivExpr(SDivExpr*);
+    DECL checkFAddExpr(FAddExpr*);
+    DECL checkFSubExpr(FSubExpr*);
+    DECL checkFMulExpr(FMulExpr*);
+    DECL checkFDivExpr(FDivExpr*);
+    DECL checkDAddExpr(DAddExpr*);
+    DECL checkDSubExpr(DSubExpr*);
+    DECL checkDMulExpr(DMulExpr*);
+    DECL checkDDivExpr(DDivExpr*);
 
-    [[nodiscard]] DECL checkUnaryExpr(UnaryExpr*);
-    [[nodiscard]] DECL checkUnaryNotExpr(UnaryNotExpr*);
-    [[nodiscard]] DECL checkUnaryMinusExpr(UnaryMinusExpr*);
+    DECL checkUnaryExpr(UnaryExpr*);
+    DECL checkUnaryNotExpr(UnaryNotExpr*);
+    DECL checkUnaryMinusExpr(UnaryMinusExpr*);
 
-    [[nodiscard]] DECL checkIntExpr(IntExpr*); /* for now this is going to be our base case*/
-    [[nodiscard]] DECL checkFloatExpr(FloatExpr*); /* for now this is going to be our base case*/
-    [[nodiscard]] DECL checkShortExpr(ShortExpr*); /* for now this is going to be our base case*/
-    [[nodiscard]] DECL checkDoubleExpr(DoubleExpr*); /* for now this is going to be our base case*/
-    [[nodiscard]] DECL checkBoolExpr(BoolExpr*); /* for now this is going to be our base case*/
-    [[nodiscard]] DECL checkStringExpr(StringExpr*); /* for now this is going to be our base case*/
-    [[nodiscard]] DECL checkIdExpr(IdExpr*); /* for now this is going to be our base case*/
-
+    DECL checkIntExpr(IntExpr*); /* for now this is going to be our base case*/
+    DECL checkFloatExpr(FloatExpr*); /* for now this is going to be our base case*/
+    DECL checkShortExpr(ShortExpr*); /* for now this is going to be our base case*/
+    DECL checkDoubleExpr(DoubleExpr*); /* for now this is going to be our base case*/
+    DECL checkBoolExpr(BoolExpr*); /* for now this is going to be our base case*/
+    DECL checkStringExpr(StringExpr*); /* for now this is going to be our base case*/
+    DECL checkIdExpr(IdExpr*); /* for now this is going to be our base case*/
 };
 
 } // ESSEMBLY

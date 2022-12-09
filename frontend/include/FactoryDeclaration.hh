@@ -13,6 +13,10 @@ class SubExpr;
 class DivExpr;
 class UnaryExpr;
 class IntExpr;
+class ShortExpr;
+class StringExpr;
+class DoubleExpr;
+class FloatExpr;
 class FactoryDeclaration {
 
 using u_ptrExpr = std::unique_ptr<Expr>;

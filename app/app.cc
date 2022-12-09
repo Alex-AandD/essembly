@@ -10,11 +10,17 @@
 using namespace Essembly;
 int main(int argc, char const *argv[])
 {
-    std::string input = "int a=5+7 + 9;double b = 5 * 7 / 5;int c =  76 * 12 + 54;";
+    std::string input = "int a = 2;";
     Lexer lexer = Lexer(input);
     lexer.scan();
+    for (size_t i = 0; i < lexer.tokens.size(); i++)
+    {
+        std::cout << TokentoString(lexer.tokens[i].get()) << '\n';
+    }
+    
     std::vector<std::unique_ptr<Token>> tokens = std::move(lexer.tokens);
     std::vector<std::string> lexemes = lexer.lexemes;
     auto parser = Parser(tokens, lexemes);
-    //parser.parse();
+    parser.parse();
+    parser.printAST();
 }

@@ -3,7 +3,7 @@
 #include "frontend/include/expr.hh"
 #include "frontend/include/FactoryDeclaration.hh"
 #include "frontend/include/declarations.hh"
-#include "frontend/include/printVisitor.hh"
+#include "frontend/include/visitors.hh"
 #include <iostream>
 #include <vector>
 
@@ -16,7 +16,7 @@ namespace Essembly {
 
 Parser::Parser(): 
     factory(std::make_unique<FactoryDeclaration>()), 
-    printVisitor(std::make_unique<PrintVisitor>()),
+    visitor(nullptr),
     t_current(0),
     l_current(0)
     {
@@ -28,16 +28,15 @@ Parser::Parser(std::vector<u_ptrToken>& toks, const std::vector<std::string>& le
     tokens(std::move(toks)), 
     lexemes(lexemes), 
     factory(std::make_unique<FactoryDeclaration>()),
-    printVisitor(std::make_unique<PrintVisitor>()),
+    visitor(nullptr),
     t_current(0), 
     l_current(0) { }
 
-void Parser::printAST() const {
-    for (const auto& stmt: AST) {
-        std::cout << stmt -> acceptPrintVisitor(printVisitor.get()) << '\n';
+void Parser::printAST() const noexcept {
+    for (auto& stmt: AST) {
+        stmt -> accept(*visitor);
     }
 }
-
 
 [[nodiscard]] u_ptrExpr Parser::makeBinaryExpr(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) noexcept {
     switch(_op->type) {
@@ -124,9 +123,9 @@ void Parser::parse() {
 
 [[nodiscard]] u_ptrStmt Parser::finishDeclaration(DECL exprType, u_ptrToken& declToken) {
     /* find the idExpr */
-    if (!matchCurrent(TT::ID)) {
-        assert("we need an id after the type");
-    }
+    // if (!matchCurrent(TT::ID)) {
+    //     assert("we need an id after the type");
+    // }
     /* otherwise we know that this is an expression */
     u_ptrExpr idExpr = primary(exprType);
     /* check if there is an equal sign */

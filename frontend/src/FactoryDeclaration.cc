@@ -2,7 +2,7 @@
 #include "frontend/include/declarations.hh"
 #include "frontend/include/expr.hh"
 #include "frontend/include/token.hh"
-#include <memory>noexcept 
+#include <memory>
 
 namespace Essembly {
 
@@ -121,12 +121,11 @@ FactoryDeclaration::~FactoryDeclaration() { }
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeStringExpr(u_ptrToken& _op, const std::string& lex) noexcept {
-    int value = std::stoi(lex);
-    return std::make_unique<FloatExpr>(_op, value);
+    return std::make_unique<StringExpr>(_op, lex);
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeShortExpr(u_ptrToken& _op, const std::string& lex) noexcept {
-    int value = std::stoi(lex);
+    short value = std::stoi(lex);
     return std::make_unique<ShortExpr>(_op, value);
 }
 

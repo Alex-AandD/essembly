@@ -1,5 +1,5 @@
 #include "backend/include/generator.hh"
-#include "backend/include/bytecodeVisitor.hh"
+// bytecodeVisitor
 #include "frontend/include/expr.hh"
 #include "backend/include/instruction.hh"
 #include "backend/include/disassembleVisitor.hh"
@@ -11,7 +11,7 @@ namespace Essembly {
 
 Generator::Generator(u_ptrExpr& _AST): 
     AST(std::move(_AST)), 
-    bytecodeVisitor(std::make_unique<BytecodeVisitor>()), 
+// BytecodeVisitor
     disassembleVisitor(std::make_unique<DisassembleVisitor>())
 {
     // reserve some space for all the instructions
@@ -26,8 +26,8 @@ Generator::~Generator() { }
 void Generator::generateBytecode() {
     /* make the AST accept the visitor */
     /* then the visitor is going to choose the correct method thanks to the vtable */
-    AST->acceptBytecodeVisitor(bytecodeVisitor.get());
-    instructions = std::move(bytecodeVisitor->instructions);
+// bytecodeVisitor
+// bytecodeVisitor
 }
 
 // TODO: #10 disassemble using an external file @Alex-AandD

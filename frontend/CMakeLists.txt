@@ -5,10 +5,9 @@ add_library(frontendlib
     src/expr_types.cc
     src/decl_types.cc
     src/declarations.cc
-    src/printVisitor.cc 
     src/parser.cc
     src/FactoryDeclaration.cc
-    #src/TypeCheckerVisitor.cc
+    src/visitors.cc
 )
 
 target_include_directories(frontendlib PUBLIC

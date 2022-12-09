@@ -2,7 +2,7 @@ add_library(backendlib
     src/instruction.cc
     # src/value.cc
     # src/vm.cc
-    src/bytecodeVisitor.cc
+//$1
     src/disassembleVisitor.cc
     src/code.cc
     src/generator.cc

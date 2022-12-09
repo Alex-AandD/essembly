@@ -45,13 +45,13 @@ class UnaryNotExpr;
 class UnaryMinusExpr;
 
 /* this visitor is going to generate raw and unoptimized bytecode */
-class BytecodeVisitor {
+//$1
 public:
     /* this is going to be the instruction vector placed inside of the generator */
     std::vector<Instruction*> instructions;
 public:
-    BytecodeVisitor();
-    ~BytecodeVisitor();
+// BytecodeVisitor
+// BytecodeVisitor
 private:
     /* these are going to be some helpers to create bytecode */
     void binaryExprHelper(BinaryExpr* expr);

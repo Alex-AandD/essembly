@@ -2,7 +2,6 @@
 #include "token.hh"
 #include "expr_types.hh"
 #include "decl_types.hh"
-#include "printVisitor.hh"
 #include "FactoryDeclaration.hh"
 
 #include <vector>
@@ -23,7 +22,7 @@ class Expr;
 class Stmt;
 class Declaration;
 class FactoryDeclaration;
-class PrintVisitor;
+class Visitor;
 
 using u_ptrToken = std::unique_ptr<Token>;
 using u_ptrExpr =  std::unique_ptr<Expr>;
@@ -35,7 +34,7 @@ private:
     std::vector<u_ptrToken> tokens;
     std::vector<std::string> lexemes;
     std::unique_ptr<FactoryDeclaration> factory;
-    std::unique_ptr<PrintVisitor> printVisitor;
+    Visitor* visitor;
     std::vector<u_ptrStmt> AST; /* an AST is a vector of statements */
     size_t t_current; /* index o the current token */
     size_t l_current; /* index to the current lexeme */
@@ -66,7 +65,7 @@ private: /* some helpers */
 public:
     void parse();
     [[nodiscard]] inline std::vector<u_ptrStmt>& getAST() { return AST; }
-    void printAST() const;
+    void printAST() const noexcept;
 private:
     [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;
     [[nodiscard]] u_ptrStmt makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;

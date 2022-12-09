@@ -1,4 +1,4 @@
-#include "backend/include/bytecodeVisitor.hh"
+// bytecodeVisitor
 #include "backend/include/instruction.hh"
 #include "frontend/include/expr.hh"
 
@@ -14,9 +14,9 @@ namespace Essembly
 {
     
 
-BytecodeVisitor::BytecodeVisitor() {
+// BytecodeVisitor
 }
-BytecodeVisitor::~BytecodeVisitor() {
+// BytecodeVisitor
     for(size_t i = 0; i < instructions.size(); i++) {
         if (instructions[i]) {
             delete instructions[i];
@@ -25,67 +25,67 @@ BytecodeVisitor::~BytecodeVisitor() {
     }
 }
 
-void BytecodeVisitor::binaryExprHelper(BinaryExpr* expr) {
+// BytecodeVisitor
     Expr* lhs = expr->lhs.get();
     Expr* rhs = expr->rhs.get();
-    lhs->acceptBytecodeVisitor(this);
-    rhs->acceptBytecodeVisitor(this);
+// BytecodeVisitor
+// BytecodeVisitor
 }
 
-void BytecodeVisitor::visitBinaryExpr(BinaryExpr* expr) {
+// BytecodeVisitor
     return binaryExprHelper(expr);
 }
 
-void BytecodeVisitor::visitAddExpr(AddExpr* expr) {
+// BytecodeVisitor
     return visitBinaryExpr(expr); 
 }
 
-void BytecodeVisitor::visitSubExpr(SubExpr* expr) {
+// BytecodeVisitor
     return visitBinaryExpr(expr); 
 }
 
-void BytecodeVisitor::visitMulExpr(MulExpr* expr) {
+// BytecodeVisitor
     return visitBinaryExpr(expr); 
 }
 
-void BytecodeVisitor::visitDivExpr(DivExpr* expr) {
+// BytecodeVisitor
     return visitBinaryExpr(expr); 
 }
 
-void BytecodeVisitor::visitIAddExpr(IAddExpr* expr) {
+// BytecodeVisitor
     binaryExprHelper(expr);
     /* add the add instruction at the end */
     instructions.push_back(new IADD_i());
 }
-void BytecodeVisitor::visitISubExpr(ISubExpr* expr) {
+// BytecodeVisitor
     binaryExprHelper(expr);
     /* add the sub instruction at the end */
     instructions.push_back(new ISUB_i());
 }
 
-void BytecodeVisitor::visitIMulExpr(IMulExpr* expr) {
+// BytecodeVisitor
     binaryExprHelper(expr);
     /* add the sub instruction at the end */
     instructions.push_back(new IMUL_i());
 }
 
-void BytecodeVisitor::visitIDivExpr(IDivExpr* expr) {
+// BytecodeVisitor
     binaryExprHelper(expr);
     /* add the sub instruction at the end */
     instructions.push_back(new IDIV_i());
 }
 
-void BytecodeVisitor::visitUnaryExpr(UnaryExpr* expr) {
+// BytecodeVisitor
 }
 
-void BytecodeVisitor::visitUnaryNotExpr(UnaryNotExpr* expr) {
+// BytecodeVisitor
     /* first we need to check for compatibility */
     /* can we not every value? */
     /* I do not think that having truthy or falsy values is a good idea */
     /* so I will enforce that the type of the expression must be bool */
 }
 
-void BytecodeVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) {
+// BytecodeVisitor
 
 }
 
@@ -115,7 +115,7 @@ static inline Instruction* chooseFinalBinaryInstruction(TT type) {
 static inline Instruction* chooseFinalUnaryExpr(TT type) {
 }
 
-void BytecodeVisitor::visitIntExpr(IntExpr* expr) {
+// BytecodeVisitor
     /* here we push an integer onto the stack */
     /* the value of the expression is going to be the operand */
     /* so the instruction at the end is going to look like this */

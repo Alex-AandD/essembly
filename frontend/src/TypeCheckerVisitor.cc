@@ -1,10 +1,80 @@
 #include "frontend/include/TypeCheckerVisitor.hh"
 #include "frontend/include/expr.hh"
+#include "frontend/include/token.hh";
+#include "frontend/include/declarations.hh"
 
 namespace Essembly {
+/* checking types for a block statement */    
+void TypeCheckerVisitor::checkBlockStmt(BlockStmt* block) {
+    for (auto& stmt: block->stmts) {
+        stmt->acceptTypeCheckerVisitor(this);
+    }
+}
 
-[[nodiscard]] static DECL getType(TypeCheckerVisitor* checker, Expr* expr) {
+void TypeCheckerVisitor::checkStringDeclaration(StringDeclaration* declaration) {
+    // check if the valueExpr is a string;
+    DECL exprType= (declaration->valueExpr)->acceptTypeCheckerVisitor(this);
+    if (exprType != DECL::STRING) {
+        assert("string expected");
+    } 
+}
+
+void TypeCheckerVisitor::checkIntDeclaration(IntDeclaration* declaration) {
+    DECL exprType= (declaration->valueExpr)->acceptTypeCheckerVisitor(this);
+    if (exprType != DECL::INT) {
+        assert("int expected");
+    } 
+}
+void TypeCheckerVisitor::checkDoubleDeclaration(DoubleDeclaration* declaration) {
+    DECL exprType= (declaration->valueExpr)->acceptTypeCheckerVisitor(this);
+    if (exprType != DECL::DOUBLE) {
+        assert("double expected");
+    } 
+}
+void TypeCheckerVisitor::checkFloatDeclaration(FloatDeclaration* declaration) {
+    DECL exprType= (declaration->valueExpr)->acceptTypeCheckerVisitor(this);
+    if (exprType != DECL::FLOAT) {
+        assert("float expected");
+    } 
+}
+void TypeCheckerVisitor::checkShortDeclaration(ShortDeclaration* declaration) {
+    DECL exprType= (declaration->valueExpr)->acceptTypeCheckerVisitor(this);
+    if (exprType != DECL::SHORT) {
+        assert("bool expected");
+    } 
+}
+void TypeCheckerVisitor::checkBoolDeclaration(BoolDeclaration* declaration) {
+    DECL exprType= (declaration->valueExpr)->acceptTypeCheckerVisitor(this);
+    if (exprType != DECL::BOOL) {
+        assert("bool expected");
+    } 
+}
+
+/***********************************************/
+/***********************************************/
+static DECL getType(TypeCheckerVisitor* checker, Expr* expr) {
     return expr->acceptTypeCheckerVisitor(checker); 
+}
+
+
+static bool compatible_with_float(DECL decl) {
+    return decl == DECL::FLOAT;
+}
+
+static bool compatible_with_double(DECL decl) {
+    return decl == DECL::DOUBLE || decl == DECL::FLOAT;
+}
+
+[[nodiscard]] static bool compatible_with_int(DECL decl) {
+    return decl == DECL::INT || decl == DECL::SHORT || decl == DECL::BYTE;
+}
+
+[[nodiscard]] static bool compatible_with_short(DECL decl) {
+    return decl == DECL::SHORT || decl == DECL::BYTE;
+}
+
+[[nodiscard]] static bool compatible_with_byte(DECL decl) {
+    return decl == DECL::BYTE;
 }
 
 /* SMALL NOTE */
@@ -21,27 +91,7 @@ namespace Essembly {
     }
     return false;
 }
-
-[[nodiscard]] static bool compatible_with_float(DECL decl) {
-    return decl == DECL::FLOAT;
-}
-
-[[nodiscard]] static bool compatible_with_double(DECL decl) {
-    return decl == DECL::DOUBLE || decl == DECL::FLOAT;
-}
-
-[[nodiscard]] static bool compatible_with_int(DECL decl) {
-    return decl == DECL::INT || decl == DECL::SHORT || decl == DECL::BYTE;
-}
-
-[[nodiscard]] static bool compatible_with_short(DECL decl) {
-    return decl == DECL::SHORT || decl == DECL::BYTE;
-}
-
-[[nodiscard]] static bool compatible_with_byte(DECL decl) {
-    return decl == DECL::BYTE;
-}
-
+/**********/
 [[nodiscard]] DECL TypeCheckerVisitor::IExprHelper(BinaryExpr* expr) {
 
     // call recursively the check method
@@ -173,7 +223,61 @@ namespace Essembly {
     return IExprHelper(expr);
 }
 
-/* primary expressions */
+/* short expressions */
+[[nodiscard]] DECL TypeCheckerVisitor::checkSAddExpr(SAddExpr* expr) {
+    /* check recursively the type of the left and right operator */
+    return SExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkSSubExpr(SSubExpr* expr) {
+    return SExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkSMulExpr(SMulExpr* expr) {
+    return SExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkSDivExpr(SDivExpr* expr) {
+    return SExprHelper(expr);
+}
+/* double expressions */
+[[nodiscard]] DECL TypeCheckerVisitor::checkDAddExpr(DAddExpr* expr) {
+    /* check recursively the type of the left and right operator */
+    return DExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkDSubExpr(DSubExpr* expr) {
+    return DExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkDMulExpr(DMulExpr* expr) {
+    return DExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkDDivExpr(DDivExpr* expr) {
+    return DExprHelper(expr);
+}
+
+/* float expressions */
+[[nodiscard]] DECL TypeCheckerVisitor::checkFAddExpr(FAddExpr* expr) {
+    /* check recursively the type of the left and right operator */
+    return FExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkFSubExpr(FSubExpr* expr) {
+    return FExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkFMulExpr(FMulExpr* expr) {
+    return FExprHelper(expr);
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkFDivExpr(FDivExpr* expr) {
+    return FExprHelper(expr);
+}
+
+/************************************/
+/************************************/
 [[nodiscard]] DECL TypeCheckerVisitor::checkIntExpr(IntExpr* expr) {
     return DECL::INT;
 }
@@ -202,4 +306,28 @@ namespace Essembly {
     return expr->type;
 }
 
-} // ESSEMBLY
+[[nodiscard]] DECL TypeCheckerVisitor::checkUnaryExpr(UnaryExpr* expr) {
+    // first get the operator
+    Token* op =  (expr->op).get();
+    switch(op->type) {
+        case TT::NOT: ; // handle not
+        case TT::MINUS: ; // handle minus
+    }
+
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkUnaryNotExpr(UnaryNotExpr* expr) {
+    Expr* rightExpr = (expr->expr).get();
+    DECL rightType = rightExpr->acceptTypeCheckerVisitor(this);
+    if (rightType != DECL::BOOL) {
+        assert("throw, unary not works only with booleans");
+    }
+}
+
+[[nodiscard]] DECL TypeCheckerVisitor::checkUnaryMinusExpr(UnaryMinusExpr* expr) {
+    Expr* rightExpr = (expr->expr).get();
+    DECL rightType = rightExpr->acceptTypeCheckerVisitor(this);
+    if (rightType != DECL::INT || rightType != DECL::SHORT || rightType != DECL::FLOAT || rightType != DECL::DOUBLE)
+        assert("throw, unary minus works only with numeric types");
+    }
+} // Essembly

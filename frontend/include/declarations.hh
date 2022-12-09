@@ -26,10 +26,8 @@ namespace Essembly {
 
 class Expr;
 class Token;
-class BytecodeVisitor;
-class PrintVisitor;
-class TypeCheckerVisitor;
 class Stmt;
+class Visitor;
 /* we want to keep the tokens into the expressions */
 /* the id is going to store a token to the name */
 /* while the actual expressions are going to store a token to the single values */
@@ -41,11 +39,9 @@ using u_ptrToken = std::unique_ptr<Token>;
 class Stmt {
 public:
     Stmt();
-    virtual ~Stmt();
+    virtual ~Stmt() = 0;
 public:
-    [[nodiscard]] virtual std::string acceptPrintVisitor(PrintVisitor*) = 0;
-    virtual void acceptTypeCheckerVisitor(TypeCheckerVisitor*) = 0;
-    virtual void acceptBytecodeVisitor(BytecodeVisitor*) = 0;
+    virtual void accept(Visitor&) = 0;
 };
 
 class BlockStmt:  public Stmt {
@@ -57,96 +53,69 @@ public:
     BlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>&, u_ptrToken& rbrace);
     ~BlockStmt() override;
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor&) override;
 };
 
 // TODO: #17 add support for if, while, for, fun ... @Alex-AandD
 
-
-/* declarations */
 class Declaration: public Stmt {
 public:
-    Declaration();
-    ~Declaration();
-public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
-};
-
-class ValueDeclaration: public Declaration {
-public:
     u_ptrToken declToken;
-    u_ptrExpr  idExpr;
-    u_ptrExpr  valueExpr;
+    u_ptrExpr idExpr;
+    u_ptrExpr valueExpr;
 public:
-    ValueDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
-    ~ValueDeclaration() override;
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    Declaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
+    ~Declaration() override;
+public:
+    void accept(Visitor& v) override;
 };
 
-class IntDeclaration: public ValueDeclaration {
+class IntDeclaration: public Declaration {
 public:
     IntDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     ~IntDeclaration() override;
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor& v) override;
 };
 
-class ShortDeclaration: public ValueDeclaration {
+class ShortDeclaration: public Declaration {
 public:
     ShortDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     ~ShortDeclaration() override;
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor& v) override;
 };
 
-class FloatDeclaration: public ValueDeclaration {
+class FloatDeclaration: public Declaration {
 public:
     FloatDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     ~FloatDeclaration() override;
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor& v) override;
 };
 
-class StringDeclaration: public ValueDeclaration {
+class StringDeclaration: public Declaration {
 public:
     StringDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     virtual ~StringDeclaration() override;
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor& v);
 };
 
-class DoubleDeclaration: public ValueDeclaration {
+class DoubleDeclaration: public Declaration {
 public:
     DoubleDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     ~DoubleDeclaration() override;
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor& v);
 };
 
-class BoolDeclaration: public ValueDeclaration {
+class BoolDeclaration: public Declaration {
 public:
     BoolDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
     virtual ~BoolDeclaration();
 public:
-    [[nodiscard]] std::string acceptPrintVisitor(PrintVisitor*) override;
-    void acceptTypeCheckerVisitor(TypeCheckerVisitor*) override;
-    void acceptBytecodeVisitor(BytecodeVisitor*) override;
+    void accept(Visitor& v);
 };
 
 } // Essembly
