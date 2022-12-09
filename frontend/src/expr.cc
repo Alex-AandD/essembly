@@ -45,6 +45,20 @@ DSubExpr::DSubExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): SubExpr(_op, 
 DMulExpr::DMulExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): MulExpr(_op, l, r) { }
 DDivExpr::DDivExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): DivExpr(_op, l, r) { }
 
+EqualityExpr::EqualityExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): BinaryExpr(_op, l, r) { }
+IEqExpr::IEqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+SEqExpr::SEqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+DEqExpr::DEqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+FEqExpr::FEqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+BoolEqExpr::BoolEqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+StringEqExpr::StringEqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+
+INeqExpr::INeqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+SNeqExpr::SNeqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+DNeqExpr::DNeqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+FNeqExpr::FNeqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+BoolNeqExpr::BoolNeqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
+StringNeqExpr::StringNeqExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): EqualityExpr(_op, l, r) { }
 
 UnaryExpr::UnaryExpr(u_ptrToken& _op, u_ptrExpr&  e): op(std::move(_op)), expr(std::move(e)) { }
 UnaryNotExpr::UnaryNotExpr(u_ptrToken& _op, u_ptrExpr&  r): UnaryExpr(_op, r) { } 

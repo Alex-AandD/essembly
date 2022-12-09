@@ -202,6 +202,114 @@ public:
     void accept(Visitor& visitor) override;
 };
 
+/*************************************/
+/* EQUALITY EXPRESSIONS */
+class EqualityExpr: public BinaryExpr {
+public:
+    EqualityExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~EqualityExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class IEqExpr: public EqualityExpr {
+public:
+    IEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~IEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class SEqExpr: public EqualityExpr {
+public:
+    SEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~SEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+class FEqExpr: public EqualityExpr {
+public:
+    FEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~FEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DEqExpr: public EqualityExpr {
+public:
+    DEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~DEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class StringEqExpr: public EqualityExpr {
+public:
+    StringEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~StringEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class BoolEqExpr: public EqualityExpr {
+public:
+    BoolEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~BoolEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+// expr != expr
+class INeqExpr: public EqualityExpr {
+public:
+    INeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~INeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class SNeqExpr: public EqualityExpr {
+public:
+    SNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~SNeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+class FNeqExpr: public EqualityExpr {
+public:
+    FNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~FNeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DNeqExpr: public EqualityExpr {
+public:
+    DNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~DNeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class StringNeqExpr: public EqualityExpr {
+public:
+    StringNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~StringNeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class BoolNeqExpr: public EqualityExpr {
+public:
+    BoolNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~BoolNeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+/***************************/
+/***************************/
+
 class UnaryExpr: public Expr {
 public:
     u_ptrExpr  expr;
