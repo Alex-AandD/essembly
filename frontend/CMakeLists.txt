@@ -1,13 +1,13 @@
 add_library(frontendlib 
     src/lexer.cc
-    src/token.cc
-    src/expr.cc
+    src/parser.cc
+    src/visitors.cc
     src/expr_types.cc
     src/decl_types.cc
+    src/token.cc
+    src/expr.cc
     src/declarations.cc
-    src/parser.cc
     src/FactoryDeclaration.cc
-    src/visitors.cc
 )
 
 target_include_directories(frontendlib PUBLIC

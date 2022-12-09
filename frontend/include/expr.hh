@@ -21,7 +21,7 @@ namespace Essembly {
 class Expr {
 public:
     Expr();
-    virtual ~Expr();
+    virtual ~Expr() = 0;
     Expr(const Expr&) = delete;
     Expr& operator=(const Expr&) = delete;
 public:
@@ -36,7 +36,7 @@ public:
     u_ptrToken op;
 public:
     BinaryExpr(u_ptrToken& op, u_ptrExpr& lhs, u_ptrExpr& rhs);
-    virtual ~BinaryExpr();
+    ~BinaryExpr() override;
 public:
     void accept(Visitor& visitor) override;
 };

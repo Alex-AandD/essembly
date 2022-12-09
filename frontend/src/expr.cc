@@ -8,16 +8,20 @@
 
 #define ACCEPT_LOGIC(exprType) do { \
     if (PrintVisitor* pv = dynamic_cast<PrintVisitor*>(&visitor)) { \
-        pv->visit##exprType(this); \
+        return pv->visit##exprType(this); \
+    } \
+    else if (TypeVisitor* tv = dynamic_cast<TypeVisitor*>(&visitor)) { \
+        return tv->visit##exprType(this); \
     } \
 } while(0);
-
-#define ACCEPT_EXPR(exprType) 
 
 namespace Essembly {
 
 Expr::Expr() { }
 Expr::~Expr() { }
+void Expr::accept(Visitor& v) {
+    assert("cannot use pure virtual class");
+}
 
 /* expressions constructors */
 BinaryExpr::BinaryExpr(u_ptrToken& _op, u_ptrExpr&  l, u_ptrExpr&  r): op(std::move(_op)), lhs(std::move(l)), rhs(std::move(r)) { }
@@ -102,22 +106,27 @@ IdExpr::~IdExpr() { }
 
 /* add, sub, mul, div */
 ACCEPT_METHOD(BinaryExpr);
+
 ACCEPT_METHOD(AddExpr);
 ACCEPT_METHOD(SubExpr);
 ACCEPT_METHOD(MulExpr);
 ACCEPT_METHOD(DivExpr);
+
 ACCEPT_METHOD(IAddExpr);
 ACCEPT_METHOD(ISubExpr);
 ACCEPT_METHOD(IDivExpr);
 ACCEPT_METHOD(IMulExpr);
+
 ACCEPT_METHOD(SAddExpr);
 ACCEPT_METHOD(SSubExpr);
 ACCEPT_METHOD(SDivExpr);
 ACCEPT_METHOD(SMulExpr);
+
 ACCEPT_METHOD(DAddExpr);
 ACCEPT_METHOD(DSubExpr);
 ACCEPT_METHOD(DMulExpr);
 ACCEPT_METHOD(DDivExpr);
+
 ACCEPT_METHOD(FAddExpr);
 ACCEPT_METHOD(FSubExpr);
 ACCEPT_METHOD(FMulExpr);

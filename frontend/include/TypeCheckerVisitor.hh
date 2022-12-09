@@ -61,6 +61,7 @@ class UnaryMinusExpr;
 /* recursively check the type of the expression */
 
 class TypeCheckerVisitor {
+public:
 private:
     DECL IExprHelper(BinaryExpr*);
     DECL SExprHelper(BinaryExpr*);
