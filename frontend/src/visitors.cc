@@ -163,6 +163,65 @@ void PrintVisitor::visitSDivExpr(SDivExpr* expr) {
     return binaryExprHelper(expr, "/");
 }
 
+/*********************************
+ * == EXPRESSIONS
+ ********************************/
+void PrintVisitor::visitIEqExpr(IEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitSEqExpr(SEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitFEqExpr(FEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitDEqExpr(DEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitBoolEqExpr(BoolEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitStringEqExpr(StringEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+/*********************************
+ *             NEQ             
+ ********************************/
+
+void PrintVisitor::visitINeqExpr(INeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitSNeqExpr(SNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitFNeqExpr(FNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitDNeqExpr(DNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitBoolNeqExpr(BoolNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitStringNeqExpr(StringNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+/*********************************
+ * UNARY EXPRESSIONS
+ ********************************/
+
 void PrintVisitor::visitUnaryExpr(UnaryExpr* expr) { 
     const std::string opString = TokentoString(expr->op.get());
     return unaryExprHelper(expr, opString);

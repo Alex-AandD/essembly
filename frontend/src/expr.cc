@@ -12,7 +12,8 @@
     } \
 } while(0);
 
-#define ACCEPT_EXPR(exprType) 
+#define ACCEPT_DUMMY(exprType) std::cout << "can't use #exprType accept" << '\n'; exit(1);
+#define DUMMY_ACCEPT(exprType) void exprType::accept(Visitor& visitor) { ACCEPT_DUMMY(); }
 
 namespace Essembly {
 
@@ -96,6 +97,20 @@ FSubExpr::~FSubExpr() { }
 FMulExpr::~FMulExpr() { }
 FDivExpr::~FDivExpr() { }
 
+IEqExpr::~IEqExpr() { }
+SEqExpr::~SEqExpr() { }
+DEqExpr::~DEqExpr() { }
+FEqExpr::~FEqExpr() { }
+BoolEqExpr::~BoolEqExpr() { }
+StringEqExpr::~StringEqExpr() { }
+
+INeqExpr::~INeqExpr() { }
+SNeqExpr::~SNeqExpr() { }
+FNeqExpr::~FNeqExpr() { }
+DNeqExpr::~DNeqExpr() { }
+BoolNeqExpr::~BoolNeqExpr() { }
+StringNeqExpr::~StringNeqExpr() { }
+
 UnaryExpr::~UnaryExpr() { }
 UnaryNotExpr::~UnaryNotExpr() { }
 UnaryMinusExpr::~UnaryMinusExpr() { }
@@ -110,9 +125,6 @@ StringExpr::~StringExpr() { }
 IdExpr::~IdExpr() { }
 
 /* all the accept methods are defined using a clever macro */
-
-/* declarations */
-
 
 /* add, sub, mul, div */
 ACCEPT_METHOD(BinaryExpr);
@@ -136,6 +148,23 @@ ACCEPT_METHOD(FAddExpr);
 ACCEPT_METHOD(FSubExpr);
 ACCEPT_METHOD(FMulExpr);
 ACCEPT_METHOD(FDivExpr);
+
+/* equality expressions */
+ACCEPT_METHOD(IEqExpr);
+ACCEPT_METHOD(SEqExpr);
+ACCEPT_METHOD(DEqExpr);
+ACCEPT_METHOD(FEqExpr);
+ACCEPT_METHOD(StringEqExpr);
+ACCEPT_METHOD(BoolEqExpr);
+
+ACCEPT_METHOD(INeqExpr);
+ACCEPT_METHOD(SNeqExpr);
+ACCEPT_METHOD(DNeqExpr);
+ACCEPT_METHOD(FNeqExpr);
+ACCEPT_METHOD(StringNeqExpr);
+ACCEPT_METHOD(BoolNeqExpr);
+
+/* comparison expressions */
 
 /* unary expressions */
 ACCEPT_METHOD(UnaryExpr);

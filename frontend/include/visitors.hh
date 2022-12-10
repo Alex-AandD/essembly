@@ -97,6 +97,20 @@ public:
     void visitSMulExpr(SMulExpr* expr);
     void visitSDivExpr(SDivExpr* expr);
 
+    void visitIEqExpr(IEqExpr* expr);
+    void visitSEqExpr(SEqExpr* expr);
+    void visitFEqExpr(FEqExpr* expr);
+    void visitDEqExpr(DEqExpr* expr);
+    void visitStringEqExpr(StringEqExpr* expr);
+    void visitBoolEqExpr(BoolEqExpr* expr);
+
+    void visitINeqExpr(INeqExpr* expr);
+    void visitSNeqExpr(SNeqExpr* expr);
+    void visitFNeqExpr(FNeqExpr* expr);
+    void visitDNeqExpr(DNeqExpr* expr);
+    void visitStringNeqExpr(StringNeqExpr* expr);
+    void visitBoolNeqExpr(BoolNeqExpr* expr);
+
     void visitUnaryExpr(UnaryExpr* expr);
     void visitUnaryNotExpr(UnaryNotExpr* expr);
     void visitUnaryMinusExpr(UnaryMinusExpr* expr);
