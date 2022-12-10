@@ -2,6 +2,8 @@
 #include "frontend/include/declarations.hh"
 #include "frontend/include/expr.hh"
 #include "frontend/include/token.hh"
+#include "frontend/include/compatibility.hh"
+
 #include <iostream>
 #include <string>
 
@@ -166,6 +168,65 @@ void PrintVisitor::visitSDivExpr(SDivExpr* expr) {
     return binaryExprHelper(expr, "/");
 }
 
+/*********************************
+ * == EXPRESSIONS
+ ********************************/
+void PrintVisitor::visitIEqExpr(IEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitSEqExpr(SEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitFEqExpr(FEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitDEqExpr(DEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitBoolEqExpr(BoolEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+void PrintVisitor::visitStringEqExpr(StringEqExpr* expr) {
+    return binaryExprHelper(expr, "==");
+}
+
+/*********************************
+ *             NEQ             
+ ********************************/
+
+void PrintVisitor::visitINeqExpr(INeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitSNeqExpr(SNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitFNeqExpr(FNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitDNeqExpr(DNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitBoolNeqExpr(BoolNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+void PrintVisitor::visitStringNeqExpr(StringNeqExpr* expr) {
+    return binaryExprHelper(expr, "!=");
+}
+
+/*********************************
+ * UNARY EXPRESSIONS
+ ********************************/
+
 void PrintVisitor::visitUnaryExpr(UnaryExpr* expr) { 
     const std::string opString = TokentoString(expr->op.get());
     return unaryExprHelper(expr, opString);
@@ -222,29 +283,6 @@ void TypeVisitor::visitBlockStmt(BlockStmt* block) {
     }
 }
 
-[[nodiscard]] static bool compatible_with_bool(DECL type) noexcept {
-    return type == DECL::BOOL;
-}
-
-[[nodiscard]] static bool compatible_with_string(DECL type) noexcept {
-    return type == DECL::STRING;
-}
-
-[[nodiscard]] static bool compatible_with_short(DECL type) noexcept {
-    return type == DECL::SHORT;
-}
-
-[[nodiscard]] static bool compatible_with_int(DECL type) noexcept {
-    return type == DECL::INT || type == DECL::SHORT;
-}
-
-[[nodiscard]] static bool compatible_with_float(DECL type) noexcept {
-    return type == DECL::FLOAT || type == DECL::INT || type == DECL::SHORT;
-}
-
-[[nodiscard]] static bool compatible_with_double(DECL type) noexcept {
-    return type == DECL::DOUBLE || type == DECL::FLOAT || type == DECL::INT || type == DECL::SHORT;
-}
 
 void TypeVisitor::visitStringDeclaration(StringDeclaration* declaration) {
     DECL type = getDeclType((declaration->valueExpr).get());   
@@ -255,27 +293,27 @@ void TypeVisitor::visitStringDeclaration(StringDeclaration* declaration) {
 
 void TypeVisitor::visitIntDeclaration(IntDeclaration* declaration) {
     DECL type = getDeclType((declaration->valueExpr).get());   
-    if (!compatible_with_int(type)) {
+    if (!strictly_compatible_with_int(type)) {
         assert("not compatible");
     }
 }
 
 void TypeVisitor::visitDoubleDeclaration(DoubleDeclaration* declaration) {
     DECL type = getDeclType((declaration->valueExpr).get());   
-    if (!compatible_with_double(type)) {
+    if (!strictly_compatible_with_double(type)) {
         assert("not compatible");
     }
 }
 
 void TypeVisitor::visitFloatDeclaration(FloatDeclaration* declaration) {
     DECL type = getDeclType((declaration->valueExpr).get());   
-    if (!compatible_with_float(type)) {
+    if (!strictly_compatible_with_float(type)) {
         assert("not compatible");
     }
 }
 void TypeVisitor::visitShortDeclaration(ShortDeclaration* declaration) {
     DECL type = getDeclType((declaration->valueExpr).get());   
-    if (!compatible_with_short(type)) {
+    if (!strictly_compatible_with_short(type)) {
         assert("not compatible");
     }
 }
@@ -288,7 +326,7 @@ void TypeVisitor::visitBoolDeclaration(BoolDeclaration* declaration) {
 
 /***********************************************/
 /***********************************************/
-
+short a = 2 + 5.5;
 [[nodiscard]] static bool are_compatible(DECL lhs, DECL rhs) {
     switch(lhs) {
         case DECL::INT: return compatible_with_int(rhs);
