@@ -423,6 +423,56 @@ void TypeVisitor::visitFDivExpr(FDivExpr* expr) {
     return binaryExprHelper(DECL::FLOAT, expr);
 }
 
+/***********************************
+ * EQUALITY
+ * ********************************/
+void TypeVisitor::visitIEqExpr(IEqExpr* expr) {
+
+}
+
+void TypeVisitor::visitSEqExpr(IEqExpr* expr) {
+
+}
+
+void TypeVisitor::visitDEqExpr(IEqExpr* expr) {
+
+}
+
+void TypeVisitor::visitFEqExpr(IEqExpr* expr) {
+
+}
+
+void TypeVisitor::visitBoolEqExpr(IEqExpr* expr) {
+
+}
+
+void TypeVisitor::visitStringEqExpr(IEqExpr* expr) {
+
+}
+
+void TypeVisitor::visitINeqExpr(INeqExpr* expr) {
+
+}
+
+void TypeVisitor::visitSNeqExpr(SNeqExpr* expr) {
+
+}
+
+void TypeVisitor::visitDNeqExpr(DNeqExpr* expr) {
+
+}
+
+void TypeVisitor::visitFNeqExpr(FNeqExpr* expr) {
+
+}
+
+void TypeVisitor::visitBoolNeqExpr(BoolNeqExpr* expr) {
+
+}
+
+void TypeVisitor::visitStringNeqExpr(StringNeqExpr* expr) {
+
+}
 /************************************/
 /************************************/
 void TypeVisitor::visitPrimaryExpr(PrimaryExpr* expr) {
@@ -443,6 +493,7 @@ void TypeVisitor::visitFloatExpr(FloatExpr* expr) {
 void TypeVisitor::visitDoubleExpr(DoubleExpr* expr) {
     declType = DECL::DOUBLE; 
 }
+
 
 void TypeVisitor::visitShortExpr(ShortExpr* expr) {
     declType = DECL::SHORT;
