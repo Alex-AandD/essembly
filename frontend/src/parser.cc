@@ -36,6 +36,7 @@ void Parser::printAST(Visitor& visitor) const noexcept {
     }
 }
 
+
 [[nodiscard]] u_ptrExpr Parser::makeBinaryExpr(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) noexcept {
     switch(_op->type) {
         case TT::PLUS:  return factory->makeAdd(exprType, _op, l, r);
@@ -115,7 +116,18 @@ void Parser::parse() {
 
     /* create some kind of intermediate type expression statement, between statement and expression */
     // return expr(DECL::DYNAMIC);
-    return nullptr;
+    return dynamicDeclaration(DECL::DYNAMIC);
+}
+
+[[nodiscard]] u_ptrStmt Parser::dynamicDeclaration(DECL exprType) {
+    u_ptrExpr idExpr = primary(exprType);
+    /* check if there is an equal sign */
+    if (!matchCurrent(TT::EQ)) {
+        // throw an expression
+        assert("remember to throw an expression");
+    }
+    u_ptrExpr valueExpr = expr(exprType);
+    return makeDynamicDeclaration(idExpr, valueExpr);
 }
 
 [[nodiscard]] u_ptrStmt Parser::finishDeclaration(DECL exprType, u_ptrToken& declToken) {
@@ -179,6 +191,9 @@ void Parser::parse() {
     return factory->makeDeclaration(type, declToken, idExpr, valueExpr);
 }
 
+[[nodiscard]] u_ptrStmt Parser::makeDynamicDeclaration(u_ptrExpr& l, u_ptrExpr& r) noexcept {
+    return factory->makeDynamicDeclaration(l, r);
+}
 
 [[nodiscard]] u_ptrExpr Parser::makeIntegerExpr(DECL exprType) noexcept {
     u_ptrToken exprToken = previousToken();
@@ -201,9 +216,9 @@ void Parser::parse() {
     return expr;
 }
 
-[[nodiscard]] u_ptrExpr Parser::makeBoolExpr() noexcept {
+[[nodiscard]] u_ptrExpr Parser::makeBoolExpr(bool val) noexcept {
     u_ptrToken exprToken = previousToken();
-    u_ptrExpr expr = factory->makeBoolExpr(exprToken);
+    u_ptrExpr expr = factory->makeBoolExpr(exprToken, val);
     advanceLexeme();
     return expr;
 }
@@ -219,8 +234,9 @@ void Parser::parse() {
     if (matchCurrent(TT::INT_LITERAL)) return makeIntegerExpr(exprType);
     if (matchCurrent(TT::FLOAT_LITERAL)) return makeDecimalExpr(exprType);
     if (matchCurrent(TT::STRING_LITERAL)) return makeStringExpr();
-    /* add make idExpr to factory function */
     if (matchCurrent(TT::ID)) return makeIdExpr(exprType);
+    if (matchCurrent(TT::TRUE_LITERAL)) return makeBoolExpr(true);
+    if (matchCurrent(TT::FALSE_LITERAL)) return makeBoolExpr(false);
     else { throw "unknown expression type"; }
 }
 

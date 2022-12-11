@@ -37,7 +37,7 @@ public:
     [[nodiscard]] u_ptrStmt makeDoubleDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
     [[nodiscard]] u_ptrStmt makeBoolDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
     [[nodiscard]] u_ptrStmt makeStringDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
-    [[nodiscard]] u_ptrStmt makeDynamicDeclaration(u_ptrToken& declToken, u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
+    [[nodiscard]] u_ptrStmt makeDynamicDeclaration(u_ptrExpr& idExpr, u_ptrExpr& valueExpr);
 
     /* expressions */
     [[nodiscard]] u_ptrExpr makeAdd(DECL, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r);
@@ -53,7 +53,7 @@ public:
     [[nodiscard]] u_ptrExpr makeDecimalExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeFloatExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeDoubleExpr(u_ptrToken& _op, const std::string& lex) noexcept;
-    [[nodiscard]] u_ptrExpr makeBoolExpr(u_ptrToken& _op) noexcept;
+    [[nodiscard]] u_ptrExpr makeBoolExpr(u_ptrToken& _op, bool val) noexcept;
     [[nodiscard]] u_ptrExpr makeStringExpr(u_ptrToken& _op, const std::string& lex) noexcept;
     [[nodiscard]] u_ptrExpr makeIdExpr(DECL exprType, u_ptrToken& _op, const std::string& lex) noexcept;
 };

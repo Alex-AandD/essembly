@@ -68,18 +68,21 @@ public:
 private:
     [[nodiscard]] u_ptrStmt makeBlockStmt(u_ptrToken& lbrace, std::vector<u_ptrStmt>&, u_ptrToken& rbrace) noexcept;
     [[nodiscard]] u_ptrStmt makeDeclaration(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
+    [[nodiscard]] u_ptrStmt makeDynamicDeclaration(u_ptrExpr&, u_ptrExpr&) noexcept;
+    
 
     [[nodiscard]] u_ptrExpr makeBinaryExpr(DECL exprType, u_ptrToken&, u_ptrExpr&, u_ptrExpr&) noexcept;
     [[nodiscard]] u_ptrExpr makeUnaryExpr(u_ptrToken&, u_ptrExpr&) noexcept;  
     [[nodiscard]] u_ptrExpr makeIntegerExpr(DECL exprType) noexcept;
     [[nodiscard]] u_ptrExpr makeDecimalExpr(DECL) noexcept;
-    [[nodiscard]] u_ptrExpr makeBoolExpr() noexcept;
+    [[nodiscard]] u_ptrExpr makeBoolExpr(bool value) noexcept;
     [[nodiscard]] u_ptrExpr makeStringExpr() noexcept;
     [[nodiscard]] u_ptrExpr makeIdExpr(DECL exprType) noexcept;
 
     [[nodiscard]] u_ptrStmt block();
     [[nodiscard]] u_ptrStmt stmt();
     [[nodiscard]] u_ptrStmt declaration();
+    [[nodiscard]] u_ptrStmt dynamicDeclaration(DECL exprType);
     [[nodiscard]] u_ptrStmt finishDeclaration(DECL exprType, u_ptrToken&);
     [[nodiscard]] u_ptrExpr expr(DECL);
     [[nodiscard]] u_ptrExpr term(DECL);

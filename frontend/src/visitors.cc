@@ -239,9 +239,11 @@ void PrintVisitor::visitUnaryNotExpr(UnaryNotExpr* expr) {
 void PrintVisitor::visitUnaryMinusExpr(UnaryMinusExpr* expr) { 
     return unaryExprHelper(expr, "-");
 }
-/************************************/
-/*  PRIMARY EXPRESSIONS */
-/************************************/
+
+/************************************
+ * PRIMARY EXPRESSIONS 
+************************************/
+
 void PrintVisitor::visitPrimaryExpr(PrimaryExpr* expr) {
     assert("do not use");
 }
@@ -261,16 +263,34 @@ void PrintVisitor::visitDoubleExpr(DoubleExpr* expr) {
 void PrintVisitor::visitStringExpr(StringExpr* expr) {
     std::cout << expr -> value; 
 }
-void PrintVisitor::visitIdExpr(IdExpr* expr) {
-    std::cout << expr -> name; 
-}
 void PrintVisitor::visitBoolExpr(BoolExpr* expr) {
     std::cout << expr -> value; 
 }
+void PrintVisitor::visitIdExpr(IdExpr* expr) {
+    std::cout << expr -> name;
+}
+void PrintVisitor::visitIIdExpr(IIdExpr* expr) {
+    std::cout << expr -> name << "(INT)"; 
+}
+void PrintVisitor::visitSIdExpr(SIdExpr* expr) {
+    std::cout << expr -> name << "(SHORT)"; 
+}
+void PrintVisitor::visitFIdExpr(FIdExpr* expr) {
+    std::cout << expr -> name << "(FLOAT)"; 
+}
+void PrintVisitor::visitDIdExpr(DIdExpr* expr) {
+    std::cout << expr -> name << "(DOUBLE)"; 
+}
+void PrintVisitor::visitStringIdExpr(StringIdExpr* expr) {
+    std::cout << expr -> name << "(STRING)"; 
+}
+void PrintVisitor::visitBoolIdExpr(BoolIdExpr* expr) {
+    std::cout << expr -> name << "(BOOL)"; 
+}
 
-/**********************************************
-* TYPEVISITOR
-/**********************************************/
+/*********************************
+ * TYPEVISITOR
+ * ******************************/
 
 [[nodiscard]] DECL TypeVisitor::getDeclType(Expr* expr) noexcept {
     expr->accept(*this);
@@ -326,29 +346,28 @@ void TypeVisitor::visitBoolDeclaration(BoolDeclaration* declaration) {
 
 /***********************************************/
 /***********************************************/
-short a = 2 + 5.5;
-[[nodiscard]] static bool are_compatible(DECL lhs, DECL rhs) {
-    switch(lhs) {
-        case DECL::INT: return compatible_with_int(rhs);
-        case DECL::SHORT: return compatible_with_short(rhs);
-        case DECL::DOUBLE: return compatible_with_double(rhs);
-        case DECL::FLOAT: return compatible_with_float(rhs);
-        default: assert("missing declaration type for compatibility");
-    }
-    return false;
+
+DECL getBiggestType(DECL first, DECL second) {
+    if (first > second) return first;
+    return second;
 }
 
-[[nodiscard]] static bool types_are_compatible(DECL expectedType, DECL actualType) noexcept {
+[[nodiscard]] static bool types_are_strictly_compatible(DECL expectedType, DECL actualType) noexcept {
     switch(expectedType) {
-        case DECL::INT: return compatible_with_int(actualType);
-        case DECL::FLOAT: return compatible_with_float(actualType);
+        case DECL::INT: return strictly_compatible_with_int(actualType);
+        case DECL::FLOAT: return strictly_compatible_with_float(actualType);
+        case DECL::SHORT: return strictly_compatible_with_short(actualType);
+        case DECL::DOUBLE: return strictly_compatible_with_double(actualType);
         case DECL::STRING: return compatible_with_string(actualType);
-        case DECL::DOUBLE: return compatible_with_double(actualType);
-        case DECL::SHORT: return compatible_with_short(actualType);
+        case DECL::BOOL: return compatible_with_bool(actualType);
         default: assert("types not supported");
     }
     return false;
 }
+
+/*********************************************
+ * BINARY EXPR HELPER
+ * *******************************************/
 
 void TypeVisitor::binaryExprHelper(DECL expectedType, BinaryExpr* expr) {
     // call recursively the visit method
@@ -357,19 +376,18 @@ void TypeVisitor::binaryExprHelper(DECL expectedType, BinaryExpr* expr) {
     
     // TODO: #15 find a clever way to visit the types @Alex-AandD
     // for now just a switch statement. Something better at a later point
-    if (!types_are_compatible(expectedType, rhsType)) {
+    if (!types_are_strictly_compatible(expectedType, rhsType)) {
         assert("type error not implemented yet for rhs");
     }
 
-    if (!types_are_compatible(expectedType, lhsType)) {
+    if (!types_are_strictly_compatible(expectedType, lhsType)) {
         assert("type error not implemented yet for lhs");
     }
 }
 
-DECL getBiggestType(DECL first, DECL second) {
-    if (first > second) return first;
-    return second;
-}
+/***************************************
+ * VISITORS
+ * *************************************/
 
 void TypeVisitor::visitBinaryExpr(BinaryExpr* expr) {
     assert("visit for binary expression delete");
@@ -392,11 +410,13 @@ void TypeVisitor::visitDivExpr(DivExpr* expr) {
     assert("visit for binary expression delete");
 }
 
-/* integer expressions */
+/************************************
+ * INTEGER EXPRESSIONS
+ * *********************************/
+
 void TypeVisitor::visitIAddExpr(IAddExpr* expr) {
     return binaryExprHelper(DECL::INT, expr);
 }
-
 
 void TypeVisitor::visitISubExpr(ISubExpr* expr) {
     return binaryExprHelper(DECL::INT, expr);
@@ -461,61 +481,98 @@ void TypeVisitor::visitFDivExpr(FDivExpr* expr) {
     return binaryExprHelper(DECL::FLOAT, expr);
 }
 
+
 /***********************************
  * EQUALITY
  * ********************************/
+
 void TypeVisitor::visitIEqExpr(IEqExpr* expr) {
-
+    return binaryExprHelper(DECL::INT, expr);
 }
 
-void TypeVisitor::visitSEqExpr(IEqExpr* expr) {
-
+void TypeVisitor::visitSEqExpr(SEqExpr* expr) {
+    return binaryExprHelper(DECL::SHORT, expr);
 }
 
-void TypeVisitor::visitDEqExpr(IEqExpr* expr) {
-
+void TypeVisitor::visitDEqExpr(DEqExpr* expr) {
+    return binaryExprHelper(DECL::DOUBLE, expr);
 }
 
-void TypeVisitor::visitFEqExpr(IEqExpr* expr) {
-
+void TypeVisitor::visitFEqExpr(FEqExpr* expr) {
+    return binaryExprHelper(DECL::FLOAT, expr);
 }
 
-void TypeVisitor::visitBoolEqExpr(IEqExpr* expr) {
-
+void TypeVisitor::visitBoolEqExpr(BoolEqExpr* expr) {
+    return binaryExprHelper(DECL::BOOL, expr);
 }
 
-void TypeVisitor::visitStringEqExpr(IEqExpr* expr) {
-
+void TypeVisitor::visitStringEqExpr(StringEqExpr* expr) {
+    return binaryExprHelper(DECL::STRING, expr);
 }
 
 void TypeVisitor::visitINeqExpr(INeqExpr* expr) {
-
+    return binaryExprHelper(DECL::INT, expr);
 }
 
 void TypeVisitor::visitSNeqExpr(SNeqExpr* expr) {
-
+    return binaryExprHelper(DECL::SHORT, expr);
 }
 
 void TypeVisitor::visitDNeqExpr(DNeqExpr* expr) {
-
+    return binaryExprHelper(DECL::DOUBLE, expr);
 }
 
 void TypeVisitor::visitFNeqExpr(FNeqExpr* expr) {
-
+    return binaryExprHelper(DECL::FLOAT, expr);
 }
 
 void TypeVisitor::visitBoolNeqExpr(BoolNeqExpr* expr) {
-
+    return binaryExprHelper(DECL::BOOL, expr);
 }
 
 void TypeVisitor::visitStringNeqExpr(StringNeqExpr* expr) {
+    return binaryExprHelper(DECL::STRING, expr);
+}
 
+/************************************
+ * DYNAMIC EXPRESSIONS
+ * **********************************/
+void TypeVisitor::binaryDynamicExprHelper(Expr* expr) {
+    /* how do we solve dynamic expressions */ 
 }
-/************************************/
-/************************************/
-void TypeVisitor::visitPrimaryExpr(PrimaryExpr* expr) {
-    assert("primary expression method deleted");
+
+void TypeVisitor::visitDynamicSubExpr(DynamicSubExpr* expr) {
+    return binaryDynamicExprHelper(expr);
 }
+
+void TypeVisitor::visitDynamicAddExpr(DynamicAddExpr* expr) {
+    return binaryDynamicExprHelper(expr);
+}
+
+void TypeVisitor::visitDynamicMulExpr(DynamicMulExpr* expr) {
+    return binaryDynamicExprHelper(expr);
+}
+
+void TypeVisitor::visitDynamicDivExpr(DynamicDivExpr* expr) {
+    return binaryDynamicExprHelper(expr);
+}
+
+void TypeVisitor::visitDynamicEqExpr(DynamicEqExpr* expr) {
+    return binaryDynamicExprHelper(expr);
+}
+
+void TypeVisitor::visitDynamicNeqExpr(DynamicNeqExpr* expr) {
+    return binaryDynamicExprHelper(expr);
+}
+
+void TypeVisitor::visitDynamicIdExpr(DynamicIdExpr* expr) {
+    return binaryDynamicExprHelper(expr);
+}
+
+/************************************
+ * PRIMARY EXPRESSIONS
+ * *********************************/
+
 void TypeVisitor::visitIntExpr(IntExpr* expr) {
     declType = DECL::INT;
 }
@@ -532,7 +589,6 @@ void TypeVisitor::visitDoubleExpr(DoubleExpr* expr) {
     declType = DECL::DOUBLE; 
 }
 
-
 void TypeVisitor::visitShortExpr(ShortExpr* expr) {
     declType = DECL::SHORT;
 }
@@ -542,8 +598,36 @@ void TypeVisitor::visitBoolExpr(BoolExpr* expr) {
 }
 
 void TypeVisitor::visitIdExpr(IdExpr* expr) {
-    declType = expr->type;
+    // delete this method
 }
+
+void TypeVisitor::visitIIdExpr(IIdExpr* expr) {
+    declType = DECL::INT;
+}
+
+void TypeVisitor::visitSIdExpr(SIdExpr* expr) {
+    declType = DECL::SHORT;
+}
+
+void TypeVisitor::visitFIdExpr(FIdExpr* expr) {
+    declType = DECL::FLOAT;
+}
+
+void TypeVisitor::visitDIdExpr(DIdExpr* expr) {
+    declType = DECL::DOUBLE;
+}
+
+void TypeVisitor::visitStringIdExpr(StringIdExpr* expr) {
+    declType = DECL::STRING;
+}
+
+void TypeVisitor::visitBoolIdExpr(BoolIdExpr* expr) {
+    declType = DECL::BOOL;
+}
+
+/*********************************
+ * UNARY EXPRESSIONS
+ * ******************************/
 
 void TypeVisitor::visitUnaryExpr(UnaryExpr* expr) {
     assert("not implemented");

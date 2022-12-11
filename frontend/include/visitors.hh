@@ -2,11 +2,11 @@
 #include "decl_types.hh"
 #include <string>
 
-
 namespace Essembly {
 
 class Expr;
 class BinaryExpr;
+
 class AddExpr;
 class SubExpr;
 class DivExpr;
@@ -27,6 +27,25 @@ class SDivExpr;
 class SMulExpr;
 class SSubExpr;
 class SAddExpr;
+class IEqExpr;
+class FEqExpr;
+class DEqExpr;
+class SEqExpr;
+class StringEqExpr;
+class BoolEqExpr;
+class DynamicEqExpr;
+
+class INeqExpr;
+class FNeqExpr;
+class DNeqExpr;
+class SNeqExpr;
+class StringNeqExpr;
+class BoolNeqExpr;
+
+class DynamicAddExpr;
+class DynamicSubExpr;
+class DynamicMulExpr;
+class DynamicDivExpr;
 
 class Stmt;
 class BlockStmt;
@@ -45,8 +64,16 @@ class DoubleExpr;
 class FloatExpr;
 class ShortExpr;
 class StringExpr;
-class IdExpr;
 class BoolExpr;
+
+class IdExpr;
+class IIdExpr;
+class SIdExpr;
+class DIdExpr;
+class FIdExpr;
+class BoolIdExpr;
+class StringIdExpr;
+class DynamicIdExpr;
 
 class UnaryExpr;
 class UnaryNotExpr;
@@ -99,6 +126,11 @@ public:
     void visitSSubExpr(SSubExpr* expr);
     void visitSMulExpr(SMulExpr* expr);
     void visitSDivExpr(SDivExpr* expr);
+    
+    void visitDynamicAddExpr(DynamicAddExpr* expr);
+    void visitDynamicSubExpr(DynamicSubExpr* expr);
+    void visitDynamicMulExpr(DynamicMulExpr* expr);
+    void visitDynamicDivExpr(DynamicDivExpr* expr);
 
     void visitIEqExpr(IEqExpr* expr);
     void visitSEqExpr(SEqExpr* expr);
@@ -106,6 +138,8 @@ public:
     void visitDEqExpr(DEqExpr* expr);
     void visitStringEqExpr(StringEqExpr* expr);
     void visitBoolEqExpr(BoolEqExpr* expr);
+    void visitDynamicEqExpr(DynamicEqExpr* expr);
+    void visitDynamicNeqExpr(DynamicNeqExpr* expr);
 
     void visitINeqExpr(INeqExpr* expr);
     void visitSNeqExpr(SNeqExpr* expr);
@@ -118,7 +152,6 @@ public:
     void visitUnaryNotExpr(UnaryNotExpr* expr);
     void visitUnaryMinusExpr(UnaryMinusExpr* expr);
 
-    void visitPrimaryExpr(PrimaryExpr*);
     void visitBoolExpr(BoolExpr*);
     void visitShortExpr(ShortExpr*);
     void visitIntExpr(IntExpr*);
@@ -126,10 +159,16 @@ public:
     void visitDoubleExpr(DoubleExpr*);
     void visitStringExpr(StringExpr*);
     void visitIdExpr(IdExpr*);
+    void visitIIdExpr(IIdExpr*);
+    void visitSIdExpr(SIdExpr*);
+    void visitDIdExpr(DIdExpr*);
+    void visitFIdExpr(FIdExpr*);
+    void visitStringIdExpr(StringIdExpr*);
+    void visitBoolIdExpr(BoolIdExpr*);
+    void visitDynamicIdExpr(DynamicIdExpr*);
 };
 
 class TypeVisitor: public Visitor {
-    /* overloading the visit method */
 private:
     /* use this value to store the last declaration type */
     DECL declType;
@@ -140,6 +179,7 @@ private:
     [[nodiscard]] DECL getDeclType(Expr*) noexcept;
     void binaryExprHelper(DECL, BinaryExpr*);
     void unaryExprHelper(DECL, UnaryExpr*);
+    void binaryDynamicExprHelper(Expr*); 
 public:
     void visitBlockStmt(BlockStmt*);
 
@@ -174,12 +214,18 @@ public:
     void visitSMulExpr(SMulExpr* expr);
     void visitSDivExpr(SDivExpr* expr);
 
+    void visitDynamicAddExpr(DynamicAddExpr* expr);
+    void visitDynamicSubExpr(DynamicSubExpr* expr);
+    void visitDynamicMulExpr(DynamicMulExpr* expr);
+    void visitDynamicDivExpr(DynamicDivExpr* expr);
+
     void visitIEqExpr(IEqExpr* expr);
     void visitSEqExpr(SEqExpr* expr);
     void visitFEqExpr(FEqExpr* expr);
     void visitDEqExpr(DEqExpr* expr);
     void visitStringEqExpr(StringEqExpr* expr);
     void visitBoolEqExpr(BoolEqExpr* expr);
+    void visitDynamicEqExpr(DynamicEqExpr* expr);
 
     void visitINeqExpr(INeqExpr* expr);
     void visitSNeqExpr(SNeqExpr* expr);
@@ -187,18 +233,29 @@ public:
     void visitDNeqExpr(DNeqExpr* expr);
     void visitStringNeqExpr(StringNeqExpr* expr);
     void visitBoolNeqExpr(BoolNeqExpr* expr);
+    void visitDynamicNeqExpr(DynamicNeqExpr* expr);
+
     void visitUnaryExpr(UnaryExpr* expr);
     void visitUnaryNotExpr(UnaryNotExpr* expr);
     void visitUnaryMinusExpr(UnaryMinusExpr* expr);
 
-    void visitPrimaryExpr(PrimaryExpr*);
-    void visitBoolExpr(BoolExpr*);
-    void visitShortExpr(ShortExpr*);
     void visitIntExpr(IntExpr*);
+    void visitShortExpr(ShortExpr*);
     void visitFloatExpr(FloatExpr*);
     void visitDoubleExpr(DoubleExpr*);
     void visitStringExpr(StringExpr*);
+    void visitBoolExpr(BoolExpr*);
+    void visitTrueExpr(TrueExpr*);
+    void visitFalseExpr(FalseExpr*);
+
     void visitIdExpr(IdExpr*);
+    void visitIIdExpr(IIdExpr*);
+    void visitSIdExpr(SIdExpr*);
+    void visitDIdExpr(DIdExpr*);
+    void visitFIdExpr(FIdExpr*);
+    void visitStringIdExpr(StringIdExpr*);
+    void visitBoolIdExpr(BoolIdExpr*);
+    void visitDynamicIdExpr(DynamicIdExpr*);
 };
 
 

@@ -81,6 +81,14 @@ public:
     void accept(Visitor& visitor) override;
 };
 
+class DynamicAddExpr: public AddExpr {
+public:
+    DynamicAddExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DynamicAddExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
 class SubExpr: public BinaryExpr {
 public:
     SubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
@@ -118,6 +126,14 @@ class SSubExpr: public SubExpr {
 public:
     SSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~SSubExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DynamicSubExpr: public SubExpr {
+public:
+    DynamicSubExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DynamicSubExpr() override;
 public:
     void accept(Visitor& visitor) override;
 };
@@ -162,6 +178,14 @@ public:
     void accept(Visitor& visitor) override;
 };
 
+class DynamicMulExpr: public MulExpr {
+public:
+    DynamicMulExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DynamicMulExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
 class DivExpr: public BinaryExpr {
 public:
     DivExpr(u_ptrToken& _op, u_ptrExpr& lhs, u_ptrExpr& rhs);
@@ -198,6 +222,14 @@ class DDivExpr: public DivExpr {
 public:
     DDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
     ~DDivExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DynamicDivExpr: public DivExpr {
+public:
+    DynamicDivExpr(u_ptrToken& _op, u_ptrExpr&  lhs, u_ptrExpr&  rhs);
+    ~DynamicDivExpr() override;
 public:
     void accept(Visitor& visitor) override;
 };
@@ -259,6 +291,14 @@ public:
     void accept(Visitor& visitor) override;
 };
 
+class DynamicEqExpr: public EqualityExpr {
+    public:
+    DynamicEqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~DynamicEqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
 // expr != expr
 class INeqExpr: public EqualityExpr {
 public:
@@ -303,6 +343,14 @@ class BoolNeqExpr: public EqualityExpr {
 public:
     BoolNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
     ~BoolNeqExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DynamicNeqExpr: public EqualityExpr {
+    public:
+    DynamicNeqExpr(u_ptrToken&, u_ptrExpr& lhs, u_ptrExpr& rhs);
+    ~DynamicNeqExpr() override;
 public:
     void accept(Visitor& visitor) override;
 };
@@ -371,7 +419,7 @@ class BoolExpr: public PrimaryExpr {
 public:
     bool value;
 public:
-    BoolExpr(u_ptrToken&);
+    BoolExpr(u_ptrToken&, bool value);
     ~BoolExpr() override;
 public:
     void accept(Visitor& visitor) override;
@@ -409,13 +457,83 @@ public:
 
 class IdExpr: public PrimaryExpr {
 public: 
-    DECL type;
     std::string name;
 public:
-    IdExpr(u_ptrToken&, const std::string&, DECL);
+    IdExpr(u_ptrToken&, const std::string&);
     ~IdExpr() override;
 public:
     void accept(Visitor& visitor) override;
 };
+
+class IIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    IIdExpr(u_ptrToken&, const std::string&);
+    ~IIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class SIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    SIdExpr(u_ptrToken&, const std::string&);
+    ~SIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class FIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    FIdExpr(u_ptrToken&, const std::string&);
+    ~FIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    DIdExpr(u_ptrToken&, const std::string&);
+    ~DIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class StringIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    StringIdExpr(u_ptrToken&, const std::string&);
+    ~StringIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class BoolIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    BoolIdExpr(u_ptrToken&, const std::string&);
+    ~BoolIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
+class DynamicIdExpr: public IdExpr {
+public: 
+    std::string name;
+public:
+    DynamicIdExpr(u_ptrToken&, const std::string&);
+    ~DynamicIdExpr() override;
+public:
+    void accept(Visitor& visitor) override;
+};
+
 
 } // Essembly

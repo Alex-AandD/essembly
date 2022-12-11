@@ -59,11 +59,19 @@ FactoryDeclaration::~FactoryDeclaration() { }
     return std::make_unique<StringDeclaration>(declToken, idExpr, valueExpr);
 }
 
+[[nodiscard]] u_ptrStmt FactoryDeclaration::makeDynamicDeclaration(u_ptrExpr& idExpr, u_ptrExpr& valueExpr) {
+    return std::make_unique<DynamicDeclaration>(idExpr, valueExpr);
+}
+
+
 /* EXPRESSIONS */
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeAdd(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
         case DECL::INT: return std::move(std::make_unique<IAddExpr>(_op, l, r));
-        default: throw "type for add expr not supported";
+        case DECL::SHORT: return std::move(std::make_unique<SAddExpr>(_op, l, r));
+        case DECL::FLOAT: return std::move(std::make_unique<FAddExpr>(_op, l, r));
+        case DECL::DOUBLE: return std::move(std::make_unique<DAddExpr>(_op, l, r));
+        default: return std::move(std::make_unique<DynamicAddExpr>(_op, l, r));
     }
     return nullptr;
 }
@@ -71,23 +79,32 @@ FactoryDeclaration::~FactoryDeclaration() { }
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeSub(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
         case DECL::INT: return std::make_unique<ISubExpr>(_op, l, r);
-        default: throw "type for add expr not supported";
+        case DECL::SHORT: return std::move(std::make_unique<SSubExpr>(_op, l, r));
+        case DECL::FLOAT: return std::move(std::make_unique<FSubExpr>(_op, l, r));
+        case DECL::DOUBLE: return std::move(std::make_unique<DSubExpr>(_op, l, r));
+        default: return std::move(std::make_unique<DynamicSubExpr>(_op, l, r));
     }
     return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeMul(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case DECL::INT: return std::make_unique<IMulExpr>(_op, l, r);
-        default: throw "type for add expr not supported";
+        case DECL::INT: return std::move(std::make_unique<IMulExpr>(_op, l, r));
+        case DECL::SHORT: return std::move(std::make_unique<SMulExpr>(_op, l, r));
+        case DECL::FLOAT: return std::move(std::make_unique<FMulExpr>(_op, l, r));
+        case DECL::DOUBLE: return std::move(std::make_unique<DMulExpr>(_op, l, r));
+        default: return std::move(std::make_unique<DynamicMulExpr>(_op, l, r));
     }
     return nullptr;
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeDiv(DECL exprType, u_ptrToken& _op, u_ptrExpr& l, u_ptrExpr& r) {
     switch(exprType) {
-        case DECL::INT: return std::make_unique<IDivExpr>(_op, l, r);
-        default: throw "type for add expr not supported";
+        case DECL::INT: return std::move(std::make_unique<IDivExpr>(_op, l, r));
+        case DECL::SHORT: return std::move(std::make_unique<SDivExpr>(_op, l, r));
+        case DECL::FLOAT: return std::move(std::make_unique<FDivExpr>(_op, l, r));
+        case DECL::DOUBLE: return std::move(std::make_unique<DDivExpr>(_op, l, r));
+        default: return std::move(std::make_unique<DynamicDivExpr>(_op, l, r));
     }
     return nullptr;
 }
@@ -101,15 +118,10 @@ FactoryDeclaration::~FactoryDeclaration() { }
     return nullptr;
 }
 
-// [[nodiscard]] u_ptrExpr FactoryDeclaration::makePrimaryExpr(u_ptrToken& exprToken, const std::string& lex) noexcept {
-    
-// }
-
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeIntegerExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept {
     switch(declType) {
-        case DECL::INT: return makeIntExpr(_op, lex);
         case DECL::SHORT: return makeShortExpr(_op, lex);
-        default: assert("integer type not supported");
+        default: return makeIntExpr(_op, lex);
     } 
     return nullptr;
 }
@@ -121,9 +133,8 @@ FactoryDeclaration::~FactoryDeclaration() { }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeDecimalExpr(DECL declType, u_ptrToken& _op, const std::string& lex) noexcept {
     switch(declType) {
-        case DECL::DOUBLE: return makeDoubleExpr(_op, lex);
         case DECL::FLOAT: return makeFloatExpr(_op, lex);
-        default: assert("decimal type not supported");
+        default: return makeDoubleExpr(_op, lex);
     } 
     return nullptr;
 }
@@ -138,8 +149,8 @@ FactoryDeclaration::~FactoryDeclaration() { }
     return std::make_unique<DoubleExpr>(_op, value);
 }
 
-[[nodiscard]] u_ptrExpr FactoryDeclaration::makeBoolExpr(u_ptrToken& _op) noexcept {
-    return std::make_unique<BoolExpr>(_op);
+[[nodiscard]] u_ptrExpr FactoryDeclaration::makeBoolExpr(u_ptrToken& _op, bool value) noexcept {
+    return std::make_unique<BoolExpr>(_op, value);
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeStringExpr(u_ptrToken& _op, const std::string& lex) noexcept {
@@ -152,6 +163,15 @@ FactoryDeclaration::~FactoryDeclaration() { }
 }
 
 [[nodiscard]] u_ptrExpr FactoryDeclaration::makeIdExpr(DECL exprType, u_ptrToken& _op, const std::string& lex) noexcept {
-    return std::make_unique<IdExpr>(_op, lex, exprType);
+    switch(exprType) {
+        case DECL::INT: return std::move(std::make_unique<IIdExpr>(_op, lex));
+        case DECL::SHORT: return std::move(std::make_unique<SIdExpr>(_op, lex));
+        case DECL::FLOAT: return std::move(std::make_unique<FIdExpr>(_op, lex));
+        case DECL::DOUBLE: return std::move(std::make_unique<DIdExpr>(_op, lex));
+        case DECL::STRING: return std::move(std::make_unique<StringIdExpr>(_op, lex));
+        case DECL::BOOL: return std::move(std::make_unique<BoolIdExpr>(_op, lex));
+        default: return std::move(std::make_unique<DynamicIdExpr>(_op, lex));
+    }
+    return nullptr;
 }
 } // Essembly

@@ -113,9 +113,17 @@ public:
 class BoolDeclaration: public Declaration {
 public:
     BoolDeclaration(u_ptrToken&, u_ptrExpr&, u_ptrExpr&);
-    virtual ~BoolDeclaration();
+    ~BoolDeclaration() override;
 public:
     void accept(Visitor& v) override;
 };
+
+class DynamicDeclaration: public Declaration {
+public:
+    DynamicDeclaration(u_ptrExpr&, u_ptrExpr&);
+    ~DynamicDeclaration() override;
+public:
+    void accept(Visitor& v) override;
+}
 
 } // Essembly

@@ -36,6 +36,7 @@ DoubleDeclaration::DoubleDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& 
 FloatDeclaration::FloatDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): Declaration(tok, id, value) { };
 ShortDeclaration::ShortDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): Declaration(tok, id, value) { };
 BoolDeclaration::BoolDeclaration(u_ptrToken& tok, u_ptrExpr& id, u_ptrExpr& value): Declaration(tok, id, value) { };
+DynamicDeclaration::DynamicDeclaration(u_ptrExpr& id, u_ptrExpr& value): Declaration(nullptr, id, value) { };
 
 /* destructors */
 Declaration::~Declaration() { }
@@ -45,6 +46,7 @@ StringDeclaration::~StringDeclaration() { }
 FloatDeclaration::~FloatDeclaration() { }
 ShortDeclaration::~ShortDeclaration() { }
 BoolDeclaration::~BoolDeclaration() { }
+DynamicDeclaration::~DynamicDeclaration() { }
 
 /* ACCEPT METHODS */
 ACCEPT_METHOD(BlockStmt);
@@ -55,5 +57,6 @@ ACCEPT_METHOD(IntDeclaration);
 ACCEPT_METHOD(FloatDeclaration);
 ACCEPT_METHOD(DoubleDeclaration);
 ACCEPT_METHOD(StringDeclaration);
+ACCEPT_METHOD(DynamicDeclaration);
 
 } // namespace Essembly
